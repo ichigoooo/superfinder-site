@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SuperFinder — Browse your files · macOS file workbench</title>
+<meta name="description" content="SuperFinder moves the whole browser mental model onto the macOS file system: hierarchical address bar, tabs, four-way split panes, staging shelf, session restore. Browse your files.">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+<noscript><style>.rv{opacity:1 !important}</style></noscript>
+</head>
+<body data-assetbase="../">
+
+<div class="topline">
+  <nav class="capsule" aria-label="Primary">
+    <a class="wordmark" href="#top"><img src="../assets/img/app-icon.png" alt=""><span>SuperFinder</span></a>
+    <div class="tabs" role="tablist">
+      <a class="tab" role="tab" aria-selected="false" href="../index.html">中文</a>
+      <a class="tab active" role="tab" aria-selected="true" href="./index.html">EN</a>
+    </div>
+    <div class="navlinks">
+      <a href="#rename">Rename</a>
+      <a href="#sessions">Sessions</a>
+      <a href="#views">Views</a>
+      <a href="#trust">Trust</a>
+      <a href="#film">Film</a>
+    </div>
+    <a class="as-pill" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">App Store ↓</a>
+  </nav>
+</div>
+
+<!-- ======================= HERO: the hook + the real window ======================= -->
+<header class="hero" id="top">
+  <div class="hook">
+    <h1 class="hero-name rv">Super<span class="u">Finder</span></h1>
+    <p class="hero-hook rv" data-step="1" lang="en">A browser for your files.</p>
+    <p class="sub rv" data-step="2">Address bar, tabs, four-way panes, staging shelf — the full browser mental model, native on the macOS file system. <strong>The window below is real. Go ahead, play with it.</strong></p>
+  </div>
+
+  <div class="window-stage rv" data-step="2">
+    <div class="appwin" id="appwin" aria-label="Interactive SuperFinder demo window">
+      <div class="tb">
+        <span class="lights" aria-hidden="true"><i class="light r"></i><i class="light y"></i><i class="light g"></i></span>
+        <span class="win-title" id="wintitle">2026-iceland</span>
+        <span class="tb-spacer"></span>
+        <span class="tb-group">
+          <button class="tbtn" id="btn-back" aria-label="Back"></button>
+          <button class="tbtn" id="btn-fwd" aria-label="Forward"></button>
+          <button class="tbtn" id="btn-up" aria-label="Go Up"></button>
+        </span>
+        <span class="seg" id="viewseg" role="tablist" aria-label="View mode">
+          <button data-view="list" aria-label="Details"></button>
+          <button data-view="hier" aria-label="Hierarchy"></button>
+          <button data-view="icons" aria-label="Icons"></button>
+          <button data-view="gallery" aria-label="Gallery"></button>
+        </span>
+      </div>
+      <div class="hr"></div>
+      <div class="tabstrip" id="tabstrip"></div>
+      <div class="addrcard" id="addrcard" tabindex="0" role="button" aria-label="Address bar">
+        <span class="crumbs" id="crumbs"></span>
+        <input class="addr-input" id="addrinput" type="text" autocomplete="off" spellcheck="false" aria-label="Type a path">
+        <span class="addr-btns">
+          <button class="abtn" id="abtn-clock" aria-label="History"></button>
+          <button class="abtn" id="abtn-layout" aria-label="Save Current Layout"></button>
+          <button class="abtn" id="abtn-star" aria-label="Bookmark this folder"></button>
+          <button class="abtn" id="abtn-copy" aria-label="Copy Path"></button>
+        </span>
+        <div class="hintdrop" id="hintdrop"></div>
+        <div class="histdrop" id="histdrop"></div>
+      </div>
+      <div class="bmkbar-app" id="bmkbar"></div>
+      <div class="hr"></div>
+      <div class="paneswrap">
+        <div class="panes" id="panes"></div>
+        <button class="shelf-anchor" id="shelfanchor" aria-label="Staging shelf"><span id="shelfbadge" class="shelf-badge">0</span></button>
+        <div class="shelf-card" id="shelfcard">
+          <div class="shelf-head"><b>Staging Shelf</b><span class="cnt" id="shelfcnt">· 0 items</span><button class="clear" id="shelfcollapse" hidden>Collapse</button><button class="clear" id="shelfclear" disabled>Clear</button></div>
+          <div class="shelf-body" id="shelfbody"></div>
+          <div class="shelf-note">Files move only when dragged out</div>
+        </div>
+      </div>
+      <div class="findpanel" id="findpanel">
+        <div class="fp-scope" id="fp-scope">Search in “2026-iceland”</div>
+        <input id="findinput" type="text" placeholder="Type keywords, press Return to search">
+        <button class="fp-go" id="findgo">Search</button>
+      </div>
+      <div class="sbar">
+        <span id="sb-left">9 items · 1 pinned</span>
+        <span class="places" aria-hidden="true">
+          <span class="picon" title="iCloud Drive"></span>
+          <span class="picon" title="AirDrop"></span>
+          <span class="picon" title="Macintosh HD"></span>
+          <span class="picon" title="Trash"></span>
+        </span>
+        <span class="auth">3 workspaces authorized</span>
+        <span class="avail">126.06 GB available</span>
+      </div>
+      <div class="appmodal" id="layoutmodal">
+        <div class="sheet">
+          <div class="sheet-title">Save Current Layout</div>
+          <p class="desc">Saves: split structure + pane ratios + each pane's folder + view mode (no history stacks).</p>
+          <input id="layoutname" type="text" placeholder="Layout name (required)">
+          <div class="row-btns">
+            <button class="bb" id="layoutcancel">Cancel</button>
+            <button class="bb primary" id="layoutsave" disabled>Save</button>
+          </div>
+        </div>
+      </div>
+      <div class="apptoast" id="apptoast"></div>
+      <div class="autoplay" id="autoplay"><button>▶ Play the demo</button></div>
+    </div>
+  </div>
+
+  <div class="tryhints rv" data-step="3">
+    <button class="tryhint" data-act="addr">Type <span class="kbd">~</span> in the address bar, Tab through each level</button>
+    <button class="tryhint" data-act="tab"><span class="kbd">⌘</span><span class="kbd">T</span> start page · restore closed tabs</button>
+    <button class="tryhint" data-act="split">Right-click blank → Split Pane, four directions</button>
+    <button class="tryhint" data-act="shelf">Drag a photo — the shelf catches it, top right</button>
+  </div>
+  <p class="rv" data-step="4" style="text-align:center;margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--paper-3)">Demo window runs the English UI — the app switches between Simplified Chinese and English</p>
+</header>
+
+<!-- ======================= BATCH RENAME ======================= -->
+<section class="slab" id="rename">
+  <div class="wrap slab-inner">
+    <h2 class="rv">Rename hundreds.<br>Preview every one.</h2>
+    <p class="lede rv" data-step="1">Find &amp; replace, regex, sequences, case — every keystroke re-renders the preview. Collisions flag red, exclude in one click, and the whole batch undoes with one ⌘Z. <strong>This demo is real. Play it.</strong></p>
+    <div class="rv" data-step="2" style="max-width:780px">
+      <div class="br-demo" id="rename-demo">
+        <div class="br-head"><b>Batch Rename</b><span class="cnt" id="br-cnt">6 items selected</span></div>
+        <div class="br-body">
+          <div class="br-seg" role="tablist">
+            <button class="on">Replace Text</button>
+            <button disabled>Regular Expression</button>
+            <button disabled>Add Sequence</button>
+            <button disabled>Change Case</button>
+          </div>
+          <div class="br-fields">
+            <div><label for="br-find">Find:</label><input id="br-find" type="text" value="DSC_"></div>
+            <div><label for="br-rep">Replace with:</label><input id="br-rep" type="text" value="iceland-"></div>
+          </div>
+          <div class="br-table-wrap">
+            <table class="br-table">
+              <thead><tr><th class="ctr"></th><th>Name</th><th></th><th>New Name</th><th class="warn"></th></tr></thead>
+              <tbody id="br-rows"></tbody>
+            </table>
+          </div>
+          <div class="br-foot">
+            <span class="br-error" id="br-err"></span>
+            <button class="br-btn reset" id="br-reset">Replay</button>
+            <button class="br-btn primary" id="br-rename">Rename 6 Items</button>
+          </div>
+        </div>
+      </div>
+      <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:10px">Demo data · collision + preview logic mirrors the app</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SESSIONS ======================= -->
+<section class="slab-dark" id="sessions">
+  <div class="wrap slab-inner">
+    <div class="two-col">
+      <div>
+        <h2 class="rv">Close. Return.<br>Everything's here.</h2>
+        <p class="lede rv" data-step="1">⌘Q and the tab groups, the four-way pane trees, the shelf references — all of it saved. Reopen, and the scene is exactly as you left it. <strong>Real browsers restore sessions. So does this.</strong></p>
+        <div class="beat">
+          <div class="beat-row rv" data-step="2"><h3>Whole trees come back</h3><p>Not just tabs: each pane tree's structure, ratios, and every folder it held — restored together.</p></div>
+          <div class="beat-row rv" data-step="3"><h3>Crashes count too</h3><p>Snapshots land on disk continuously, throttled. A crash gets the same treatment as a clean quit.</p></div>
+        </div>
+      </div>
+      <div class="sticky">
+        <figure class="plate rv" data-step="2">
+          <img src="../assets/img/capture-launch.png" width="1440" height="900" alt="SuperFinder actual UI: the restored scene after relaunch" loading="lazy">
+          <figcaption><span>Actual UI · v1.1.0</span><span>Relaunch, same scene</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= VIEWS ======================= -->
+<section class="slab" id="views">
+  <div class="wrap slab-inner">
+    <div class="two-col">
+      <div>
+        <h2 class="rv">See everything.<br>Open nothing.</h2>
+        <p class="lede rv" data-step="1">Detailed list, hierarchy outline, icon grid, gallery with filmstrip — the same files at four densities, ⌘1–⌘4 switching between them. Space brings up the system Quick Look. <strong>The window up top switches too.</strong></p>
+        <div class="keys rv" data-step="2" style="margin-bottom:26px">
+          <span class="kbd">⌘</span><span class="kbd">1</span><span class="k-plus">list</span>
+          <span class="kbd">⌘</span><span class="kbd">2</span><span class="k-plus">hierarchy</span>
+          <span class="kbd">⌘</span><span class="kbd">3</span><span class="k-plus">icons</span>
+          <span class="kbd">⌘</span><span class="kbd">4</span><span class="k-plus">gallery</span>
+        </div>
+        <div class="beat">
+          <div class="beat-row rv" data-step="3"><h3>Gallery &amp; filmstrip</h3><p>Big image up top, a filmstrip pinned to the bottom, three-way sync. The selection ring is the signature deep outline — not system blue.</p></div>
+          <div class="beat-row rv" data-step="4"><h3>View options, ⌘J</h3><p>Icon size in four steps, grid spacing, label position, filmstrip size, sort — a floating panel trimmed to the current view. Set it once, it sticks everywhere.</p></div>
+        </div>
+      </div>
+      <div class="sticky">
+        <figure class="plate rv" data-step="2">
+          <img src="../assets/img/capture-gallery.png" width="1440" height="900" alt="SuperFinder actual UI: gallery view with bottom filmstrip" loading="lazy">
+          <figcaption><span>Actual UI · v1.1.0</span><span>Gallery + filmstrip</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TRUST ======================= -->
+<section class="slab-dark" id="trust">
+  <div class="wrap slab-inner">
+    <h2 class="rv">Fast, but never out of bounds.</h2>
+    <p class="lede rv" data-step="1">What got browser-ified is the operating, not the boundaries.</p>
+    <div class="facts">
+      <div class="fact rv">
+        <h3>Trash is the only exit <span class="mono-tag">no permanent delete</span></h3>
+        <p>Deletion always goes to the system Trash. There is no path around it inside the app. Not a default — an invariant.</p>
+      </div>
+      <div class="fact rv" data-step="1">
+        <h3>No account. No cloud. No telemetry.</h3>
+        <p>No networking code, no analytics, no “anonymous usage statistics.” Your files never leave your Mac — and neither does this site (zero third-party requests).</p>
+      </div>
+      <div class="fact rv" data-step="2">
+        <h3>Every write action undoes <span class="mono-tag">full audit trail</span></h3>
+        <p>Moves, copies, renames take effect immediately; ⌘Z reverts silently — and every write lands in an auditable ledger. That ledger is watched by 1,458 unit tests; every number drills down to the file it comes from.</p>
+        <div class="drill">
+          <button class="drill-toggle" aria-expanded="false"><span class="car">›</span>Drill down · eight largest test domains</button>
+          <div class="drill-body">
+            <div class="drill-line"><span>Tab manager TabManagerTests</span><b>63</b></div>
+            <div class="drill-line"><span>Engine expansion EngineExpansionTests</span><b>60</b></div>
+            <div class="drill-line"><span>Tab strip TabStripViewTests</span><b>48</b></div>
+            <div class="drill-line"><span>View deepening ViewDeepeningTests</span><b>44</b></div>
+            <div class="drill-line"><span>Drag support DragSupportTests</span><b>39</b></div>
+            <div class="drill-line"><span>Batch rename BatchRenameEngineTests</span><b>38</b></div>
+            <div class="drill-line"><span>Start page StartPageViewTests</span><b>35</b></div>
+            <div class="drill-line"><span>Global hotkeys GlobalHotkeyCenterTests</span><b>33</b></div>
+            <p class="drill-note">…plus 88 more test files in the repo’s SuperFinderTests/ directory (GitHub link ships after the repo is public).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FILM ======================= -->
+<section class="slab-dark" id="film">
+  <div class="wrap slab-inner">
+    <h2 class="rv">The film.</h2>
+    <p class="lede rv" data-step="1">63 seconds, no narration — the window performs itself.</p>
+    <div class="film rv" data-step="2">
+      <video controls preload="none" playsinline poster="../assets/img/promo-cover.png">
+        <source src="../assets/video/promo.mp4" type="video/mp4">
+      </video>
+      <div class="film-cap"><span>SuperFinder Promo · v3 · 63s</span><span>English UI demo · app switches to Chinese</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DOWNLOAD ======================= -->
+<section class="slab dl" id="download">
+  <div class="wrap slab-inner">
+    <img class="dl-icon rv" src="../assets/img/app-icon.png" width="96" height="96" alt="SuperFinder app icon">
+    <h2 class="rv" data-step="1">SuperFinder.<br>Browse your files.</h2>
+    <p class="lede rv" data-step="2">Free download · macOS 26 or later · Simplified Chinese / English UI</p>
+    <div class="dl-actions rv" data-step="3">
+      <a class="btn btn-ink" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">
+        Download on the App Store
+      </a>
+      <a class="btn btn-ghost on-paper" href="#" data-placeholder>GitHub repo</a>
+    </div>
+    <div class="dl-meta rv" data-step="4">
+      <span>v1.1.0 (build 4)</span><span>2026-10-02</span><span>Free at launch</span>
+    </div>
+    <div class="rv" data-step="5">
+      <p class="dl-flag" id="dl-flag">GitHub repo link ships as a placeholder until the repo is public.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>© 2026 SuperFinder <span class="foot-dot">·</span> Your files never leave your Mac <span class="foot-dot">·</span> No third-party scripts or fonts on this site</span>
+    <span class="foot-links">
+      <a href="../index.html">中文</a>
+      <a href="./index.html">EN</a>
+      <a href="#top">Back to top ↑</a>
+    </span>
+    <span class="mono">TYPE: ARCHIVO · JETBRAINS MONO · PINGFANG SC</span>
+  </div>
+</footer>
+
+<div class="ctxmenu" id="ctxmenu"></div>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

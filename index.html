@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SuperFinder — 浏览你的文件 · macOS 文件工作台</title>
+<meta name="description" content="SuperFinder 把整套浏览器心智搬到 macOS 文件系统：地址栏层级补全、标签页、四向窗格拆分、暂存架、会话还原。上网二十年，现在浏览你的文件。">
+<link rel="icon" type="image/png" href="./favicon.png">
+<link rel="stylesheet" href="./assets/css/site.css">
+<noscript><style>.rv{opacity:1 !important}</style></noscript>
+</head>
+<body data-assetbase="./">
+
+<div class="topline">
+  <nav class="capsule" aria-label="主导航">
+    <a class="wordmark" href="#top"><img src="./assets/img/app-icon.png" alt=""><span>SuperFinder</span></a>
+    <div class="tabs" role="tablist">
+      <a class="tab active" role="tab" aria-selected="true" href="./index.html">中文</a>
+      <a class="tab" role="tab" aria-selected="false" href="./en/index.html">EN</a>
+    </div>
+    <div class="navlinks">
+      <a href="#rename">重命名</a>
+      <a href="#sessions">会话</a>
+      <a href="#views">视图</a>
+      <a href="#trust">信任</a>
+      <a href="#film">影片</a>
+    </div>
+    <a class="as-pill" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">App Store ↓</a>
+  </nav>
+</div>
+
+<!-- ======================= HERO: the hook + the real window ======================= -->
+<header class="hero" id="top">
+  <div class="hook">
+    <h1 class="hero-name rv">Super<span class="u">Finder</span></h1>
+    <p class="hero-hook rv" data-step="1">给文件一个浏览器。</p>
+    <p class="sub rv" data-step="2">地址栏、标签页、四向窗格、暂存架——整套浏览器心智，长在 macOS 文件系统上。<strong>下面这台窗口是真的，上手试。</strong></p>
+  </div>
+
+  <div class="window-stage rv" data-step="2">
+    <div class="appwin" id="appwin" aria-label="SuperFinder 可交互演示窗口">
+      <!-- toolbar -->
+      <div class="tb">
+        <span class="lights" aria-hidden="true"><i class="light r"></i><i class="light y"></i><i class="light g"></i></span>
+        <span class="win-title" id="wintitle">2026-iceland</span>
+        <span class="tb-spacer"></span>
+        <span class="tb-group">
+          <button class="tbtn" id="btn-back" aria-label="Back"></button>
+          <button class="tbtn" id="btn-fwd" aria-label="Forward"></button>
+          <button class="tbtn" id="btn-up" aria-label="Go Up"></button>
+        </span>
+        <span class="seg" id="viewseg" role="tablist" aria-label="View mode">
+          <button data-view="list" aria-label="Details"></button>
+          <button data-view="hier" aria-label="Hierarchy"></button>
+          <button data-view="icons" aria-label="Icons"></button>
+          <button data-view="gallery" aria-label="Gallery"></button>
+        </span>
+      </div>
+      <div class="hr"></div>
+      <!-- tab strip -->
+      <div class="tabstrip" id="tabstrip"></div>
+      <!-- address card -->
+      <div class="addrcard" id="addrcard" tabindex="0" role="button" aria-label="地址栏">
+        <span class="crumbs" id="crumbs"></span>
+        <input class="addr-input" id="addrinput" type="text" autocomplete="off" spellcheck="false" aria-label="Type a path">
+        <span class="addr-btns">
+          <button class="abtn" id="abtn-clock" aria-label="History"></button>
+          <button class="abtn" id="abtn-layout" aria-label="Save Current Layout"></button>
+          <button class="abtn" id="abtn-star" aria-label="Bookmark this folder"></button>
+          <button class="abtn" id="abtn-copy" aria-label="Copy Path"></button>
+        </span>
+        <div class="hintdrop" id="hintdrop"></div>
+        <div class="histdrop" id="histdrop"></div>
+      </div>
+      <!-- bookmark bar -->
+      <div class="bmkbar-app" id="bmkbar"></div>
+      <div class="hr"></div>
+      <!-- content -->
+      <div class="paneswrap">
+        <div class="panes" id="panes"></div>
+        <button class="shelf-anchor" id="shelfanchor" aria-label="Staging shelf"><span id="shelfbadge" class="shelf-badge">0</span></button>
+        <div class="shelf-card" id="shelfcard">
+          <div class="shelf-head"><b>Staging Shelf</b><span class="cnt" id="shelfcnt">· 0 items</span><button class="clear" id="shelfcollapse" hidden>Collapse</button><button class="clear" id="shelfclear" disabled>Clear</button></div>
+          <div class="shelf-body" id="shelfbody"></div>
+          <div class="shelf-note">Files move only when dragged out</div>
+        </div>
+      </div>
+      <!-- find panel -->
+      <div class="findpanel" id="findpanel">
+        <div class="fp-scope" id="fp-scope">Search in “2026-iceland”</div>
+        <input id="findinput" type="text" placeholder="Type keywords, press Return to search">
+        <button class="fp-go" id="findgo">Search</button>
+      </div>
+      <!-- status bar -->
+      <div class="sbar">
+        <span id="sb-left">9 items · 1 pinned</span>
+        <span class="places" aria-hidden="true">
+          <span class="picon" title="iCloud Drive"></span>
+          <span class="picon" title="AirDrop"></span>
+          <span class="picon" title="Macintosh HD"></span>
+          <span class="picon" title="Trash"></span>
+        </span>
+        <span class="auth">3 workspaces authorized</span>
+        <span class="avail">126.06 GB available</span>
+      </div>
+      <!-- save layout modal -->
+      <div class="appmodal" id="layoutmodal">
+        <div class="sheet">
+          <div class="sheet-title">Save Current Layout</div>
+          <p class="desc">Saves: split structure + pane ratios + each pane's folder + view mode (no history stacks).</p>
+          <input id="layoutname" type="text" placeholder="Layout name (required)">
+          <div class="row-btns">
+            <button class="bb" id="layoutcancel">Cancel</button>
+            <button class="bb primary" id="layoutsave" disabled>Save</button>
+          </div>
+        </div>
+      </div>
+      <div class="apptoast" id="apptoast"></div>
+      <div class="autoplay" id="autoplay"><button>▶ 播放演示</button></div>
+    </div>
+  </div>
+
+  <div class="tryhints rv" data-step="3">
+    <button class="tryhint" data-act="addr">地址栏输入 <span class="kbd">~</span> 然后按 Tab 逐层补全</button>
+    <button class="tryhint" data-act="tab"><span class="kbd">⌘</span><span class="kbd">T</span> 起始页 · 最近关闭一键还原</button>
+    <button class="tryhint" data-act="split">右键空白 → Split Pane 四向拆分</button>
+    <button class="tryhint" data-act="shelf">拖动照片 → 暂存架在右上角接住</button>
+  </div>
+  <p class="rv" data-step="4" style="text-align:center;margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--paper-3)">演示窗口为英文 UI——应用内可切换简体中文 / English</p>
+</header>
+
+<!-- ======================= BATCH RENAME ======================= -->
+<section class="slab" id="rename">
+  <div class="wrap slab-inner">
+    <h2 class="rv">上百个文件，一个一个看过来。</h2>
+    <p class="lede rv" data-step="1">查找替换、正则、序号、大小写——每次改动都实时预览；撞名整行标红、一键排除，确认才执行，整批 ⌘Z 撤回。<strong>这个演示是真的，直接玩。</strong></p>
+    <div class="rv" data-step="2" style="max-width:780px">
+      <div class="br-demo" id="rename-demo">
+        <div class="br-head"><b>Batch Rename</b><span class="cnt" id="br-cnt">6 items selected</span></div>
+        <div class="br-body">
+          <div class="br-seg" role="tablist">
+            <button class="on">Replace Text</button>
+            <button disabled>Regular Expression</button>
+            <button disabled>Add Sequence</button>
+            <button disabled>Change Case</button>
+          </div>
+          <div class="br-fields">
+            <div><label for="br-find">Find:</label><input id="br-find" type="text" value="DSC_"></div>
+            <div><label for="br-rep">Replace with:</label><input id="br-rep" type="text" value="iceland-"></div>
+          </div>
+          <div class="br-table-wrap">
+            <table class="br-table">
+              <thead><tr><th class="ctr"></th><th>Name</th><th></th><th>New Name</th><th class="warn"></th></tr></thead>
+              <tbody id="br-rows"></tbody>
+            </table>
+          </div>
+          <div class="br-foot">
+            <span class="br-error" id="br-err"></span>
+            <button class="br-btn reset" id="br-reset">Replay</button>
+            <button class="br-btn primary" id="br-rename">Rename 6 Items</button>
+          </div>
+        </div>
+      </div>
+      <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:10px">演示数据 · 撞名判定与预览逻辑与应用内一致</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SESSIONS ======================= -->
+<section class="slab-dark" id="sessions">
+  <div class="wrap slab-inner">
+    <div class="two-col">
+      <div>
+        <h2 class="rv">关掉。回来。<br>一切还在。</h2>
+        <p class="lede rv" data-step="1">⌘Q 退出，标签组、四向拆好的窗格、暂存架里的引用，全部落盘。重开，原样回来。<strong>真浏览器都恢复会话——丢标签组的「浏览器」不合格。</strong></p>
+        <div class="beat">
+          <div class="beat-row rv" data-step="2"><h3>整树还原</h3><p>不只恢复标签：每棵窗格树的结构、比例、各自所在的文件夹一起回来。</p></div>
+          <div class="beat-row rv" data-step="3"><h3>崩溃也算数</h3><p>不是「正常退出才保存」——快照带节流持续落盘，崩溃后与手动退出同等待遇。</p></div>
+        </div>
+      </div>
+      <div class="sticky">
+        <figure class="plate rv" data-step="2">
+          <img src="./assets/img/capture-launch.png" width="1440" height="900" alt="SuperFinder 实机界面：重开后的窗口现场" loading="lazy">
+          <figcaption><span>实机界面 · v1.1.0</span><span>重开即现场</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= VIEWS ======================= -->
+<section class="slab" id="views">
+  <div class="wrap slab-inner">
+    <div class="two-col">
+      <div>
+        <h2 class="rv">看见一切，<br>不必打开任何东西。</h2>
+        <p class="lede rv" data-step="1">详细列表、层级大纲、图标网格、画廊加胶片条——同一批文件四种密度，⌘1–⌘4 接力切换；空格调起系统 Quick Look。<strong>首屏的窗口里就能切。</strong></p>
+        <div class="keys rv" data-step="2" style="margin-bottom:26px">
+          <span class="kbd">⌘</span><span class="kbd">1</span><span class="k-plus">详细</span>
+          <span class="kbd">⌘</span><span class="kbd">2</span><span class="k-plus">层级</span>
+          <span class="kbd">⌘</span><span class="kbd">3</span><span class="k-plus">图标</span>
+          <span class="kbd">⌘</span><span class="kbd">4</span><span class="k-plus">画廊</span>
+        </div>
+        <div class="beat">
+          <div class="beat-row rv" data-step="3"><h3>画廊与胶片条</h3><p>大图区 + 贴底胶片条，三向联动；选中环是签名深描边，不是系统蓝。</p></div>
+          <div class="beat-row rv" data-step="4"><h3>视图选项 ⌘J</h3><p>图标大小四档、网格间距、标签位置、胶片条尺寸、排序方式——浮动小面板按当前视图裁剪，一次调好处处生效。</p></div>
+        </div>
+      </div>
+      <div class="sticky">
+        <figure class="plate rv" data-step="2">
+          <img src="./assets/img/capture-gallery.png" width="1440" height="900" alt="SuperFinder 实机界面：画廊视图与贴底胶片条" loading="lazy">
+          <figcaption><span>实机界面 · v1.1.0</span><span>画廊 + 胶片条</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TRUST (compact strip) ======================= -->
+<section class="slab-dark" id="trust">
+  <div class="wrap slab-inner">
+    <h2 class="rv">快，但不越界。</h2>
+    <p class="lede rv" data-step="1">浏览器化的是操作，不是边界。</p>
+    <div class="facts">
+      <div class="fact rv">
+        <h3>废纸篓是唯一出口 <span class="mono-tag">无永久删除入口</span></h3>
+        <p>删除恒走系统废纸篓，应用内不存在绕过它的路径。不是默认设置，是写死的不变量。</p>
+      </div>
+      <div class="fact rv" data-step="1">
+        <h3>零账号 · 零云 · 零遥测</h3>
+        <p>产品里没有网络代码，没有统计上报。文件不出你的 Mac——这句话写在工程的每一层；本站同样零第三方请求。</p>
+      </div>
+      <div class="fact rv" data-step="2">
+        <h3>写动作全程可撤销 <span class="mono-tag">引擎留痕可对账</span></h3>
+        <p>移动、复制、重命名立即生效，⌘Z 静默撤回；每一次写动作都记在审计账上。账面由 1,458 项单元测试盯住——每个数字都能下钻到它来自哪个测试文件。</p>
+        <div class="drill">
+          <button class="drill-toggle" aria-expanded="false"><span class="car">›</span>下钻 · 测试最多的八个域</button>
+          <div class="drill-body">
+            <div class="drill-line"><span>标签管理 TabManagerTests</span><b>63</b></div>
+            <div class="drill-line"><span>引擎扩展 EngineExpansionTests</span><b>60</b></div>
+            <div class="drill-line"><span>标签条 TabStripViewTests</span><b>48</b></div>
+            <div class="drill-line"><span>视图深化 ViewDeepeningTests</span><b>44</b></div>
+            <div class="drill-line"><span>拖拽支持 DragSupportTests</span><b>39</b></div>
+            <div class="drill-line"><span>批量重命名 BatchRenameEngineTests</span><b>38</b></div>
+            <div class="drill-line"><span>起始页 StartPageViewTests</span><b>35</b></div>
+            <div class="drill-line"><span>全局热键 GlobalHotkeyCenterTests</span><b>33</b></div>
+            <p class="drill-note">…其余 88 个测试文件在仓库 SuperFinderTests/ 中（GitHub 链接部署后填入）。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FILM ======================= -->
+<section class="slab-dark" id="film">
+  <div class="wrap slab-inner">
+    <h2 class="rv">宣传片。</h2>
+    <p class="lede rv" data-step="1">63 秒，没有旁白——让窗口自己演。</p>
+    <div class="film rv" data-step="2">
+      <video controls preload="none" playsinline poster="./assets/img/promo-cover.png">
+        <source src="./assets/video/promo.mp4" type="video/mp4">
+      </video>
+      <div class="film-cap"><span>SuperFinder Promo · v3 · 63s</span><span>界面演示为英文 UI · 应用内可切换中文</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DOWNLOAD ======================= -->
+<section class="slab dl" id="download">
+  <div class="wrap slab-inner">
+    <img class="dl-icon rv" src="./assets/img/app-icon.png" width="96" height="96" alt="SuperFinder 应用图标">
+    <h2 class="rv" data-step="1" lang="en">SuperFinder.<br>Browse your files.</h2>
+    <p class="lede rv" data-step="2">免费下载 · macOS 26 或更高版本 · 简体中文 / English 界面</p>
+    <div class="dl-actions rv" data-step="3">
+      <a class="btn btn-ink" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">
+        从 App Store 下载
+      </a>
+      <a class="btn btn-ghost on-paper" href="#" data-placeholder>GitHub 仓库</a>
+    </div>
+    <div class="dl-meta rv" data-step="4">
+      <span>v1.1.0 (build 4)</span><span>2026-10-02</span><span>上架期免费</span>
+    </div>
+    <div class="rv" data-step="5">
+      <p class="dl-flag" id="dl-flag">GitHub 仓库地址将在仓库公开后填入——现在是占位。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>© 2026 SuperFinder <span class="foot-dot">·</span> 文件不出你的 Mac <span class="foot-dot">·</span> 本站零第三方脚本与字体</span>
+    <span class="foot-links">
+      <a href="./index.html">中文</a>
+      <a href="./en/index.html">EN</a>
+      <a href="#top">回到顶部 ↑</a>
+    </span>
+    <span class="mono">TYPE: ARCHIVO · JETBRAINS MONO · PINGFANG SC</span>
+  </div>
+</footer>
+
+<div class="ctxmenu" id="ctxmenu"></div>
+<script src="./assets/js/site.js" defer></script>
+</body>
+</html>
