@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperFinder · 浏览你的文件 · macOS 文件工作台</title>
-<meta name="description" content="SuperFinder 把整套浏览器心智搬到 macOS 文件系统：地址栏层级补全、标签页、四向窗格拆分、暂存架、会话还原、侧边栏工具与插件。上网二十年，现在浏览你的文件。">
+<title>SuperFinder · 浏览你的文件，像浏览网页一样 · macOS 文件工作台</title>
+<meta name="description" content="SuperFinder 是给 macOS 的浏览器式文件工作台：粘贴路径直达目录，用标签与窗格对照文件，把散落的文件先收进暂存架，关掉再打开，工作现场还在。内置十一件文件工具，也能把你已有的脚本变成侧边栏工具。">
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="stylesheet" href="./assets/css/site.css">
 <noscript><style>.rv{opacity:1 !important}</style></noscript>
@@ -13,29 +13,27 @@
 
 <div class="topline">
   <nav class="capsule" aria-label="主导航">
-    <a class="wordmark" href="#top"><img src="./assets/img/app-icon.png" alt=""><span>SuperFinder</span></a>
+    <a class="wordmark" href="#top"><img src="./assets/img/app-icon.png" alt="SuperFinder 首页"><span>SuperFinder</span></a>
     <div class="tabs" role="tablist">
       <a class="tab active" role="tab" aria-selected="true" href="./index.html">中文</a>
       <a class="tab" role="tab" aria-selected="false" href="./en/index.html">EN</a>
     </div>
     <div class="navlinks">
-      <a href="#browser">浏览器</a>
-      <a href="#workbench">现场</a>
-      <a href="#sidebar">侧边栏</a>
+      <a href="#workflow">怎么工作</a>
       <a href="#plugins">插件</a>
-      <a href="#trust">信任</a>
-      <a href="#film">影片</a>
+      <a href="#trust">边界</a>
+      <a href="#download">下载</a>
     </div>
     <a class="as-pill" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">App Store ↓</a>
   </nav>
 </div>
 
-<!-- ======================= HERO: the hook + the real window ======================= -->
+<!-- ======================= HERO: what it is + the real window ======================= -->
 <header class="hero" id="top">
   <div class="hook">
     <h1 class="hero-name rv">Super<span class="u">Finder</span></h1>
-    <p class="hero-hook rv" data-step="1">给文件一个浏览器。</p>
-    <p class="sub rv" data-step="2">地址栏、标签页、窗格拆分、暂存架、侧边栏与插件，整套浏览器心智长在 macOS 文件系统上。<strong>下面这台窗口是真的，上手试。</strong></p>
+    <p class="hero-hook rv" data-step="1">浏览你的文件，像浏览网页一样。</p>
+    <p class="sub rv" data-step="2">SuperFinder 是给 macOS 的浏览器式文件工作台。粘贴一条路径直达目录，用标签和窗格把需要的文件摆在一起，关掉再打开，工作还在。<strong>下面这台窗口是真的，上手试。</strong></p>
   </div>
 
   <div class="window-stage rv" data-step="2">
@@ -127,104 +125,125 @@
   </div>
 
   <div class="tryhints rv" data-step="3">
-    <button class="tryhint" data-act="addr">地址栏输入 <span class="kbd">~</span> 然后按 Tab 逐层补全</button>
-    <button class="tryhint" data-act="sb">选中照片 → 侧边栏工具一路到确认</button>
-    <button class="tryhint" data-act="split">右键空白 → Split Pane 四向拆分</button>
-    <button class="tryhint" data-act="shelf">拖动照片 → 暂存架在右上角接住</button>
-    <button class="tryhint" data-act="tab"><span class="kbd">⌘</span><span class="kbd">T</span> 起始页 · 最近关闭一键还原</button>
+    <button class="tryhint" data-act="addr">在地址栏输入 <span class="kbd">~</span>，按 Tab 逐层补全</button>
+    <button class="tryhint" data-act="shelf">拖一张照片，暂存架在右上角接住</button>
+    <button class="tryhint" data-act="sb">选中照片，侧边栏工具一路处理到确认</button>
   </div>
   <p class="rv" data-step="4" style="text-align: center; margin-top: 14px; font-family: var(--mono); font-size: 11px; color: var(--paper-3)">演示窗口为英文 UI，应用内可切换简体中文 / English</p>
 </header>
 
-<!-- ======================= BROWSER (the whole set, not one feature) ======================= -->
-<section class="slab" id="browser">
+<main>
+<!-- ======================= HOW IT WORKS: find · compare · process · return ======================= -->
+<section class="slab" id="workflow">
   <div class="wrap slab-inner">
-    <h2 class="rv">访达学会了标签页，<br>然后停在了那里。</h2>
-    <p class="lede rv" data-step="1">SuperFinder 把整套补齐：地址栏直达、搜索即地点、书签栏分层、起始页。会 Chrome 就会它，二十年的习惯直接搬过来。</p>
-    <div class="keys rv" data-step="2" style="margin-bottom:clamp(30px,5vw,52px)">
-      <span class="kbd">⌘</span><span class="kbd">L</span><span class="k-plus">地址栏</span>
-      <span class="kbd">⌘</span><span class="kbd">T</span><span class="k-plus">新标签</span>
-      <span class="kbd">⌘</span><span class="kbd">F</span><span class="k-plus">搜索</span>
-    </div>
-    <div class="beat">
-      <div class="beat-row rv" data-step="2"><h3>地址栏三件事</h3><p>粘贴路径回车直达，终端或 AI 输出里复制的那种；输入 <span class="mono">~</span> 按 Tab 逐层补全；一键复制当前路径。上面的窗口就能试。</p></div>
-      <div class="beat-row rv" data-step="3"><h3>搜索即地点</h3><p>搜索结果可后退、可书签、可还原，和文件夹一样是地点（Place）。</p></div>
-      <div class="beat-row rv" data-step="4"><h3>书签栏与起始页</h3><p>书签分文件夹、附图标，放多少都排得开；⌘T 起始页，最近关闭的标签整棵恢复。</p></div>
-    </div>
-  </div>
-</section>
+    <h2 class="rv">找到、对照、处理，<br>一次完成。</h2>
+    <p class="lede rv" data-step="1">文件工作最麻烦的从来不是打开一个目录，而是在几个地点之间来回找、比、搬、改。SuperFinder 把这些动作放进同一个可以保存的工作现场。</p>
 
-<!-- ======================= SESSIONS ======================= -->
-<section class="slab-dark" id="sessions">
-  <div class="wrap slab-inner">
-    <div class="two-col">
+    <ol class="flow">
+      <li class="flow-step rv" data-step="1">
+        <span class="flow-n">01</span>
+        <h3>直达</h3>
+        <p>从终端、脚本或 AI 对话里复制一条路径，粘进地址栏回车就到；打几个字，Tab 逐层补全。</p>
+        <div class="flow-plate">
+          <div class="fp-addr"><span class="up">↑</span><span>~</span><span class="sep">/</span><span>Pictures</span><span class="sep">/</span><span>Photos</span><span class="sep">/</span><span class="last">2026-iceland</span><i class="fp-caret"></i></div>
+          <div class="fp-hint"><span class="on">Photos</span><span>Public</span><span>Movies</span></div>
+        </div>
+      </li>
+      <li class="flow-step rv" data-step="2">
+        <span class="flow-n">02</span>
+        <h3>对照</h3>
+        <p>在一个标签里拆出要对照的目录，边看边处理；拆好的布局命名存下来，下次原地还原。</p>
+        <div class="flow-plate">
+          <div class="fp-panes">
+            <div class="fp-pane on"><i class="fp-line"></i><i class="fp-line sm"></i><i class="fp-line"></i></div>
+            <div class="fp-pane"><i class="fp-line sm"></i><i class="fp-line"></i><i class="fp-line sm"></i></div>
+          </div>
+          <div class="fp-note">Split Right · 布局存下来</div>
+        </div>
+      </li>
+      <li class="flow-step rv" data-step="3">
+        <span class="flow-n">03</span>
+        <h3>整理</h3>
+        <p>散在各处的文件先放进暂存架，准备好再统一归位。放进去只记引用，原件不动。</p>
+        <div class="flow-plate">
+          <div class="fp-shelf">
+            <div class="cap"><span>Staging Shelf</span><b>· 3 items</b></div>
+            <div class="fp-stack"><i></i><i></i><i></i></div>
+          </div>
+          <div class="fp-note">拖进去只记引用 · 拖出才移动</div>
+        </div>
+      </li>
+      <li class="flow-step rv" data-step="4">
+        <span class="flow-n">04</span>
+        <h3>回来</h3>
+        <p>关闭应用再打开，标签、窗格和暂存架都在原来的位置，不用从头找起。</p>
+        <div class="flow-plate">
+          <div class="fp-tabs"><i class="on"></i><i></i><i></i></div>
+          <div class="fp-shelf">
+            <div class="cap"><span>Staging Shelf</span><b>· 3 items</b></div>
+            <div class="fp-stack"><i></i><i></i><i></i></div>
+          </div>
+          <div class="fp-note">关掉 → 重新打开</div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="two-col" style="margin-top:clamp(44px,6vw,76px)">
       <div>
-        <h2 class="rv">关掉。回来。<br>一切还在。</h2>
-        <p class="lede rv" data-step="1">⌘Q 退出，标签组、窗格、暂存架引用全部落盘。重开，原样回来。<strong>真浏览器都恢复会话。</strong></p>
+        <h3 class="sub-h rv">一个窗口，接住你的整个工作现场。</h3>
         <div class="beat">
-          <div class="beat-row rv" data-step="2"><h3>整树还原</h3><p>每棵窗格树的结构、比例、所在文件夹一起回来。</p></div>
-          <div class="beat-row rv" data-step="3"><h3>崩溃也算数</h3><p>快照带节流持续落盘，崩溃和手动退出同等待遇。</p></div>
+          <div class="beat-row rv" data-step="1"><h3>对照多个目录，不用开一排窗口</h3><p>在标签里四向拆分，抓手拖动换位；拆好的布局命名保存，下一次在新标签里原地还原。</p></div>
+          <div class="beat-row rv" data-step="2"><h3>文件先集中，准备好再移动</h3><p>散落在不同目录的文件拖进暂存架，这一步只记引用；整摞拖出到目标目录，那一刻才真的移动。</p></div>
+          <div class="beat-row rv" data-step="3"><h3>关掉再回来，不用从头找起</h3><p>标签、窗格、暂存架连同各自所在的目录一起恢复，崩溃退出也一样。</p></div>
         </div>
       </div>
       <div class="sticky">
         <figure class="plate rv" data-step="2">
-          <img src="./assets/img/capture-launch.png" width="1440" height="900" alt="SuperFinder 实机界面：重开后的窗口现场" loading="lazy">
-          <figcaption><span>实机界面 · v1.1.0</span><span>重开即现场</span></figcaption>
+          <img src="./assets/img/capture-launch.png" width="1440" height="900" alt="SuperFinder 实机界面：重新打开后的窗口现场" loading="lazy">
+          <figcaption><span>实机界面 · v1.1.0</span><span>关掉再打开，现场还在</span></figcaption>
         </figure>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ======================= WORKBENCH (splits · layouts · shelf) ======================= -->
-<section class="slab" id="workbench">
+<!-- ======================= TOOLS & PLUGINS ======================= -->
+<section class="slab-dark" id="plugins">
   <div class="wrap slab-inner">
-    <h2 class="rv">拆出来的现场，<br>收得回来。</h2>
-    <p class="lede rv" data-step="1">对照是重度文件操作的高频动作。这里的对照发生在标签内部：四向拆分、抓手换位，拆好的布局命名收藏，新标签一键还原。双栏管理器管的是同时看两个目录，这里存的是整个工作现场。</p>
-    <div class="beat">
-      <div class="beat-row rv" data-step="2"><h3>标签内递归拆分</h3><p>右键空白四向拆分，想拆多深拆多深；抓手拖动即换位。窗口恒单窗格，一个窗口就是一台浏览器。</p></div>
-      <div class="beat-row rv" data-step="3"><h3>布局收藏</h3><p>▦ 钮把拆分结构、各窗格目录、视图模式命名保存，收藏栏点击即在新标签还原。</p></div>
-      <div class="beat-row rv" data-step="4"><h3>暂存架</h3><p>拖入只记引用，原文件不动；跟随会话，重开还在；拖出那一刻才移动文件。</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ======================= SIDEBAR ======================= -->
-<section class="slab-dark" id="sidebar">
-  <div class="wrap slab-inner">
+    <h2 class="rv">选中文件，马上处理；<br>需要的工具，还能继续加。</h2>
+    <p class="lede rv" data-step="1">选中照片、PDF、音视频或文本，侧边栏给出适合它的工具：转格式、缩放、抠图、合并 PDF、视频转码，内置十一件。你已经有的脚本，也可以变成自己的侧边栏工具。</p>
     <div class="two-col">
       <div>
-        <h2 class="rv">选中，就地处理。</h2>
-        <p class="lede rv" data-step="1">选中文件，侧边栏出现对应的工具：转格式、缩放、抠图、合并 PDF、视频转码。内置十一件，不够用插件随时往上加。处理在原目录完成，每一步先预览再确认，⌘Z 撤回。</p>
+        <div class="beat">
+          <div class="beat-row rv" data-step="1"><h3>按日期归档照片</h3><p>一堆相机原片进去，按拍摄日期分好目录出来。下面可以直接看它跑一遍。</p></div>
+          <div class="beat-row rv" data-step="2"><h3>从 CSV 生成文件</h3><p>表格里的一行，就是一份文件：合同、素材清单、项目骨架。</p></div>
+          <div class="beat-row rv" data-step="3"><h3>整理交付物</h3><p>交付前统一改名归位，改错了 ⌘Z 一步回到原样。</p></div>
+          <div class="beat-row rv" data-step="4"><h3>边界说清楚</h3><p>插件是你自己装的代码，网络行为归你；app 自身不联网。</p></div>
+        </div>
       </div>
       <div class="sticky">
         <div class="rv" data-step="2">
-          <div class="sbd" id="sb-demo" role="group" aria-label="Sidebar tool demo">
-            <div class="sbd-head"><b>Sidebar · Images</b><span class="cnt" id="sbd-cnt">3 items selected</span></div>
-            <div class="sbd-tool"><span class="tico" id="sbd-tool-ico"></span><span>Convert Format</span><span class="fmt">PNG · JPEG · HEIC</span></div>
-            <div class="sbd-rows" id="sbd-rows"></div>
-            <div class="sbd-foot">
-              <span class="sbd-msg" id="sbd-msg"></span>
-              <button class="sbd-btn primary" id="sbd-btn">Convert 3 Items</button>
+          <div class="ffd" id="ffd" role="group" aria-label="插件示例演示">
+            <div class="ffd-head"><b id="ffd-file">plugins/archive-photos.py</b><span class="cnt" id="ffd-cnt">3 files</span></div>
+            <div class="ffd-tabs" role="tablist">
+              <button class="ffd-tab on" data-scn="0" role="tab" aria-selected="true">按日期归档照片</button>
+              <button class="ffd-tab" data-scn="1" role="tab" aria-selected="false">从 CSV 生成文件</button>
+              <button class="ffd-tab" data-scn="2" role="tab" aria-selected="false">整理交付物</button>
             </div>
+            <div class="ffd-body">
+              <div class="ffd-files" id="ffd-files"></div>
+              <div class="ffd-code" id="ffd-code"></div>
+            </div>
+            <div class="ffd-foot">
+              <span class="ffd-msg" id="ffd-msg"></span>
+              <button class="ffd-btn" id="ffd-undo" hidden>⌘Z 撤回</button>
+              <button class="ffd-btn primary" id="ffd-run">播放演示</button>
+            </div>
+            <noscript><div class="ffd-foot"><span class="ffd-msg">演示需要 JavaScript。三个插件示例：按日期归档照片、从 CSV 生成文件、整理交付物。</span></div></noscript>
           </div>
-          <p class="sbd-note">演示动画 · 判定逻辑与应用一致</p>
+          <p class="ffd-note">插件示例脚本 · 演示结果对应真实落盘动作：移动、复制、重命名都能用 ⌘Z 撤回</p>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ======================= PLUGINS ======================= -->
-<section class="slab" id="plugins">
-  <div class="wrap slab-inner">
-    <h2 class="rv">工作台，<br>给你留了位置。</h2>
-    <p class="lede rv" data-step="1">写个脚本，它就是侧边栏里的工具。bash、Python、Node 都行，打成一个文件导入设置就能用。</p>
-    <div class="beat">
-      <div class="beat-row rv" data-step="2"><h3>能做什么</h3><p>按日期归档照片、从 CSV 批量生成文件、调你自己的接口整理文档。脚本能干的活，都能变成文件工具。</p></div>
-      <div class="beat-row rv" data-step="3"><h3>一样要你确认</h3><p>插件的产物和内置工具同一待遇：先预览再落盘，撞名自动让位，⌘Z 照样撤回。</p></div>
-      <div class="beat-row rv" data-step="4"><h3>写插件</h3><p>设置里一键导出开发包：规范和两个现成示例（按日期归档、CSV 提取），照着改就行。丢给 AI agent 写也可以。</p></div>
-      <div class="beat-row rv" data-step="4"><h3>边界</h3><p>插件是你自装的代码，网络行为归你负责；app 自身不联网。</p></div>
     </div>
   </div>
 </section>
@@ -233,33 +252,19 @@
 <section class="slab-dark" id="trust">
   <div class="wrap slab-inner">
     <h2 class="rv">快，但不越界。</h2>
-    <p class="lede rv" data-step="1">浏览器化的是操作，不是边界。</p>
+    <p class="lede rv" data-step="1">浏览器化的是操作方式，不是边界。</p>
     <div class="facts">
       <div class="fact rv">
-        <h3>废纸篓是唯一出口 <span class="mono-tag">无永久删除入口</span></h3>
+        <h3>删除只进废纸篓</h3>
         <p>删除恒走系统废纸篓，应用内没有绕过它的路径，也没有开关。</p>
       </div>
       <div class="fact rv" data-step="1">
-        <h3>零账号 · 零云 · 零遥测</h3>
-        <p>app 自身代码不含网络功能，无账号、无云、无统计上报；外部插件是用户自装代码，网络行为归用户。本站同样零第三方请求。</p>
+        <h3>文件留在你的 Mac 上</h3>
+        <p>app 自身不联网：没有账号、没有云、没有统计上报。外部插件是用户自装的代码，网络行为归用户。本站同样零第三方请求。</p>
       </div>
       <div class="fact rv" data-step="2">
-        <h3>写动作全程可撤销 <span class="mono-tag">引擎留痕可对账</span></h3>
-        <p>移动、复制、重命名、工具产物立即生效，⌘Z 静默撤回，每一次写动作都记在审计账上，账面由 1,947 项单元测试盯住。批量重命名、Quick Look、⌘1-4 四视图这些及格项都在，就不展开了。</p>
-        <div class="drill">
-          <button class="drill-toggle" aria-expanded="false"><span class="car">›</span>下钻 · 测试最多的八个域</button>
-          <div class="drill-body">
-            <div class="drill-line"><span>标签管理 TabManagerTests</span><b>63</b></div>
-            <div class="drill-line"><span>引擎扩展 EngineExpansionTests</span><b>60</b></div>
-            <div class="drill-line"><span>标签条 TabStripViewTests</span><b>48</b></div>
-            <div class="drill-line"><span>视图深化 ViewDeepeningTests</span><b>42</b></div>
-            <div class="drill-line"><span>文本工具 SidebarTextToolsTests</span><b>42</b></div>
-            <div class="drill-line"><span>拖拽支持 DragSupportTests</span><b>39</b></div>
-            <div class="drill-line"><span>批量重命名 BatchRenameEngineTests</span><b>38</b></div>
-            <div class="drill-line"><span>起始页 StartPageViewTests</span><b>35</b></div>
-            <p class="drill-note">…其余 128 个测试文件在仓库 SuperFinderTests/ 中（GitHub 链接部署后填入）。</p>
-          </div>
-        </div>
+        <h3>写动作可以撤回</h3>
+        <p>移动、复制、重命名和工具产物立即生效，⌘Z 撤回。批量重命名、Quick Look、⌘1–4 四视图这些基础动作也都在。</p>
       </div>
     </div>
   </div>
@@ -268,13 +273,14 @@
 <!-- ======================= FILM ======================= -->
 <section class="slab-dark" id="film">
   <div class="wrap slab-inner">
-    <h2 class="rv">宣传片。</h2>
-    <p class="lede rv" data-step="1">63 秒，先看它怎么干活。</p>
+    <h2 class="rv">看它怎么把一批文件处理完。</h2>
+    <p class="lede rv" data-step="1">1 分 12 秒，中文旁白：从粘贴一条路径开始，到一批文件归位结束。</p>
     <div class="film rv" data-step="2">
       <video controls preload="none" playsinline poster="./assets/img/promo-cover.png">
-        <source src="./assets/video/promo.mp4" type="video/mp4">
+        <source src="./assets/video/promo-zh.mp4" type="video/mp4">
+        <track kind="captions" src="./assets/video/promo-zh.vtt" srclang="zh" label="中文" default>
       </video>
-      <div class="film-cap"><span>SuperFinder Promo · v3 · 63s</span><span>界面演示为英文 UI · 应用内可切换中文</span></div>
+      <div class="film-cap"><span>SuperFinder Promo · v4 · 1:12 · 中文旁白</span><span>界面演示为英文 UI · 应用内可切换中文</span></div>
     </div>
   </div>
 </section>
@@ -299,6 +305,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap foot-row">

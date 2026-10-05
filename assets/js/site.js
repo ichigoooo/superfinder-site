@@ -1587,101 +1587,233 @@
     }, { threshold: 0.1, rootMargin: "0px 0px -5% 0px" });
     rvEls.forEach(function (el) { io.observe(el); });
   }
-  document.querySelectorAll(".drill-toggle").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var d = btn.closest(".drill");
-      if (d) d.classList.toggle("open");
-    });
-  });
-
-  /* ================= sidebar tool demo (section card, animated) ================= */
+  /* ================= plugin demo: the code drives the files ================= */
   (function () {
-    var demo = document.getElementById("sb-demo");
+    var demo = document.getElementById("ffd");
     if (!demo) return;
-    var FILES = [
-      { name: "DSC_4027.jpg", size: 12.4, img: "assets/img/photos/aurora.jpg" },
-      { name: "DSC_4188.jpg", size: 9.1, img: "assets/img/photos/black-beach.jpg" },
-      { name: "DSC_4231.jpg", size: 11.8, img: "assets/img/photos/waterfall.jpg" }
+
+    var isEN = /^en/i.test(document.documentElement.lang || "");
+    var TX = isEN ? {
+      idle: "Three examples · press play",
+      working: "Working…",
+      done: "Done · ⌘Z to undo",
+      undone: "Undone; the files are back where they were",
+      play: "Play", pause: "Pause", replay: "Replay",
+      count: function (n) { return n + " files"; }
+    } : {
+      idle: "插件三例 · 点播放看它跑一遍",
+      working: "正在处理…",
+      done: "已完成 · ⌘Z 可撤回",
+      undone: "已撤回，文件回到原处",
+      play: "播放演示", pause: "暂停", replay: "重播",
+      count: function (n) { return n + " 个文件"; }
+    };
+
+    var TILE = ["#FDE2E4", "#E2F0FB", "#E4F5E9", "#FFF3D6", "#EFE4F7", "#E0F4F1", "#FBE9D7", "#EAEEFA"];
+
+    var SCN = [
+      {
+        file: "plugins/archive-photos.py",
+        act: 5,
+        rows: [
+          { img: "assets/img/photos/aurora.jpg", from: "DSC_4188.jpg", to: "2026-07-14/DSC_4188.jpg" },
+          { img: "assets/img/photos/black-beach.jpg", from: "DSC_4231.jpg", to: "2026-07-14/DSC_4231.jpg" },
+          { img: "assets/img/photos/basalt-cave.jpg", from: "DSC_4476.jpg", to: "2026-07-15/DSC_4476.jpg" }
+        ],
+        code: {
+          zh: ["# 插件示例 · 按拍摄日期归档",
+            "import shutil, exif",
+            "",
+            "for f in photos(SRC):",
+            "    day = exif.date(f)      # 2026-07-14",
+            "    shutil.move(f, f'{day}/{f}')"],
+          en: ["# plugin example · archive by date",
+            "import shutil, exif",
+            "",
+            "for f in photos(SRC):",
+            "    day = exif.date(f)      # 2026-07-14",
+            "    shutil.move(f, f'{day}/{f}')"]
+        }
+      },
+      {
+        file: "plugins/from-csv.py",
+        act: 5,
+        rows: [
+          { mono: "CSV", from: "projects.csv:2", to: "clients/acme.md" },
+          { mono: "CSV", from: "projects.csv:3", to: "clients/borax.md" },
+          { mono: "CSV", from: "projects.csv:4", to: "clients/cyan.md" }
+        ],
+        code: {
+          zh: ["# 插件示例 · 一行 CSV 生成一份文件",
+            "import csv, pathlib",
+            "",
+            "for row in csv.DictReader(F):",
+            "    md = DIR / (row['name'] + '.md')",
+            "    md.write_text(row['brief'])"],
+          en: ["# plugin example · one CSV row, one file",
+            "import csv, pathlib",
+            "",
+            "for row in csv.DictReader(F):",
+            "    md = DIR / (row['name'] + '.md')",
+            "    md.write_text(row['brief'])"]
+        }
+      },
+      {
+        file: "plugins/tidy-delivery.sh",
+        act: 3,
+        rows: [
+          { mono: "PNG", from: "export_v1.png", to: "delivery/2026-07-14-01.png" },
+          { mono: "PNG", from: "export_v2.png", to: "delivery/2026-07-14-02.png" },
+          { mono: "PNG", from: "export_final.png", to: "delivery/2026-07-14-03.png" }
+        ],
+        code: {
+          zh: ["# 插件示例 · 交付前统一改名",
+            "i=1",
+            "for f in export_*.png; do",
+            "  mv \"$f\" \"delivery/2026-07-14-$i.png\"",
+            "  i=$((i+1))",
+            "done"],
+          en: ["# plugin example · tidy before delivery",
+            "i=1",
+            "for f in export_*.png; do",
+            "  mv \"$f\" \"delivery/2026-07-14-$i.png\"",
+            "  i=$((i+1))",
+            "done"]
+        }
+      }
     ];
-    var rowsEl = demo.querySelector("#sbd-rows");
-    var btn = demo.querySelector("#sbd-btn");
-    var msgEl = demo.querySelector("#sbd-msg");
-    var cntEl = demo.querySelector("#sbd-cnt");
-    var toolIco = demo.querySelector("#sbd-tool-ico");
-    if (toolIco) toolIco.innerHTML = ic("image");
-    var state = "idle"; /* idle | running | done */
-    var timers = [];
-    function clearTimers() { timers.forEach(clearTimeout); timers = []; }
-    function outName(f) { return f.name.slice(0, f.name.lastIndexOf(".")) + ".png"; }
+
+    var filesEl = demo.querySelector("#ffd-files");
+    var codeEl = demo.querySelector("#ffd-code");
+    var msgEl = demo.querySelector("#ffd-msg");
+    var cntEl = demo.querySelector("#ffd-cnt");
+    var fileEl = demo.querySelector("#ffd-file");
+    var runBtn = demo.querySelector("#ffd-run");
+    var undoBtn = demo.querySelector("#ffd-undo");
+    var tabs = Array.prototype.slice.call(demo.querySelectorAll(".ffd-tab"));
+
+    var idx = 0, state = "idle", done = 0, timer = null;
+    var ROW_IN = reduced ? 0 : 380, ROW_GAP = reduced ? 0 : 170;
+
+    function scn() { return SCN[idx]; }
+    function lines() { return scn().code[isEN ? "en" : "zh"]; }
+    function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+
     function rowsHTML() {
-      return FILES.map(function (f) {
-        var done = state === "done";
-        return '<div class="sbd-row' + (done ? " done" : "") + '">' +
-          '<img src="' + rel(f.img) + '" alt="" loading="lazy">' +
-          '<span class="nm">' + (done ? outName(f) : f.name) + "</span>" +
-          '<span class="sz">' + (done ? (f.size * 0.55).toFixed(1) : f.size.toFixed(1)) + " MB</span>" +
-          '<span class="ok">' + ic("check") + "</span>" +
-          '<i class="bar"></i></div>';
+      return scn().rows.map(function (r, i) {
+        var finished = state === "done" || (state === "paused" && i < done);
+        var tile = r.img
+          ? '<span class="ffd-tile"><img src="' + rel(r.img) + '" alt="" loading="lazy"></span>'
+          : '<span class="ffd-tile" style="background:' + TILE[i % TILE.length] + '">' + (r.mono || "·") + "</span>";
+        return '<div class="ffd-row' + (finished ? " done" : "") + '">' + tile +
+          '<span class="ffd-lines"><span class="ffd-name">' + esc(r.from) + "</span>" +
+          '<span class="ffd-to">→ ' + esc(r.to) + "</span></span>" +
+          '<span class="ffd-ok">' + ic("check") + '</span><i class="bar"></i></div>';
       }).join("");
     }
-    function render() {
-      rowsEl.innerHTML = rowsHTML();
-      btn.disabled = false;
-      if (state === "idle") {
-        btn.textContent = "Convert 3 Items";
-        btn.className = "sbd-btn primary";
-        cntEl.textContent = "3 items selected";
+
+    function codeHTML() {
+      var active = state === "idle" ? -1 : scn().act;
+      return lines().map(function (ln, i) {
+        var cls = "ln" + (/^\s*#/.test(ln) ? " cm" : "") + (i === active ? " on" : "");
+        return '<span class="' + cls + '">' + esc(ln) + "</span>";
+      }).join("");
+    }
+
+    function paint() {
+      fileEl.textContent = scn().file;
+      cntEl.textContent = TX.count(scn().rows.length);
+      filesEl.innerHTML = rowsHTML();
+      codeEl.innerHTML = codeHTML();
+      runBtn.disabled = false;
+      undoBtn.hidden = state !== "done";
+      if (state === "running") {
+        runBtn.textContent = TX.pause;
+        runBtn.className = "ffd-btn";
+        msgEl.textContent = TX.working;
+      } else if (state === "paused") {
+        runBtn.textContent = TX.play;
+        runBtn.className = "ffd-btn primary";
+        msgEl.textContent = TX.working;
+      } else if (state === "done") {
+        runBtn.textContent = TX.replay;
+        runBtn.className = "ffd-btn";
+        msgEl.textContent = TX.done;
       } else {
-        btn.textContent = "⌘Z Undo";
-        btn.className = "sbd-btn";
-        cntEl.textContent = "3 converted to PNG";
+        runBtn.textContent = TX.play;
+        runBtn.className = "ffd-btn primary";
+        msgEl.textContent = state === "undone" ? TX.undone : TX.idle;
       }
     }
-    function run() {
-      if (state !== "idle") return;
+
+    function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
+    function finish() { state = "done"; paint(); }
+
+    function step() {
+      var rows = filesEl.children;
+      if (done >= rows.length) { finish(); return; }
+      var row = rows[done];
+      if (row) row.classList.add("busy");
+      timer = setTimeout(function () {
+        timer = null;
+        if (row) { row.classList.remove("busy"); row.classList.add("done"); }
+        done++;
+        if (done >= rows.length) { finish(); return; }
+        timer = setTimeout(step, ROW_GAP);
+      }, ROW_IN);
+    }
+
+    function start() {
+      clearTimer();
+      if (state === "paused") { state = "running"; paint(); step(); return; }
       state = "running";
-      clearTimers();
-      btn.disabled = true;
-      msgEl.textContent = "Converting…";
-      var rows = rowsEl.querySelectorAll(".sbd-row");
-      Array.prototype.forEach.call(rows, function (row, i) {
-        timers.push(setTimeout(function () {
-          row.classList.add("busy");
-          timers.push(setTimeout(function () {
-            row.classList.remove("busy");
-            row.classList.add("done");
-            row.querySelector(".nm").textContent = outName(FILES[i]);
-            row.querySelector(".sz").textContent = (FILES[i].size * 0.55).toFixed(1) + " MB";
-            if (i === rows.length - 1) {
-              state = "done";
-              render();
-              msgEl.textContent = "Converted 3 items · ⌘Z to undo";
-            }
-          }, reduced ? 0 : 520));
-        }, reduced ? 0 : i * 300));
-      });
+      done = 0;
+      paint();
+      step();
     }
+
+    function pause() { clearTimer(); state = "paused"; paint(); }
+
     function undo() {
-      clearTimers();
-      state = "idle";
-      render();
-      msgEl.textContent = "Undone; the originals were never touched";
+      clearTimer();
+      state = "undone";
+      done = 0;
+      paint();
     }
-    btn.addEventListener("click", function () {
-      if (state === "idle") run();
-      else if (state === "done") undo();
+
+    function selectTab(i) {
+      clearTimer();
+      idx = i;
+      done = 0;
+      state = reduced ? "done" : "idle";
+      tabs.forEach(function (t, k) {
+        t.classList.toggle("on", k === i);
+        t.setAttribute("aria-selected", k === i ? "true" : "false");
+      });
+      paint();
+      if (!reduced) start();
+    }
+
+    tabs.forEach(function (t, k) {
+      t.addEventListener("click", function () { selectTab(k); });
     });
-    render();
-    msgEl.textContent = "Preview, confirm, ⌘Z undo";
+    runBtn.addEventListener("click", function () {
+      if (state === "running") pause(); else start();
+    });
+    undoBtn.addEventListener("click", undo);
+
+    if (reduced) state = "done";
+    paint();
+
     /* play once when the card scrolls into view */
     if (!reduced && "IntersectionObserver" in window) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
           if (!en.isIntersecting) return;
           io.disconnect();
-          run();
+          if (state === "idle") start();
         });
-      }, { threshold: 0.2 });
+      }, { threshold: 0.25 });
       io.observe(demo);
     }
   })();

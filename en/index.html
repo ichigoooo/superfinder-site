@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperFinder · Browse your files · macOS file workbench</title>
-<meta name="description" content="SuperFinder moves the whole browser mental model onto the macOS file system: hierarchical address bar, tabs, four-way split panes, staging shelf, session restore, sidebar tools and plugins. Browse your files.">
+<title>SuperFinder · Browse your files like you browse the web · macOS file workbench</title>
+<meta name="description" content="SuperFinder is a browser-style file workbench for macOS: paste a path and jump straight to the folder, compare files with tabs and split panes, gather scattered files into the shelf, and pick the work back up where you left it. Eleven tools built in, plus your own scripts as sidebar tools.">
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="stylesheet" href="../assets/css/site.css">
 <noscript><style>.rv{opacity:1!important}</style></noscript>
@@ -13,29 +13,27 @@
 
 <div class="topline">
   <nav class="capsule" aria-label="Primary">
-    <a class="wordmark" href="#top"><img src="../assets/img/app-icon.png" alt=""><span>SuperFinder</span></a>
+    <a class="wordmark" href="#top"><img src="../assets/img/app-icon.png" alt="SuperFinder home"><span>SuperFinder</span></a>
     <div class="tabs" role="tablist">
       <a class="tab" role="tab" aria-selected="false" href="../index.html">中文</a>
       <a class="tab active" role="tab" aria-selected="true" href="./index.html">EN</a>
     </div>
     <div class="navlinks">
-      <a href="#browser">Browser</a>
-      <a href="#workbench">Workbench</a>
-      <a href="#sidebar">Sidebar</a>
+      <a href="#workflow">Workflow</a>
       <a href="#plugins">Plugins</a>
-      <a href="#trust">Trust</a>
-      <a href="#film">Film</a>
+      <a href="#trust">Boundaries</a>
+      <a href="#download">Download</a>
     </div>
     <a class="as-pill" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">App Store ↓</a>
   </nav>
 </div>
 
-<!-- ======================= HERO: the hook + the real window ======================= -->
+<!-- ======================= HERO: what it is + the real window ======================= -->
 <header class="hero" id="top">
   <div class="hook">
     <h1 class="hero-name rv">Super<span class="u">Finder</span></h1>
-    <p class="hero-hook rv" data-step="1" lang="en">A browser for your files.</p>
-    <p class="sub rv" data-step="2">Address bar, tabs, split panes, staging shelf, sidebar tools and plugins: the full browser mental model, native on the macOS file system. <strong>The window below is real. Go ahead, play with it.</strong></p>
+    <p class="hero-hook rv" data-step="1" lang="en">Browse your files like you browse the web.</p>
+    <p class="sub rv" data-step="2">SuperFinder is a browser-style file workbench for macOS. Paste a path and jump straight to the folder, arrange the files you need with tabs and split panes, and pick the work back up when you return. <strong>The window below is real. Go ahead, play with it.</strong></p>
   </div>
 
   <div class="window-stage rv" data-step="2">
@@ -120,103 +118,124 @@
 
   <div class="tryhints rv" data-step="3">
     <button class="tryhint" data-act="addr">Type <span class="kbd">~</span> in the address bar, Tab through each level</button>
-    <button class="tryhint" data-act="sb">Select photos → sidebar tool, all the way to confirm</button>
-    <button class="tryhint" data-act="split">Right-click blank → Split Pane, four directions</button>
     <button class="tryhint" data-act="shelf">Drag a photo; the shelf catches it, top right</button>
-    <button class="tryhint" data-act="tab"><span class="kbd">⌘</span><span class="kbd">T</span> start page · restore closed tabs</button>
+    <button class="tryhint" data-act="sb">Select photos; a sidebar tool runs to confirm</button>
   </div>
   <p class="rv" data-step="4" style="text-align: center; margin-top: 14px; font-family: var(--mono); font-size: 11px; color: var(--paper-3)">Demo window runs the English UI, the app switches between Simplified Chinese and English</p>
 </header>
 
-<!-- ======================= BROWSER (the whole set, not one feature) ======================= -->
-<section class="slab" id="browser">
+<main>
+<!-- ======================= HOW IT WORKS: find · compare · gather · return ======================= -->
+<section class="slab" id="workflow">
   <div class="wrap slab-inner">
-    <h2 class="rv">Finder learned tabs.<br>Then it stopped.</h2>
-    <p class="lede rv" data-step="1">SuperFinder finishes the set: an address bar, search as a place, a layered bookmarks bar, a start page. If you know Chrome, you already know it; twenty years of habits carry straight over.</p>
-    <div class="keys rv" data-step="2" style="margin-bottom:clamp(30px,5vw,52px)">
-      <span class="kbd">⌘</span><span class="kbd">L</span><span class="k-plus">address</span>
-      <span class="kbd">⌘</span><span class="kbd">T</span><span class="k-plus">new tab</span>
-      <span class="kbd">⌘</span><span class="kbd">F</span><span class="k-plus">search</span>
-    </div>
-    <div class="beat">
-      <div class="beat-row rv" data-step="2"><h3>The address bar does three things</h3><p>Paste a path, hit Return: the kind you copy out of a terminal or an AI chat. Type <span class="mono">~</span> and Tab through each level. One click copies the current path. It's live in the window up top.</p></div>
-      <div class="beat-row rv" data-step="3"><h3>Search is a place</h3><p>Search results go back, bookmark, and restore like folders; both are the same thing here, a Place.</p></div>
-      <div class="beat-row rv" data-step="4"><h3>Bookmarks bar &amp; start page</h3><p>Bookmarks group into folders with icons, as many as you need. ⌘T opens a start page; recently closed tabs come back whole.</p></div>
-    </div>
-  </div>
-</section>
+    <h2 class="rv">Find, compare, process.<br>All in one place.</h2>
+    <p class="lede rv" data-step="1">The hard part of file work was never opening a folder. It's the shuttling between places to find, compare, move and change things. SuperFinder puts those moves inside one workspace you can save.</p>
 
-<!-- ======================= SESSIONS ======================= -->
-<section class="slab-dark" id="sessions">
-  <div class="wrap slab-inner">
-    <div class="two-col">
+    <ol class="flow">
+      <li class="flow-step rv" data-step="1">
+        <span class="flow-n">01</span>
+        <h3>Jump straight there</h3>
+        <p>Copy a path out of a terminal, a script or an AI chat, paste it into the address bar and hit Return. Type a few letters and Tab completes each level.</p>
+        <div class="flow-plate">
+          <div class="fp-addr"><span class="up">↑</span><span>~</span><span class="sep">/</span><span>Pictures</span><span class="sep">/</span><span>Photos</span><span class="sep">/</span><span class="last">2026-iceland</span><i class="fp-caret"></i></div>
+          <div class="fp-hint"><span class="on">Photos</span><span>Public</span><span>Movies</span></div>
+        </div>
+      </li>
+      <li class="flow-step rv" data-step="2">
+        <span class="flow-n">02</span>
+        <h3>Compare</h3>
+        <p>Split the folders you need to compare inside one tab, and work while you look. Name the layout and it reopens exactly as you left it.</p>
+        <div class="flow-plate">
+          <div class="fp-panes">
+            <div class="fp-pane on"><i class="fp-line"></i><i class="fp-line sm"></i><i class="fp-line"></i></div>
+            <div class="fp-pane"><i class="fp-line sm"></i><i class="fp-line"></i><i class="fp-line sm"></i></div>
+          </div>
+          <div class="fp-note">Split Right · layout saved</div>
+        </div>
+      </li>
+      <li class="flow-step rv" data-step="3">
+        <span class="flow-n">03</span>
+        <h3>Gather</h3>
+        <p>Drop scattered files into the shelf first, then move them where they belong. Dropping in records a reference only; the originals stay put.</p>
+        <div class="flow-plate">
+          <div class="fp-shelf">
+            <div class="cap"><span>Staging Shelf</span><b>· 3 items</b></div>
+            <div class="fp-stack"><i></i><i></i><i></i></div>
+          </div>
+          <div class="fp-note">Reference only · moves on drag-out</div>
+        </div>
+      </li>
+      <li class="flow-step rv" data-step="4">
+        <span class="flow-n">04</span>
+        <h3>Return</h3>
+        <p>Close the app and open it again. Tabs, panes and the shelf come back where they were, without hunting for anything.</p>
+        <div class="flow-plate">
+          <div class="fp-tabs"><i class="on"></i><i></i><i></i></div>
+          <div class="fp-shelf">
+            <div class="cap"><span>Staging Shelf</span><b>· 3 items</b></div>
+            <div class="fp-stack"><i></i><i></i><i></i></div>
+          </div>
+          <div class="fp-note">Close → reopen</div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="two-col" style="margin-top:clamp(44px,6vw,76px)">
       <div>
-        <h2 class="rv">Close. Return.<br>Everything's here.</h2>
-        <p class="lede rv" data-step="1">⌘Q saves the tab groups, pane trees, and shelf references. Reopen, and the scene is exactly as you left it. <strong>Real browsers restore sessions. So does this.</strong></p>
+        <h3 class="sub-h rv">One window holds the whole workspace.</h3>
         <div class="beat">
-          <div class="beat-row rv" data-step="2"><h3>Whole trees come back</h3><p>Each pane tree's structure, ratios, and folders return together.</p></div>
-          <div class="beat-row rv" data-step="3"><h3>Crashes count too</h3><p>Snapshots land on disk continuously, throttled; a crash gets the same treatment as a clean quit.</p></div>
+          <div class="beat-row rv" data-step="1"><h3>Compare folders without a wall of windows</h3><p>Split four ways inside a tab, drag an edge grip to swap places, then name the layout and reopen it in a new tab.</p></div>
+          <div class="beat-row rv" data-step="2"><h3>Collect first, move when you're ready</h3><p>Drag files in from anywhere; that records a reference. The move itself happens when you drag the stack out.</p></div>
+          <div class="beat-row rv" data-step="3"><h3>Close and come back without hunting</h3><p>Tabs, panes and the shelf return with the folders they were showing — after a crash as well as a clean quit.</p></div>
         </div>
       </div>
       <div class="sticky">
         <figure class="plate rv" data-step="2">
-          <img src="../assets/img/capture-launch.png" width="1440" height="900" alt="SuperFinder actual UI: the restored scene after relaunch" loading="lazy">
-          <figcaption><span>Actual UI · v1.1.0</span><span>Relaunch, same scene</span></figcaption>
+          <img src="../assets/img/capture-launch.png" width="1440" height="900" alt="SuperFinder actual UI: the window after reopening" loading="lazy">
+          <figcaption><span>Actual UI · v1.1.0</span><span>Close, reopen, still there</span></figcaption>
         </figure>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ======================= WORKBENCH (splits · layouts · shelf) ======================= -->
-<section class="slab" id="workbench">
+<!-- ======================= TOOLS & PLUGINS ======================= -->
+<section class="slab-dark" id="plugins">
   <div class="wrap slab-inner">
-    <h2 class="rv">A workspace you split,<br>and get back.</h2>
-    <p class="lede rv" data-step="1">The high-frequency move in heavy file work is compare. Here it happens inside the tab: four-way splits, grip swaps, layouts you can name and restore in a new tab. Dual-pane managers handle seeing two folders; this saves your whole workspace.</p>
-    <div class="beat">
-      <div class="beat-row rv" data-step="2"><h3>Recursive splits, in-tab</h3><p>Right-click the blank, split four ways, as deep as you need; drag an edge grip to swap in place. One window, one browser.</p></div>
-      <div class="beat-row rv" data-step="3"><h3>Saved layouts</h3><p>The ▦ button names the split structure, each pane's folder, and its view mode; click the chip in the bookmarks bar and the same scene reopens in a new tab.</p></div>
-      <div class="beat-row rv" data-step="4"><h3>Staging shelf</h3><p>Drop in and it records a reference; the original stays put. It follows the session and survives restarts; the one move happens when you drag out.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ======================= SIDEBAR ======================= -->
-<section class="slab-dark" id="sidebar">
-  <div class="wrap slab-inner">
+    <h2 class="rv">Select a file, act on it —<br>and add the tools you're missing.</h2>
+    <p class="lede rv" data-step="1">Select photos, PDFs, audio or text and the sidebar offers the matching tools: convert, resize, remove background, merge PDFs, transcode video — eleven built in. The scripts you already have can become sidebar tools of your own.</p>
     <div class="two-col">
       <div>
-        <h2 class="rv">Select. Act in place.</h2>
-        <p class="lede rv" data-step="1">Select files and the sidebar offers the matching tools: convert, resize, remove background, merge PDFs, transcode video. Eleven built in; plugins add more. Everything lands in place, previewed and confirmed, revert with ⌘Z.</p>
+        <div class="beat">
+          <div class="beat-row rv" data-step="1"><h3>Archive photos by date</h3><p>A pile of camera originals in, dated folders out. You can watch it run on the right.</p></div>
+          <div class="beat-row rv" data-step="2"><h3>Generate files from a CSV</h3><p>One row in the table becomes one file: a contract, an asset list, a project skeleton.</p></div>
+          <div class="beat-row rv" data-step="3"><h3>Tidy a delivery folder</h3><p>Rename and file everything before delivery. Get it wrong and ⌘Z puts it back.</p></div>
+          <div class="beat-row rv" data-step="4"><h3>The boundary, stated plainly</h3><p>Plugins are code you installed yourself, so their networking is yours. The app itself stays offline.</p></div>
+        </div>
       </div>
       <div class="sticky">
         <div class="rv" data-step="2">
-          <div class="sbd" id="sb-demo" role="group" aria-label="Sidebar tool demo">
-            <div class="sbd-head"><b>Sidebar · Images</b><span class="cnt" id="sbd-cnt">3 items selected</span></div>
-            <div class="sbd-tool"><span class="tico" id="sbd-tool-ico"></span><span>Convert Format</span><span class="fmt">PNG · JPEG · HEIC</span></div>
-            <div class="sbd-rows" id="sbd-rows"></div>
-            <div class="sbd-foot">
-              <span class="sbd-msg" id="sbd-msg"></span>
-              <button class="sbd-btn primary" id="sbd-btn">Convert 3 Items</button>
+          <div class="ffd" id="ffd" role="group" aria-label="Plugin example demo">
+            <div class="ffd-head"><b id="ffd-file">plugins/archive-photos.py</b><span class="cnt" id="ffd-cnt">3 files</span></div>
+            <div class="ffd-tabs" role="tablist">
+              <button class="ffd-tab on" data-scn="0" role="tab" aria-selected="true">Archive photos by date</button>
+              <button class="ffd-tab" data-scn="1" role="tab" aria-selected="false">Files from a CSV</button>
+              <button class="ffd-tab" data-scn="2" role="tab" aria-selected="false">Tidy delivery</button>
             </div>
+            <div class="ffd-body">
+              <div class="ffd-files" id="ffd-files"></div>
+              <div class="ffd-code" id="ffd-code"></div>
+            </div>
+            <div class="ffd-foot">
+              <span class="ffd-msg" id="ffd-msg"></span>
+              <button class="ffd-btn" id="ffd-undo" hidden>⌘Z Undo</button>
+              <button class="ffd-btn primary" id="ffd-run">Play</button>
+            </div>
+            <noscript><div class="ffd-foot"><span class="ffd-msg">This demo needs JavaScript. Three plugin examples: archive photos by date, generate files from a CSV, tidy a delivery folder.</span></div></noscript>
           </div>
-          <p class="sbd-note">Demo animation; the logic mirrors the app</p>
+          <p class="ffd-note">Plugin example scripts · what you see matches the real write path: moves, copies and renames all revert with ⌘Z</p>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ======================= PLUGINS ======================= -->
-<section class="slab" id="plugins">
-  <div class="wrap slab-inner">
-    <h2 class="rv">The workbench saves<br>a place for you.</h2>
-    <p class="lede rv" data-step="1">Write a script and it becomes a sidebar tool. bash, Python, Node, whatever you use; package it as one file and import it in settings.</p>
-    <div class="beat">
-      <div class="beat-row rv" data-step="2"><h3>What you can build</h3><p>Archive photos by date, generate files from a CSV, pipe documents through your own API. Anything a script can do becomes a file tool.</p></div>
-      <div class="beat-row rv" data-step="3"><h3>Same safety net</h3><p>Plugin output lands like built-in tools: previewed first, collisions yield, ⌘Z reverts.</p></div>
-      <div class="beat-row rv" data-step="4"><h3>Writing one</h3><p>Export the dev kit from settings: the spec and two working examples (archive by date, CSV extract), then adapt them. Hand it to an AI agent if you like.</p></div>
-      <div class="beat-row rv" data-step="4"><h3>The boundary</h3><p>Plugins are code you installed; their networking is your responsibility. The app itself stays offline.</p></div>
     </div>
   </div>
 </section>
@@ -228,30 +247,16 @@
     <p class="lede rv" data-step="1">What got browser-ified is the operating, not the boundaries.</p>
     <div class="facts">
       <div class="fact rv">
-        <h3>Trash is the only exit <span class="mono-tag">no permanent delete</span></h3>
-        <p>Deletion always goes to the system Trash. There is no path around it inside the app, and no preference to change it.</p>
+        <h3>Delete goes to the Trash</h3>
+        <p>Deletion always goes through the system Trash. There is no path around it inside the app, and no preference to change it.</p>
       </div>
       <div class="fact rv" data-step="1">
-        <h3>No account. No cloud. No telemetry.</h3>
-        <p>The app's own code contains no networking and no analytics. External plugins are user-installed code; their networking is the user's responsibility. Neither does this site (zero third-party requests).</p>
+        <h3>Your files stay on your Mac</h3>
+        <p>The app itself has no networking: no account, no cloud, no telemetry. External plugins are code the user installs, and their networking is the user's business. This site makes zero third-party requests either.</p>
       </div>
       <div class="fact rv" data-step="2">
-        <h3>Every write action undoes <span class="mono-tag">full audit trail</span></h3>
-        <p>Moves, copies, renames, and tool products take effect immediately; ⌘Z reverts silently, and every write lands in an auditable ledger watched by 1,947 unit tests. The Finder-parity basics (batch rename, Quick Look, ⌘1-4 views) are all here too; no need to dwell on them.</p>
-        <div class="drill">
-          <button class="drill-toggle" aria-expanded="false"><span class="car">›</span>Drill down · eight largest test domains</button>
-          <div class="drill-body">
-            <div class="drill-line"><span>Tab manager TabManagerTests</span><b>63</b></div>
-            <div class="drill-line"><span>Engine expansion EngineExpansionTests</span><b>60</b></div>
-            <div class="drill-line"><span>Tab strip TabStripViewTests</span><b>48</b></div>
-            <div class="drill-line"><span>View deepening ViewDeepeningTests</span><b>42</b></div>
-            <div class="drill-line"><span>Text tools SidebarTextToolsTests</span><b>42</b></div>
-            <div class="drill-line"><span>Drag support DragSupportTests</span><b>39</b></div>
-            <div class="drill-line"><span>Batch rename BatchRenameEngineTests</span><b>38</b></div>
-            <div class="drill-line"><span>Start page StartPageViewTests</span><b>35</b></div>
-            <p class="drill-note">…plus 128 more test files in the repo’s SuperFinderTests/ directory (GitHub link ships after the repo is public).</p>
-          </div>
-        </div>
+        <h3>Writes can be undone</h3>
+        <p>Moves, copies, renames and tool output take effect immediately and revert with ⌘Z. Finder-parity basics — batch rename, Quick Look, the ⌘1–4 views — are all here too.</p>
       </div>
     </div>
   </div>
@@ -260,13 +265,14 @@
 <!-- ======================= FILM ======================= -->
 <section class="slab-dark" id="film">
   <div class="wrap slab-inner">
-    <h2 class="rv">The film.</h2>
-    <p class="lede rv" data-step="1">63 seconds: watch it work.</p>
+    <h2 class="rv">Watch a batch of files get finished.</h2>
+    <p class="lede rv" data-step="1">1 min 12 s, with narration: it starts with a pasted path and ends with a batch of files in place.</p>
     <div class="film rv" data-step="2">
       <video controls preload="none" playsinline poster="../assets/img/promo-cover.png">
-        <source src="../assets/video/promo.mp4" type="video/mp4">
+        <source src="../assets/video/promo-en.mp4" type="video/mp4">
+        <track kind="captions" src="../assets/video/promo-en.vtt" srclang="en" label="English" default>
       </video>
-      <div class="film-cap"><span>SuperFinder Promo · v3 · 63s</span><span>English UI demo · app switches to Chinese</span></div>
+      <div class="film-cap"><span>SuperFinder Promo · v4 · 1:12 · English narration</span><span>English UI demo · app switches to Chinese</span></div>
     </div>
   </div>
 </section>
@@ -291,6 +297,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap foot-row">

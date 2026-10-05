@@ -752,18 +752,50 @@ h2 { font-size: clamp(1.9rem, 4.2vw, 3.2rem); font-weight: 600; letter-spacing: 
 .fact { display: grid; grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: clamp(20px, 4vw, 56px); padding: clamp(18px, 2.6vw, 26px) 4px; border-bottom: 1px solid var(--hair-d); align-items: baseline; }
 .fact h3 { font-size: 1.08rem; font-weight: 600; }
 .fact p { color: var(--paper-2); font-size: .95rem; max-width: 42em; }
-.fact .mono-tag { font-family: var(--mono); font-size: .82em; color: var(--paper-2); letter-spacing: .03em; }
+/* ============ section sub-head (used above a beat block) ============ */
 
-.drill { margin-top: 10px; }
-.drill-toggle { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12.5px; color: var(--paper-2); border: 1px solid var(--hair-d); padding: 7px 14px; border-radius: 999px; transition: background .12s var(--step), color .12s; }
-.drill-toggle:hover { background: rgba(245,244,240,.1); color: var(--paper); }
-.drill-toggle .car { transition: transform .18s var(--step); }
-.drill.open .drill-toggle .car { transform: rotate(90deg); }
-.drill-body { display: none; margin-top: 16px; border-top: 1px solid var(--hair-d); }
-.drill.open .drill-body { display: block; }
-.drill-line { display: grid; grid-template-columns: minmax(0,1fr) 64px; gap: 16px; padding: 10px 4px; border-bottom: 1px solid var(--hair-d); font-family: var(--mono); font-size: 12.5px; color: var(--paper-2); }
-.drill-line b { font-weight: 500; color: var(--paper); text-align: right; font-variant-numeric: tabular-nums; }
-.drill-note { padding: 12px 4px 0; font-size: 12.5px; color: var(--paper-3); font-family: var(--mono); }
+.sub-h { font-size: clamp(1.25rem, 2.4vw, 1.7rem); font-weight: 600; letter-spacing: -0.015em; line-height: 1.25; margin-bottom: 18px; text-wrap: balance; max-width: 22em; }
+
+/* ============ the four moves (workflow rail, schematic plates) ============ */
+
+.flow { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2vw, 26px); border-top: 1px solid var(--hair-l); padding-top: clamp(26px, 3.4vw, 40px); }
+.flow-step { display: flex; flex-direction: column; gap: 9px; }
+.flow-n { font-family: var(--mono); font-size: 11.5px; letter-spacing: .08em; color: var(--ink-3); }
+.flow-step h3 { font-size: 1.06rem; font-weight: 600; letter-spacing: -0.01em; }
+.flow-step p { color: var(--ink-2); font-size: .93rem; }
+.flow-plate {
+  margin-top: auto;
+  background: var(--panel);
+  border: 1px solid var(--hair-l);
+  border-radius: 12px;
+  padding: 11px;
+  min-height: 112px;
+  display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  box-shadow: 0 12px 30px rgba(35,39,42,.09);
+}
+.fp-addr { font-family: var(--mono); font-size: 10.5px; background: var(--chip); border: 1px solid var(--hair-app); border-radius: 7px; height: 27px; display: flex; align-items: center; gap: 2px; padding: 0 7px; overflow: hidden; white-space: nowrap; color: var(--text-2); }
+.fp-addr .up { color: var(--sage-deep); }
+.fp-addr .sep { color: var(--text-3); }
+.fp-addr .last { color: var(--text-1); font-weight: 500; }
+.fp-caret { width: 1.5px; height: 13px; background: var(--sage-deep); margin-left: 1px; animation: fpCaret 1.05s steps(1) infinite; }
+@keyframes fpCaret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.fp-hint { display: flex; gap: 5px; flex-wrap: wrap; }
+.fp-hint span { font-family: var(--mono); font-size: 9.5px; color: var(--text-2); background: var(--chip); border: 1px solid var(--hair-app); border-radius: 5px; padding: 3px 7px; }
+.fp-hint span.on { border-color: var(--sage-deep); color: var(--text-1); }
+.fp-panes { display: flex; gap: 6px; height: 84px; }
+.fp-pane { flex: 1; background: var(--content); border: 1px solid var(--hair-app); border-radius: 7px; padding: 8px 7px; display: flex; flex-direction: column; gap: 6px; }
+.fp-pane.on { outline: 1.5px solid var(--sage-deep); outline-offset: -1.5px; }
+.fp-line { height: 6px; border-radius: 3px; background: rgba(35,39,42,.13); }
+.fp-line.sm { width: 58%; }
+.fp-shelf { background: var(--chip); border: 1px solid var(--hair-app); border-radius: 8px; padding: 8px 9px 9px; }
+.fp-shelf .cap { font-family: var(--mono); font-size: 9.5px; color: var(--text-2); display: flex; justify-content: space-between; margin-bottom: 8px; }
+.fp-shelf .cap b { color: var(--sage-deep); font-weight: 500; }
+.fp-stack { display: flex; gap: 6px; }
+.fp-stack i { flex: 1; height: 34px; border-radius: 5px; border: 1px solid var(--hair-app); background: var(--content); }
+.fp-tabs { display: flex; gap: 5px; }
+.fp-tabs i { height: 23px; border-radius: 6px; background: var(--chip); border: 1px solid var(--hair-app); flex: 1; }
+.fp-tabs i.on { background: var(--sage); border-color: var(--sage); }
+.fp-note { font-family: var(--mono); font-size: 9.5px; color: var(--ink-3); text-align: center; letter-spacing: .02em; }
 
 /* ============ sidebar (window-level right dock · product truth) ============ */
 
@@ -872,9 +904,9 @@ h2 { font-size: clamp(1.9rem, 4.2vw, 3.2rem); font-weight: 600; letter-spacing: 
 .sb-btn.primary { background: var(--sage-deep); border-color: var(--sage-deep); color: #fff; }
 .sb-btn.primary:disabled { opacity: .4; cursor: default; }
 
-/* ============ sidebar tool demo (section card, animated) ============ */
+/* ============ plugin demo (section card: the code drives the files) ============ */
 
-.sbd {
+.ffd {
   background: var(--content);
   color: var(--text-1);
   border: 1px solid var(--hair-app);
@@ -882,36 +914,57 @@ h2 { font-size: clamp(1.9rem, 4.2vw, 3.2rem); font-weight: 600; letter-spacing: 
   box-shadow: 0 24px 60px rgba(0,0,0,.4);
   overflow: hidden;
 }
-.sbd-head { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--chip); border-bottom: 1px solid var(--hair-app); }
-.sbd-head b { font-size: 13.5px; }
-.sbd-head .cnt { margin-left: auto; font-family: var(--mono); font-size: 11.5px; color: var(--sage-deep); }
-.sbd-tool {
-  display: flex; align-items: center; gap: 9px;
-  margin: 14px 16px 0; height: 30px; padding: 0 10px;
-  border: 1px solid var(--sage-deep); border-radius: 6px;
-  background: var(--chip); font-size: 12.5px; color: var(--text-1);
+.ffd-head { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--chip); border-bottom: 1px solid var(--hair-app); }
+.ffd-head b { font-family: var(--mono); font-size: 12.5px; font-weight: 500; }
+.ffd-head .cnt { margin-left: auto; font-family: var(--mono); font-size: 11.5px; color: var(--sage-deep); }
+.ffd-tabs { display: flex; gap: 5px; flex-wrap: wrap; padding: 11px 16px 0; }
+.ffd-tab {
+  font-size: 12px; color: var(--text-2);
+  background: var(--chip); border: 1px solid var(--hair-app);
+  border-radius: 999px; padding: 5px 12px;
+  transition: color .12s, border-color .12s, background .12s;
 }
-.sbd-tool .tico { width: 18px; height: 18px; border-radius: 4px; display: grid; place-items: center; color: var(--text-2); flex: none; }
-.sbd-tool .tico svg { width: 13px; height: 13px; }
-.sbd-tool .fmt { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--text-3); }
-.sbd-rows { margin: 10px 16px 0; border: 1px solid var(--hair-app); border-radius: 8px; background: var(--chip); overflow: hidden; }
-.sbd-row { position: relative; display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 12px; border-bottom: 1px solid var(--hair-app); }
-.sbd-row:last-child { border-bottom: 0; }
-.sbd-row img { width: 22px; height: 22px; border-radius: 4px; object-fit: cover; flex: none; }
-.sbd-row .nm { font-family: var(--mono); font-size: 12px; color: var(--text-1); }
-.sbd-row .sz { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--text-2); }
-.sbd-row .ok { width: 14px; height: 14px; flex: none; color: var(--sage-deep); opacity: 0; transition: opacity .12s; }
-.sbd-row.done .ok { opacity: 1; }
-.sbd-row .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--sage-deep); transition: width .52s var(--ease-out); }
-.sbd-row.busy .bar { width: 100%; }
-.sbd-foot { display: flex; align-items: center; gap: 12px; padding: 14px 16px 16px; }
-.sbd-msg { font-family: var(--mono); font-size: 11px; color: var(--text-2); margin-right: auto; }
-.sbd-btn { height: 28px; padding: 0 16px; border-radius: 6px; font-size: 12.5px; font-weight: 500; border: 1px solid var(--hair-app); background: var(--chip); color: var(--text-1); transition: background .12s; }
-.sbd-btn:hover:not(:disabled) { background: var(--hover6); }
-.sbd-btn:disabled { opacity: .55; cursor: default; }
-.sbd-btn.primary { background: var(--sage-deep); border-color: var(--sage-deep); color: #fff; }
-.sbd-btn.primary:hover:not(:disabled) { background: #547076; }
-.sbd-note { margin-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--paper-3); }
+.ffd-tab:hover { color: var(--text-1); }
+.ffd-tab.on { border-color: var(--sage-deep); color: var(--text-1); background: rgba(150,169,173,.16); }
+.ffd-body { padding: 12px 16px 0; }
+.ffd-files { border: 1px solid var(--hair-app); border-radius: 8px; background: var(--chip); overflow: hidden; align-self: start; }
+.ffd-row { position: relative; display: flex; align-items: center; gap: 9px; min-height: 54px; padding: 6px 10px; border-bottom: 1px solid var(--hair-app); }
+.ffd-row:last-child { border-bottom: 0; }
+.ffd-row .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--sage-deep); transition: width .42s var(--ease-out); }
+.ffd-row.busy .bar { width: 100%; }
+.ffd-tile {
+  width: 24px; height: 24px; border-radius: 5px; flex: none;
+  display: grid; place-items: center;
+  font-size: 9.5px; font-weight: 600; letter-spacing: .02em; color: #3a3a3c;
+}
+.ffd-tile img { width: 100%; height: 100%; border-radius: 5px; object-fit: cover; }
+.ffd-lines { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
+.ffd-name { font-family: var(--mono); font-size: 11.5px; color: var(--text-1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ffd-to { font-family: var(--mono); font-size: 10.5px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: color .18s; }
+.ffd-row.done .ffd-to { color: var(--sage-deep); }
+.ffd-ok { width: 13px; height: 13px; flex: none; color: var(--sage-deep); opacity: 0; transition: opacity .18s; }
+.ffd-row.done .ffd-ok { opacity: 1; }
+.ffd-code { margin-top: 10px; border: 1px solid var(--hair-app); border-radius: 8px; background: var(--chip); padding: 9px 0; overflow-x: auto; }
+.ffd-code .ln {
+  display: block; position: relative;
+  width: max-content; min-width: 100%;
+  font-family: var(--mono); font-size: 11px; line-height: 1.8;
+  color: var(--text-1);
+  padding: 0 12px 0 11px;
+  border-left: 2px solid transparent;
+  white-space: pre;
+}
+.ffd-code .ln.cm { color: var(--text-2); }
+.ffd-code .ln.on { background: rgba(150,169,173,.2); border-left-color: var(--sage-deep); }
+.ffd-foot { display: flex; align-items: center; gap: 9px; padding: 12px 16px 14px; }
+.ffd-msg { margin-right: auto; font-family: var(--mono); font-size: 11px; color: var(--text-2); }
+.ffd-btn { height: 28px; padding: 0 14px; border-radius: 6px; font-size: 12.5px; font-weight: 500; border: 1px solid var(--hair-app); background: var(--chip); color: var(--text-1); transition: background .12s; }
+.ffd-btn:hover:not(:disabled) { background: var(--hover6); }
+.ffd-btn:disabled { opacity: .5; cursor: default; }
+.ffd-btn.primary { background: var(--sage-deep); border-color: var(--sage-deep); color: #fff; }
+.ffd-btn.primary:hover:not(:disabled) { background: #547076; }
+.ffd-btn[hidden] { display: none; }
+.ffd-note { margin-top: 10px; font-family: var(--mono); font-size: 11px; line-height: 1.7; color: var(--paper-3); }
 
 /* film */
 .film { max-width: 860px; margin: 0 auto; }
@@ -959,9 +1012,21 @@ footer { background: var(--field-2); color: var(--paper-3); padding: 32px 0 40px
   .fact { grid-template-columns: 1fr; gap: 8px; }
   .hero { padding-left: 10px; padding-right: 10px; }
 }
+/* the rail needs real column width for its schematic address card; 4 columns
+   below ~1120px clips the breadcrumb, so it drops to two earlier than the
+   rest of the layout does. */
+@media (max-width: 1120px) {
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (max-width: 560px) {
   .wordmark span { display: none; }
   .appwin { height: 440px; }
   .win-title { display: none; }
   .hook h1 { font-size: 1.9rem; }
+  .flow { grid-template-columns: 1fr; }
+  .flow-plate { min-height: 0; }
+  .ffd-code .ln { font-size: 10.5px; }
+  .ffd-body { padding: 12px 12px 0; }
+  .ffd-foot { padding: 12px 12px 14px; }
+  .ffd-tabs { padding: 11px 12px 0; }
 }
