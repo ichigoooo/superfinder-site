@@ -1610,13 +1610,21 @@
       plugins: "插件", builtin: "内置", add: "＋ 添加插件…"
     };
 
-    var TILE = ["#FDE2E4", "#E2F0FB", "#E4F5E9", "#FFF3D6", "#EFE4F7", "#E0F4F1", "#FBE9D7", "#EAEEFA"];
+    /* one mixed folder: clicking a file selects its type group */
+    var MIX = [
+      { scn: 0, img: "assets/img/photos/aurora.jpg", name: "DSC_4188.jpg" },
+      { scn: 0, img: "assets/img/photos/black-beach.jpg", name: "DSC_4231.jpg" },
+      { scn: 0, img: "assets/img/photos/basalt-cave.jpg", name: "DSC_4476.jpg" },
+      { scn: 1, tile: "CSV", bg: "#FFF3D6", name: "projects.csv" },
+      { scn: 2, tile: "PNG", bg: "#E2F0FB", name: "export_v1.png" },
+      { scn: 2, tile: "PNG", bg: "#E2F0FB", name: "export_v2.png" },
+      { scn: 2, tile: "PNG", bg: "#E2F0FB", name: "export_final.png" },
+      { ctx: true, ico: "doc", name: "Notes from the trip.md" }
+    ];
 
     var SCN = [
       {
-        title: "2026-iceland",
-        count: { zh: "4 项", en: "4 items" },
-        sel: { zh: "照片 · 已选 3 项", en: "Photos · 3 selected" },
+        head: { zh: "JPEG 照片 · 已选 3 项", en: "JPEG photos · 3 selected" },
         plugin: { zh: "按日期归档照片", en: "Archive photos by date" },
         ico: "clock",
         tools: [
@@ -1624,44 +1632,36 @@
           { ico: "resize", zh: "缩放", en: "Resize" },
           { ico: "image", zh: "抠图", en: "Cutout" }
         ],
-        ctx: { name: "Notes from the trip.md", ico: "doc" },
         rows: [
-          { img: "assets/img/photos/aurora.jpg", name: "DSC_4188.jpg", sub: "→ 2026-07-14/DSC_4188.jpg" },
-          { img: "assets/img/photos/black-beach.jpg", name: "DSC_4231.jpg", sub: "→ 2026-07-14/DSC_4231.jpg" },
-          { img: "assets/img/photos/basalt-cave.jpg", name: "DSC_4476.jpg", sub: "→ 2026-07-15/DSC_4476.jpg" }
+          { name: "DSC_4188.jpg", sub: "→ 2026-07-14/DSC_4188.jpg" },
+          { name: "DSC_4231.jpg", sub: "→ 2026-07-14/DSC_4231.jpg" },
+          { name: "DSC_4476.jpg", sub: "→ 2026-07-15/DSC_4476.jpg" }
         ]
       },
       {
-        title: "Documents",
-        count: { zh: "6 项", en: "6 items" },
-        sel: { zh: "CSV · 已选 1 项", en: "CSV · 1 selected" },
+        head: { zh: "CSV · 已选 1 项", en: "CSV · 1 selected" },
         plugin: { zh: "从 CSV 生成文件", en: "Generate files from a CSV" },
         ico: "doc",
-        src: { mono: "CSV", name: "projects.csv" },
         tools: [
           { ico: "copy", zh: "转格式", en: "Convert" }
         ],
-        ctx: { name: "Budget 2026.numbers", ico: "doc" },
-        rows: [
-          { mono: "MD", name: "clients/acme.md", sub: { zh: "← projects.csv · 第 2 行", en: "← projects.csv · row 2" } },
-          { mono: "MD", name: "clients/borax.md", sub: { zh: "← projects.csv · 第 3 行", en: "← projects.csv · row 3" } },
-          { mono: "MD", name: "clients/cyan.md", sub: { zh: "← projects.csv · 第 4 行", en: "← projects.csv · row 4" } }
+        out: [
+          { name: "clients/acme.md", sub: { zh: "← projects.csv · 第 2 行", en: "← projects.csv · row 2" } },
+          { name: "clients/borax.md", sub: { zh: "← projects.csv · 第 3 行", en: "← projects.csv · row 3" } },
+          { name: "clients/cyan.md", sub: { zh: "← projects.csv · 第 4 行", en: "← projects.csv · row 4" } }
         ]
       },
       {
-        title: "export",
-        count: { zh: "4 项", en: "4 items" },
-        sel: { zh: "PNG · 已选 3 项", en: "PNG · 3 selected" },
+        head: { zh: "PNG · 已选 3 项", en: "PNG · 3 selected" },
         plugin: { zh: "整理交付物", en: "Tidy the delivery" },
         ico: "tray",
         tools: [
           { ico: "list", zh: "批量重命名", en: "Batch Rename" }
         ],
-        ctx: { name: "preview.gif", ico: "image" },
         rows: [
-          { mono: "PNG", name: "export_v1.png", sub: "→ delivery/2026-07-14-01.png" },
-          { mono: "PNG", name: "export_v2.png", sub: "→ delivery/2026-07-14-02.png" },
-          { mono: "PNG", name: "export_final.png", sub: "→ delivery/2026-07-14-03.png" }
+          { name: "export_v1.png", sub: "→ delivery/2026-07-14-01.png" },
+          { name: "export_v2.png", sub: "→ delivery/2026-07-14-02.png" },
+          { name: "export_final.png", sub: "→ delivery/2026-07-14-03.png" }
         ]
       }
     ];
@@ -1673,7 +1673,6 @@
     var fileEl = demo.querySelector("#ffd-file");
     var runBtn = demo.querySelector("#ffd-run");
     var undoBtn = demo.querySelector("#ffd-undo");
-    var tabs = Array.prototype.slice.call(demo.querySelectorAll(".ffd-tab"));
 
     var idx = 0, state = "idle", done = 0, timer = null;
     var ROW_IN = reduced ? 0 : 380, ROW_GAP = reduced ? 0 : 170;
@@ -1682,28 +1681,41 @@
     function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
 
     function rowsHTML() {
-      var rows = "";
-      var src = scn().src;
-      if (src) {
-        rows += '<div class="ffd-row"><span class="ffd-tile" style="background:' + TILE[3] + '">' + src.mono + "</span>" +
-          '<span class="ffd-lines"><span class="ffd-name">' + esc(src.name) + "</span></span></div>";
-      }
-      rows += scn().rows.map(function (r, i) {
-        var finished = state === "done" || (state === "paused" && i < done);
-        var tile = r.img
-          ? '<span class="ffd-tile"><img src="' + rel(r.img) + '" alt="" loading="lazy"></span>'
-          : '<span class="ffd-tile" style="background:' + TILE[i % TILE.length] + '">' + (r.mono || "·") + "</span>";
-        return '<div class="ffd-row' + (finished ? " done" : "") + '">' + tile +
-          '<span class="ffd-lines"><span class="ffd-name">' + esc(r.name) + "</span>" +
-          '<span class="ffd-to">' + esc(l(r.sub)) + "</span></span>" +
-          '<span class="ffd-ok">' + ic("check") + '</span><i class="bar"></i></div>';
+      var s = scn();
+      var acts = s.rows || s.out || [];
+      var isOut = !!s.out;
+      var showOut = isOut && state !== "idle" && state !== "undone";
+      var actIdx = {};
+      acts.forEach(function (r, i) { actIdx[r.name] = i; });
+      function fin(i) { return state === "done" || (state === "paused" && i < done); }
+
+      var html = MIX.map(function (m) {
+        if (m.ctx) {
+          return '<div class="ffd-row ctx"><span class="ffd-tile ctx">' + ic(m.ico) + "</span>" +
+            '<span class="ffd-lines"><span class="ffd-name">' + esc(m.name) + "</span></span></div>";
+        }
+        var cur = m.scn === idx && actIdx[m.name] !== undefined;
+        var i = cur ? actIdx[m.name] : -1;
+        var tile = m.img
+          ? '<span class="ffd-tile"><img src="' + rel(m.img) + '" alt="" loading="lazy"></span>'
+          : '<span class="ffd-tile" style="background:' + m.bg + '">' + m.tile + "</span>";
+        var sub = cur ? '<span class="ffd-to">' + esc(l(acts[i].sub)) + "</span>" : "";
+        var check = cur ? '<span class="ffd-ok">' + ic("check") + "</span>" : "";
+        var bar = cur ? '<i class="bar"></i>' : "";
+        return '<button class="ffd-row' + (m.scn === idx ? " sel" : "") + (cur && fin(i) ? " done" : "") + '" type="button" aria-pressed="' + (m.scn === idx ? "true" : "false") + '" data-scn="' + m.scn + '"' + (cur ? ' data-act="' + i + '"' : "") + ">" + tile +
+          '<span class="ffd-lines"><span class="ffd-name">' + esc(m.name) + "</span>" + sub + "</span>" + check + bar + "</button>";
       }).join("");
-      var c = scn().ctx;
-      if (c) {
-        rows += '<div class="ffd-row ctx"><span class="ffd-tile ctx">' + ic(c.ico) + "</span>" +
-          '<span class="ffd-lines"><span class="ffd-name">' + esc(c.name) + "</span></span></div>";
+
+      if (isOut) {
+        html += s.out.map(function (r, i) {
+          var cls = showOut ? (fin(i) ? " done" : " pending") : " out-hidden";
+          return '<div class="ffd-row out' + cls + '"' + (showOut ? ' data-act="' + i + '"' : "") + ">" +
+            '<span class="ffd-tile" style="background:#E4F5E9">MD</span>' +
+            '<span class="ffd-lines"><span class="ffd-name">' + esc(r.name) + '</span><span class="ffd-to">' + esc(l(r.sub)) + "</span></span>" +
+            '<span class="ffd-ok">' + ic("check") + '</span><i class="bar"></i></div>';
+        }).join("");
       }
-      return rows;
+      return html;
     }
 
     function sideHTML() {
@@ -1711,7 +1723,7 @@
       var tools = s.tools.map(function (t) {
         return '<div class="ffd-tool static"><span class="ffd-tool-ico">' + ic(t.ico) + '</span><span class="ffd-tool-name">' + esc(l(t)) + "</span></div>";
       }).join("");
-      return '<div class="ffd-side-head">' + esc(l(s.sel)) + "</div>" +
+      return '<div class="ffd-side-head">' + esc(l(s.head)) + "</div>" +
         '<div class="ffd-glabel">' + TX.plugins + "</div>" +
         '<button class="ffd-tool" id="ffd-tool" type="button">' +
           '<span class="ffd-tool-ico">' + ic(s.ico) + '</span>' +
@@ -1722,8 +1734,9 @@
     }
 
     function paint() {
-      fileEl.textContent = scn().title;
-      cntEl.textContent = l(scn().count);
+      fileEl.textContent = "Inbox";
+      var n = 8 + (idx === 1 && state !== "idle" && state !== "undone" ? scn().out.length : 0);
+      cntEl.textContent = l({ zh: n + " 项", en: n + " items" });
       filesEl.innerHTML = rowsHTML();
       sideEl.innerHTML = sideHTML();
       var tool = sideEl.querySelector("#ffd-tool");
@@ -1757,15 +1770,15 @@
     function finish() { state = "done"; paint(); }
 
     function step() {
-      var rows = filesEl.children;
-      if (done >= rows.length) { finish(); return; }
-      var row = rows[done];
+      var acts = filesEl.querySelectorAll("[data-act]");
+      if (done >= acts.length) { finish(); return; }
+      var row = acts[done];
       if (row) row.classList.add("busy");
       timer = setTimeout(function () {
         timer = null;
-        if (row) { row.classList.remove("busy"); row.classList.add("done"); }
+        if (row) { row.classList.remove("busy"); row.classList.remove("pending"); row.classList.add("done"); }
         done++;
-        if (done >= rows.length) { finish(); return; }
+        if (done >= acts.length) { finish(); return; }
         timer = setTimeout(step, ROW_GAP);
       }, ROW_IN);
     }
@@ -1788,25 +1801,23 @@
       paint();
     }
 
-    function selectTab(i) {
+    function selectGroup(i) {
       clearTimer();
       idx = i;
       done = 0;
-      state = reduced ? "done" : "idle";
-      tabs.forEach(function (t, k) {
-        t.classList.toggle("on", k === i);
-        t.setAttribute("aria-selected", k === i ? "true" : "false");
-      });
+      state = "idle";
       paint();
-      if (!reduced) start();
     }
 
     function runToggle() {
       if (state === "running") pause(); else start();
     }
 
-    tabs.forEach(function (t, k) {
-      t.addEventListener("click", function () { selectTab(k); });
+    filesEl.addEventListener("click", function (e) {
+      var row = e.target.closest("[data-scn]");
+      if (!row) return;
+      var i = parseInt(row.getAttribute("data-scn"), 10);
+      if (i !== idx) selectGroup(i);
     });
     runBtn.addEventListener("click", runToggle);
     undoBtn.addEventListener("click", undo);
