@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SuperFinder · Browse your files like you browse the web · macOS file workbench</title>
-<meta name="description" content="SuperFinder is a browser-style file workbench for macOS: paste a path and jump straight to the folder, compare files with tabs and split panes, gather scattered files into the shelf, and pick the work back up where you left it. Eleven tools built in, plus your own scripts as sidebar tools.">
+<meta name="description" content="SuperFinder is a browser-style file workbench for macOS: paste a path and jump straight to the folder, compare files with tabs and split panes, gather scattered files into the shelf, and pick the work back up where you left it. Sidebar tools on selection, extended by plugins.">
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="stylesheet" href="../assets/css/site.css">
 <noscript><style>.rv{opacity:1!important}</style></noscript>
@@ -191,8 +191,33 @@
       </div>
       <div class="sticky">
         <figure class="plate rv" data-step="2">
-          <img src="../assets/img/capture-launch.png" width="1440" height="900" alt="SuperFinder actual UI: the window after reopening" loading="lazy">
-          <figcaption><span>Actual UI · v1.1.0</span><span>Close, reopen, still there</span></figcaption>
+          <div class="spwin" role="img" aria-label="New Tab start page, drawn as a schematic: favorites, suggestions and recently closed tabs">
+            <div class="sp-tb">
+              <span class="lights" aria-hidden="true"><i class="light r"></i><i class="light y"></i><i class="light g"></i></span>
+              <span class="sp-title">New Tab</span>
+              <span class="sp-seg" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            </div>
+            <div class="sp-body">
+              <div class="sp-sec">Favorites</div>
+              <div class="sp-tiles">
+                <div class="sp-tile"><span class="sp-mono" style="background:#E2F0FB">Pict</span><b>Pictures</b><span>~/Pictures</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#FDE2E4">Docu</span><b>Documents</b><span>~/Documents</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#FFF3D6">Desk</span><b>Desktop</b><span>~/Desktop</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#E4F5E9">Down</span><b>Downloads</b><span>~/Downloads</span></div>
+              </div>
+              <div class="sp-sec">Suggestions</div>
+              <div class="sp-tiles">
+                <div class="sp-tile"><span class="sp-mono" style="background:#EFE4F7">deli</span><b>deliverables</b><span>…/promo/deliverables</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#E0F4F1">musi</span><b>music</b><span>…/promo/samples/music</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#FBE9D7">samp</span><b>samples</b><span>…/promo/samples</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#EAEEFA">supe</span><b>superfinder…</b><span>~/Documents</span></div>
+              </div>
+              <div class="sp-sec">Recently Closed Tabs<span class="sp-clear">Clear All</span></div>
+              <div class="sp-row"><i class="sp-dot" style="background:#FDE2E4">d</i><b>deliverables</b><span>~/Desktop/CoWorkSpace/superfinder-promo/deliverables</span></div>
+              <div class="sp-row"><i class="sp-dot" style="background:#E2F0FB">g</i><b>design-gallery</b><span>~/.agents/skills/visual-workshop/design-gallery</span></div>
+            </div>
+          </div>
+          <figcaption><span>Start page, schematic</span><span>Close, reopen, still there</span></figcaption>
         </figure>
       </div>
     </div>
@@ -203,14 +228,15 @@
 <section class="slab-dark" id="plugins">
   <div class="wrap slab-inner">
     <h2 class="rv">Act on a selection.<br>Official plugins out of the box, your own scripts welcome.</h2>
-    <p class="lede rv" data-step="1">Photos, PDFs, audio, video or text: the sidebar matches tools to the file type. Convert, resize, remove background… eleven built in.</p>
+    <p class="lede rv" data-step="1">Photos, PDFs, audio, video or text: the sidebar matches tools to the file type. Convert, resize, remove background…</p>
     <div class="two-col">
       <div>
         <div class="beat">
           <div class="beat-row rv" data-step="1"><h3>Archive photos by date</h3><p>Camera originals in, dated folders out.</p></div>
           <div class="beat-row rv" data-step="2"><h3>Generate files from a CSV</h3><p>One table row, one file.</p></div>
           <div class="beat-row rv" data-step="3"><h3>Tidy a delivery folder</h3><p>Rename and file everything, ⌘Z puts it back.</p></div>
-          <div class="beat-row rv" data-step="4"><h3>The boundary</h3><p>Plugins are code you installed, networking is yours. The app stays offline.</p></div>
+          <div class="beat-row rv" data-step="4"><h3>Not just these three</h3><p>Official plugins keep arriving; write your own anytime.</p></div>
+          <div class="beat-row rv" data-step="5"><h3>The boundary</h3><p>Plugins are code you installed, networking is yours. The app stays offline.</p></div>
         </div>
       </div>
       <div class="sticky">
@@ -271,7 +297,7 @@
         <source src="../assets/video/promo-en.mp4" type="video/mp4">
         <track kind="captions" src="../assets/video/promo-en.vtt" srclang="en" label="English" default>
       </video>
-      <div class="film-cap"><span>SuperFinder Promo · v4 · 1:12 · English narration</span><span>English UI demo · app switches to Chinese</span></div>
+      <div class="film-cap"><span>SuperFinder Promo · v5 · 1:12 · English narration</span><span>English UI demo · app switches to Chinese</span></div>
     </div>
   </div>
 </section>

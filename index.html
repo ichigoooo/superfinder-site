@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SuperFinder · 浏览你的文件，像浏览网页一样 · macOS 文件工作台</title>
-<meta name="description" content="SuperFinder 是给 macOS 的浏览器式文件工作台：粘贴路径直达目录，用标签与窗格对照文件，把散落的文件先收进暂存架，关掉再打开，工作现场还在。内置十一件文件工具，也能把你已有的脚本变成侧边栏工具。">
+<meta name="description" content="SuperFinder 是给 macOS 的浏览器式文件工作台：粘贴路径直达目录，用标签与窗格对照文件，把散落的文件先收进暂存架，关掉再打开，工作现场还在。侧边栏工具随选随用，插件系统继续扩展。">
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="stylesheet" href="./assets/css/site.css">
 <noscript><style>.rv{opacity:1 !important}</style></noscript>
@@ -199,8 +199,33 @@
       </div>
       <div class="sticky">
         <figure class="plate rv" data-step="2">
-          <img src="./assets/img/capture-launch.png" width="1440" height="900" alt="SuperFinder 实机界面：重新打开后的窗口现场" loading="lazy">
-          <figcaption><span>实机界面 · v1.1.0</span><span>关掉再打开，现场还在</span></figcaption>
+          <div class="spwin" role="img" aria-label="新建标签页起始页示意：收藏、建议与最近关闭的标签">
+            <div class="sp-tb">
+              <span class="lights" aria-hidden="true"><i class="light r"></i><i class="light y"></i><i class="light g"></i></span>
+              <span class="sp-title">New Tab</span>
+              <span class="sp-seg" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            </div>
+            <div class="sp-body">
+              <div class="sp-sec">Favorites</div>
+              <div class="sp-tiles">
+                <div class="sp-tile"><span class="sp-mono" style="background:#E2F0FB">Pict</span><b>Pictures</b><span>~/Pictures</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#FDE2E4">Docu</span><b>Documents</b><span>~/Documents</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#FFF3D6">Desk</span><b>Desktop</b><span>~/Desktop</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#E4F5E9">Down</span><b>Downloads</b><span>~/Downloads</span></div>
+              </div>
+              <div class="sp-sec">Suggestions</div>
+              <div class="sp-tiles">
+                <div class="sp-tile"><span class="sp-mono" style="background:#EFE4F7">deli</span><b>deliverables</b><span>…/promo/deliverables</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#E0F4F1">musi</span><b>music</b><span>…/promo/samples/music</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#FBE9D7">samp</span><b>samples</b><span>…/promo/samples</span></div>
+                <div class="sp-tile"><span class="sp-mono" style="background:#EAEEFA">supe</span><b>superfinder…</b><span>~/Documents</span></div>
+              </div>
+              <div class="sp-sec">Recently Closed Tabs<span class="sp-clear">Clear All</span></div>
+              <div class="sp-row"><i class="sp-dot" style="background:#FDE2E4">d</i><b>deliverables</b><span>~/Desktop/CoWorkSpace/superfinder-promo/deliverables</span></div>
+              <div class="sp-row"><i class="sp-dot" style="background:#E2F0FB">g</i><b>design-gallery</b><span>~/.agents/skills/visual-workshop/design-gallery</span></div>
+            </div>
+          </div>
+          <figcaption><span>起始页示意</span><span>关掉再打开，现场还在</span></figcaption>
         </figure>
       </div>
     </div>
@@ -211,14 +236,15 @@
 <section class="slab-dark" id="plugins">
   <div class="wrap slab-inner">
     <h2 class="rv">选中文件就处理，<br>官方插件拿来就用，自己的插件自己写。</h2>
-    <p class="lede rv" data-step="1">照片、PDF、音视频或文本，侧边栏按类型给出工具：转格式、缩放、抠图…内置十一件。</p>
+    <p class="lede rv" data-step="1">照片、PDF、音视频或文本，侧边栏按类型给出工具：转格式、缩放、抠图…</p>
     <div class="two-col">
       <div>
         <div class="beat">
           <div class="beat-row rv" data-step="1"><h3>按日期归档照片</h3><p>相机原片进去，按日期分好目录出来。</p></div>
           <div class="beat-row rv" data-step="2"><h3>从 CSV 生成文件</h3><p>表格一行，生成一份文件。</p></div>
           <div class="beat-row rv" data-step="3"><h3>整理交付物</h3><p>交付前统一改名归位，⌘Z 可回退。</p></div>
-          <div class="beat-row rv" data-step="4"><h3>边界</h3><p>插件是你自装的代码，网络归你；app 不联网。</p></div>
+          <div class="beat-row rv" data-step="4"><h3>不止这三件</h3><p>官方插件陆续上新，自己的脚本想写就写。</p></div>
+          <div class="beat-row rv" data-step="5"><h3>边界</h3><p>插件是你自装的代码，网络归你；app 不联网。</p></div>
         </div>
       </div>
       <div class="sticky">
@@ -279,7 +305,7 @@
         <source src="./assets/video/promo-zh.mp4" type="video/mp4">
         <track kind="captions" src="./assets/video/promo-zh.vtt" srclang="zh" label="中文" default>
       </video>
-      <div class="film-cap"><span>SuperFinder Promo · v4 · 1:12 · 中文旁白</span><span>界面演示为英文 UI · 应用内可切换中文</span></div>
+      <div class="film-cap"><span>SuperFinder Promo · v5 · 1:12 · 中文旁白</span><span>界面演示为英文 UI · 应用内可切换中文</span></div>
     </div>
   </div>
 </section>
