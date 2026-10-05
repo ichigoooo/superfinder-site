@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SuperFinder — Browse your files · macOS file workbench</title>
-<meta name="description" content="SuperFinder moves the whole browser mental model onto the macOS file system: hierarchical address bar, tabs, four-way split panes, staging shelf, session restore. Browse your files.">
+<meta name="description" content="SuperFinder moves the whole browser mental model onto the macOS file system: hierarchical address bar, tabs, four-way split panes, staging shelf, session restore, sidebar tools and plugins. Browse your files.">
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="stylesheet" href="../assets/css/site.css">
 <noscript><style>.rv{opacity:1 !important}</style></noscript>
@@ -19,9 +19,10 @@
       <a class="tab active" role="tab" aria-selected="true" href="./index.html">EN</a>
     </div>
     <div class="navlinks">
-      <a href="#rename">Rename</a>
-      <a href="#sessions">Sessions</a>
-      <a href="#views">Views</a>
+      <a href="#browser">Browser</a>
+      <a href="#workbench">Workbench</a>
+      <a href="#sidebar">Sidebar</a>
+      <a href="#plugins">Plugins</a>
       <a href="#trust">Trust</a>
       <a href="#film">Film</a>
     </div>
@@ -34,7 +35,7 @@
   <div class="hook">
     <h1 class="hero-name rv">Super<span class="u">Finder</span></h1>
     <p class="hero-hook rv" data-step="1" lang="en">A browser for your files.</p>
-    <p class="sub rv" data-step="2">Address bar, tabs, four-way panes, staging shelf — the full browser mental model, native on the macOS file system. <strong>The window below is real. Go ahead, play with it.</strong></p>
+    <p class="sub rv" data-step="2">Address bar, tabs, four-way panes, staging shelf, sidebar tools and plugins — the full browser mental model, native on the macOS file system. <strong>The window below is real. Go ahead, play with it.</strong></p>
   </div>
 
   <div class="window-stage rv" data-step="2">
@@ -54,6 +55,7 @@
           <button data-view="icons" aria-label="Icons"></button>
           <button data-view="gallery" aria-label="Gallery"></button>
         </span>
+        <button class="tbtn" id="btn-sidebar" aria-label="Toggle sidebar" aria-pressed="true"></button>
       </div>
       <div class="hr"></div>
       <div class="tabstrip" id="tabstrip"></div>
@@ -73,6 +75,10 @@
       <div class="hr"></div>
       <div class="paneswrap">
         <div class="panes" id="panes"></div>
+        <aside class="sfsidebar" id="sfsidebar" aria-label="Sidebar">
+          <div class="sb-scroll" id="sb-scroll"></div>
+          <div class="sb-page" id="sb-page" style="display:none"></div>
+        </aside>
         <button class="shelf-anchor" id="shelfanchor" aria-label="Staging shelf"><span id="shelfbadge" class="shelf-badge">0</span></button>
         <div class="shelf-card" id="shelfcard">
           <div class="shelf-head"><b>Staging Shelf</b><span class="cnt" id="shelfcnt">· 0 items</span><button class="clear" id="shelfcollapse" hidden>Collapse</button><button class="clear" id="shelfclear" disabled>Clear</button></div>
@@ -114,46 +120,28 @@
 
   <div class="tryhints rv" data-step="3">
     <button class="tryhint" data-act="addr">Type <span class="kbd">~</span> in the address bar, Tab through each level</button>
-    <button class="tryhint" data-act="tab"><span class="kbd">⌘</span><span class="kbd">T</span> start page · restore closed tabs</button>
+    <button class="tryhint" data-act="sb">Select photos → sidebar tool, all the way to confirm</button>
     <button class="tryhint" data-act="split">Right-click blank → Split Pane, four directions</button>
     <button class="tryhint" data-act="shelf">Drag a photo — the shelf catches it, top right</button>
+    <button class="tryhint" data-act="tab"><span class="kbd">⌘</span><span class="kbd">T</span> start page · restore closed tabs</button>
   </div>
   <p class="rv" data-step="4" style="text-align:center;margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--paper-3)">Demo window runs the English UI — the app switches between Simplified Chinese and English</p>
 </header>
 
-<!-- ======================= BATCH RENAME ======================= -->
-<section class="slab" id="rename">
+<!-- ======================= BROWSER (the whole set, not one feature) ======================= -->
+<section class="slab" id="browser">
   <div class="wrap slab-inner">
-    <h2 class="rv">Rename hundreds.<br>Preview every one.</h2>
-    <p class="lede rv" data-step="1">Find &amp; replace, regex, sequences, case — every keystroke re-renders the preview. Collisions flag red, exclude in one click, and the whole batch undoes with one ⌘Z. <strong>This demo is real. Play it.</strong></p>
-    <div class="rv" data-step="2" style="max-width:780px">
-      <div class="br-demo" id="rename-demo">
-        <div class="br-head"><b>Batch Rename</b><span class="cnt" id="br-cnt">6 items selected</span></div>
-        <div class="br-body">
-          <div class="br-seg" role="tablist">
-            <button class="on">Replace Text</button>
-            <button disabled>Regular Expression</button>
-            <button disabled>Add Sequence</button>
-            <button disabled>Change Case</button>
-          </div>
-          <div class="br-fields">
-            <div><label for="br-find">Find:</label><input id="br-find" type="text" value="DSC_"></div>
-            <div><label for="br-rep">Replace with:</label><input id="br-rep" type="text" value="iceland-"></div>
-          </div>
-          <div class="br-table-wrap">
-            <table class="br-table">
-              <thead><tr><th class="ctr"></th><th>Name</th><th></th><th>New Name</th><th class="warn"></th></tr></thead>
-              <tbody id="br-rows"></tbody>
-            </table>
-          </div>
-          <div class="br-foot">
-            <span class="br-error" id="br-err"></span>
-            <button class="br-btn reset" id="br-reset">Replay</button>
-            <button class="br-btn primary" id="br-rename">Rename 6 Items</button>
-          </div>
-        </div>
-      </div>
-      <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:10px">Demo data · collision + preview logic mirrors the app</p>
+    <h2 class="rv">Finder learned tabs.<br>Then it stopped.</h2>
+    <p class="lede rv" data-step="1">SuperFinder finishes the set: an address bar that takes you straight there, search-as-place, a layered bookmarks bar, a start page with recently-closed tabs. If you know Chrome or Safari, you already know SuperFinder — twenty years of muscle memory, reused as-is.</p>
+    <div class="keys rv" data-step="2" style="margin-bottom:clamp(30px,5vw,52px)">
+      <span class="kbd">⌘</span><span class="kbd">L</span><span class="k-plus">address</span>
+      <span class="kbd">⌘</span><span class="kbd">T</span><span class="k-plus">new tab</span>
+      <span class="kbd">⌘</span><span class="kbd">F</span><span class="k-plus">search</span>
+    </div>
+    <div class="beat">
+      <div class="beat-row rv" data-step="2"><h3>The address bar does three things</h3><p>Paste a path, hit Return, arrive — the kind you copied out of a terminal or an AI chat. Type <span class="mono">~</span> and Tab through each level. One click copies the current path. It's all live in the window up top.</p></div>
+      <div class="beat-row rv" data-step="3"><h3>Search is a place</h3><p>Search results aren't a throwaway page — go back in them, bookmark them, restore them. Folders and search results are the same thing here: a Place.</p></div>
+      <div class="beat-row rv" data-step="4"><h3>Bookmarks bar &amp; start page</h3><p>Bookmarks group into folders with icons — as many as you need. ⌘T opens a Safari-style start page; recently closed tabs come back whole.</p></div>
     </div>
   </div>
 </section>
@@ -180,30 +168,62 @@
   </div>
 </section>
 
-<!-- ======================= VIEWS ======================= -->
-<section class="slab" id="views">
+<!-- ======================= WORKBENCH (splits · layouts · shelf) ======================= -->
+<section class="slab" id="workbench">
+  <div class="wrap slab-inner">
+    <h2 class="rv">A workspace you split —<br>and get back.</h2>
+    <p class="lede rv" data-step="1">The high-frequency move in heavy file work is compare. In SuperFinder it happens inside the tab — recursive four-way splits, grip-drag swaps — and the scene you built can be named, saved, and restored in a new tab with one click. <strong>Dual-pane managers answer “how do I see two folders”. They don't answer “how is my whole workspace saved”.</strong></p>
+    <div class="beat">
+      <div class="beat-row rv" data-step="2"><h3>Recursive splits, in-tab</h3><p>Right-click the blank, split four ways, as deep as you need; drag a pane's edge grip to swap in place. One window is always one browser — no fixed two-pane frames.</p></div>
+      <div class="beat-row rv" data-step="3"><h3>Saved layouts</h3><p>The ▦ button in the address bar names the split structure, each pane's folder, and its view mode. Click the chip in the bookmarks bar — the same scene reopens in a new tab.</p></div>
+      <div class="beat-row rv" data-step="4"><h3>Staging shelf</h3><p>The tray for cross-tab moves — drop in and it only records a reference, the original stays put; it follows the session and survives restarts; the single move happens when you drag out.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SIDEBAR ======================= -->
+<section class="slab-dark" id="sidebar">
   <div class="wrap slab-inner">
     <div class="two-col">
       <div>
-        <h2 class="rv">See everything.<br>Open nothing.</h2>
-        <p class="lede rv" data-step="1">Detailed list, hierarchy outline, icon grid, gallery with filmstrip — the same files at four densities, ⌘1–⌘4 switching between them. Space brings up the system Quick Look. <strong>The window up top switches too.</strong></p>
-        <div class="keys rv" data-step="2" style="margin-bottom:26px">
-          <span class="kbd">⌘</span><span class="kbd">1</span><span class="k-plus">list</span>
-          <span class="kbd">⌘</span><span class="kbd">2</span><span class="k-plus">hierarchy</span>
-          <span class="kbd">⌘</span><span class="kbd">3</span><span class="k-plus">icons</span>
-          <span class="kbd">⌘</span><span class="kbd">4</span><span class="k-plus">gallery</span>
-        </div>
+        <h2 class="rv">Select. Act in place.</h2>
+        <p class="lede rv" data-step="1">The top half of the sidebar is lean info — large preview, name, kind, tags. Scroll down into the tools: they appear by the type of whatever you selected, with params, preview, confirm, and undo in one line.</p>
         <div class="beat">
-          <div class="beat-row rv" data-step="3"><h3>Gallery &amp; filmstrip</h3><p>Big image up top, a filmstrip pinned to the bottom, three-way sync. The selection ring is the signature deep outline — not system blue.</p></div>
-          <div class="beat-row rv" data-step="4"><h3>View options, ⌘J</h3><p>Icon size in four steps, grid spacing, label position, filmstrip size, sort — a floating panel trimmed to the current view. Set it once, it sticks everywhere.</p></div>
+          <div class="beat-row rv" data-step="2"><h3>Eleven built-in tools, four domains</h3><p>Images (convert / resize / rotate &amp; flip / remove background) · PDF (merge / compress / extract pages) · audio &amp; video (transcode / extract audio) · text (encoding convert / JSON format).</p></div>
+          <div class="beat-row rv" data-step="3"><h3>Products go through the engine too</h3><p>Tools aren't a side door — every product lands via preview → confirm → ⌘Z; collisions yield automatically, and only the engine ever touches originals.</p></div>
+          <div class="beat-row rv" data-step="4"><h3>Playable up top</h3><p>In the window above: select two photos → Convert Format → Preview → Confirm → ⌘Z. Fully live. Demo data; the decision logic mirrors the app.</p></div>
         </div>
       </div>
       <div class="sticky">
-        <figure class="plate rv" data-step="2">
-          <img src="../assets/img/capture-gallery.png" width="1440" height="900" alt="SuperFinder actual UI: gallery view with bottom filmstrip" loading="lazy">
-          <figcaption><span>Actual UI · v1.1.0</span><span>Gallery + filmstrip</span></figcaption>
-        </figure>
+        <div class="beat">
+          <div class="beat-row rv" data-step="2">
+            <h3>Convert Format <span class="chip" style="margin-left:8px">PNG · JPEG · HEIC</span></h3>
+            <p>Format segment, EXIF toggle, output name (an edited name keeps the stem — the extension always follows the format), target directory — every step is the app's own step.</p>
+          </div>
+          <div class="beat-row rv" data-step="3">
+            <h3>Resize <span class="chip" style="margin-left:8px">16–10000 px</span></h3>
+            <p>Width and height linked by an aspect lock; the default product name derives from the width. Multi-selection derives per file — nothing overwrites.</p>
+          </div>
+          <div class="beat-row rv" data-step="4">
+            <h3>Preview → Confirm</h3>
+            <p>The op list reads from → to, line by line; confirming rides the existing progress, toast, and sound — ⌘Z reverts the whole batch, same channel as moves, copies, renames.</p>
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PLUGINS ======================= -->
+<section class="slab" id="plugins">
+  <div class="wrap slab-inner">
+    <h2 class="rv">The workbench saves<br>a place for you.</h2>
+    <p class="lede rv" data-step="1">An <span class="mono">.sfplugin</span> is a single-file plugin: a declared manifest plus an entry script in any stack — bash, Python, Node. Import it in settings; it mounts in the sidebar's tools area.</p>
+    <div class="beat">
+      <div class="beat-row rv" data-step="2"><h3>Two modes, both through the engine</h3><p>plan emits an operation table (whitelisted: rename / move / mkdir); transform emits staged products — either way, the only path to disk is the pending-ops engine: preview → confirm → undoable.</p></div>
+      <div class="beat-row rv" data-step="3"><h3>Subprocess + ledger</h3><p>Plugins run in their own process group over a stdin/stdout JSON contract; output caps, a timeout ladder, out-of-bounds rejection, and orphan-staging sweeps are all built in.</p></div>
+      <div class="beat-row rv" data-step="4"><h3>The official dev Skill</h3><p>Export it from settings — manifest spec, the contract doc, two example plugins (bash / Python), and a standalone validator. Let an AI agent write plugins for you.</p></div>
+      <div class="beat-row rv" data-step="4"><h3>An honest boundary</h3><p>Plugins are code you installed yourself: their networking is unrestricted and the responsibility is yours. The app's own code contains no networking — a statement of fact, not a setting.</p></div>
     </div>
   </div>
 </section>
@@ -220,23 +240,23 @@
       </div>
       <div class="fact rv" data-step="1">
         <h3>No account. No cloud. No telemetry.</h3>
-        <p>No networking code, no analytics, no “anonymous usage statistics.” Your files never leave your Mac — and neither does this site (zero third-party requests).</p>
+        <p>The app's own code contains no networking and no analytics. External plugins are user-installed code — their networking sits outside the app's boundary, responsibility and all. Neither does this site (zero third-party requests).</p>
       </div>
       <div class="fact rv" data-step="2">
         <h3>Every write action undoes <span class="mono-tag">full audit trail</span></h3>
-        <p>Moves, copies, renames take effect immediately; ⌘Z reverts silently — and every write lands in an auditable ledger. That ledger is watched by 1,458 unit tests; every number drills down to the file it comes from.</p>
+        <p>Moves, copies, renames, tool products take effect immediately; ⌘Z reverts silently — and every write lands in an auditable ledger. That ledger is watched by 1,947 unit tests; every number drills down to the file it comes from. The Finder-parity basics — batch rename, Space for Quick Look, ⌘1–4 views — are all here too; they're just not the reason this workbench exists.</p>
         <div class="drill">
           <button class="drill-toggle" aria-expanded="false"><span class="car">›</span>Drill down · eight largest test domains</button>
           <div class="drill-body">
             <div class="drill-line"><span>Tab manager TabManagerTests</span><b>63</b></div>
             <div class="drill-line"><span>Engine expansion EngineExpansionTests</span><b>60</b></div>
             <div class="drill-line"><span>Tab strip TabStripViewTests</span><b>48</b></div>
-            <div class="drill-line"><span>View deepening ViewDeepeningTests</span><b>44</b></div>
+            <div class="drill-line"><span>View deepening ViewDeepeningTests</span><b>42</b></div>
+            <div class="drill-line"><span>Text tools SidebarTextToolsTests</span><b>42</b></div>
             <div class="drill-line"><span>Drag support DragSupportTests</span><b>39</b></div>
             <div class="drill-line"><span>Batch rename BatchRenameEngineTests</span><b>38</b></div>
             <div class="drill-line"><span>Start page StartPageViewTests</span><b>35</b></div>
-            <div class="drill-line"><span>Global hotkeys GlobalHotkeyCenterTests</span><b>33</b></div>
-            <p class="drill-note">…plus 88 more test files in the repo’s SuperFinderTests/ directory (GitHub link ships after the repo is public).</p>
+            <p class="drill-note">…plus 128 more test files in the repo’s SuperFinderTests/ directory (GitHub link ships after the repo is public).</p>
           </div>
         </div>
       </div>

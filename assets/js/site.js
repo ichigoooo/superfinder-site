@@ -52,7 +52,7 @@
   var ICELAND = dir(PHOTOS.map(function (p) { return p[0]; }).concat(["selects", "Notes from the trip.md"]));
   FS["~/Pictures/Photos/2026-iceland"] = ICELAND;
   FS["~/Pictures/Photos/2026-iceland/selects"] = dir([]);
-  FS["~/Pictures/Photos/2026-iceland/Notes from the trip.md"] = file("9 KB", "Markdown Text", "Sep 17, 2026");
+  FS["~/Pictures/Photos/2026-iceland/Notes from the trip.md"] = file("9 KB", "Markdown Text", "Sep 17, 2026 20:15");
   PHOTOS.forEach(function (p) {
     FS["~/Pictures/Photos/2026-iceland/" + p[0]] = file(p[2], "JPEG Image", p[3], PHOTO_DIR + p[1] + ".jpg");
   });
@@ -114,11 +114,14 @@
     closed: [],
     shelf: [], shelfOpen: false,
     editing: null, hintSel: 0, histOpen: false, findOpen: false,
+    sidebarOpen: true, sbPage: null,
     undo: []
   };
   var HOME = makeLeaf("dir", "~/Pictures/Photos/2026-iceland");
   var homeTab = tabFromLeaf(HOME);
   T.tabs.push(homeTab); T.active = homeTab.id;
+  /* product truth: sidebar ships open — except where the window gets too small */
+  if (window.matchMedia("(max-width: 560px)").matches) T.sidebarOpen = false;
 
   function curTab() { return T.tabs.filter(function (t) { return t.id === T.active; })[0]; }
   function curLeaf() { var t = curTab(); return t.leaves[t.focus]; }
@@ -153,7 +156,10 @@
       radio: '<circle cx="4" cy="12" r="1.6"/><path d="M6.8 10.6a4 4 0 0 1 0-5.2M9.7 12.8a7.4 7.4 0 0 0 0-9.6"/>',
       drive: '<rect x="1.5" y="5" width="13" height="7" rx="1.5"/><circle cx="5" cy="8.5" r=".9"/><circle cx="8" cy="8.5" r=".9"/><path d="M11 6.8h2"/>',
       trash: '<path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.7 8.5a1 1 0 0 0 1 .9h3.6a1 1 0 0 0 1-.9l.7-8.5"/>',
-      warn: '<circle cx="8" cy="8" r="6.3"/><path d="M8 4.6v4.4M8 11.4v.1"/>'
+      warn: '<circle cx="8" cy="8" r="6.3"/><path d="M8 4.6v4.4M8 11.4v.1"/>',
+      sidebar: '<rect x="1.5" y="1.5" width="13" height="13" rx="1.5"/><path d="M9.5 1.5v13"/>',
+      resize: '<path d="M2 14L14 2M14 6.5V2H9.5M2 9.5V14h4.5"/>',
+      lock: '<rect x="3.5" y="7" width="9" height="6.5" rx="1.5"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7"/>'
     };
     return '<svg class="' + (cls || "") + '" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P2[name] || "") + "</svg>";
   }
@@ -198,7 +204,8 @@
   (function fill() {
     var map = {
       "btn-back": "chevL", "btn-fwd": "chevR", "btn-up": "up",
-      "abtn-clock": "clock", "abtn-layout": "layout", "abtn-star": "star", "abtn-copy": "copy"
+      "abtn-clock": "clock", "abtn-layout": "layout", "abtn-star": "star", "abtn-copy": "copy",
+      "btn-sidebar": "sidebar"
     };
     Object.keys(map).forEach(function (id) {
       var el = document.getElementById(id);
@@ -432,9 +439,16 @@
     });
     document.getElementById("bmkbar").innerHTML = chips;
 
-    /* panes */
-    document.getElementById("panes").innerHTML = paneNodeHTML(t, t.root, 0);
-    document.getElementById("panes").classList.toggle("split-active", leafCount(t) >= 2);
+    /* panes + sidebar dock */
+    var panesEl = document.getElementById("panes");
+    panesEl.innerHTML = paneNodeHTML(t, t.root, 0);
+    panesEl.classList.toggle("split-active", leafCount(t) >= 2);
+    var wrapEl = panesEl.parentElement;
+    if (wrapEl) {
+      wrapEl.classList.toggle("split-active", leafCount(t) >= 2);
+      wrapEl.classList.toggle("sb-open", !!T.sidebarOpen);
+    }
+    renderSidebar();
 
     /* find panel scope */
     var fps = document.getElementById("fp-scope");
@@ -779,6 +793,19 @@
   function undoMove() {
     var u = T.undo.pop();
     if (!u) return;
+    if (u.creates) {
+      /* tool batch: products were created — undo removes them (audit trail kept) */
+      u.creates.forEach(function (p) {
+        if (!FS[p]) return;
+        var par = parentOf(p);
+        if (FS[par]) FS[par].kids = FS[par].kids.filter(function (k) { return k !== baseName(p); });
+        delete FS[p];
+        T.shelf = T.shelf.filter(function (s) { return s !== p; });
+      });
+      toast("Undone — engine kept the audit trail");
+      render();
+      return;
+    }
     u.moves.slice().reverse().forEach(function (m) {
       var n = FS[m.to];
       if (!n) return;
@@ -791,6 +818,287 @@
     toast("Undone — engine kept the audit trail");
     render();
   }
+
+  /* ================= sidebar (window-level right dock) ================= */
+  var SB_TOOLS = [
+    { id: "convert", icon: "image", label: "Convert Format" },
+    { id: "resize", icon: "resize", label: "Resize" }
+  ];
+  function stemOf(name) { var d = name.lastIndexOf("."); return d > 0 ? name.slice(0, d) : name; }
+  function extOf(name) { var d = name.lastIndexOf("."); return d > 0 ? name.slice(d) : ""; }
+  function sbSel() {
+    var leaf = curLeaf();
+    if (!leaf || leaf.kind !== "dir") return [];
+    return leaf.sel.filter(function (p) { return FS[p] && FS[p].t === "f"; });
+  }
+  function sbIsImage(p) { return /\.(jpe?g|png)$/i.test(p); }
+  function sbSelAllImages(sel) { return sel.length && sel.every(sbIsImage); }
+  function sbDefaultPage(tool) {
+    var sel = sbSel();
+    var first = sel[0];
+    var page = { tool: tool, format: "png", exif: true, w: "1600", h: "", lock: true, name: "", named: false, preview: false, running: false, ow: 0, oh: 0 };
+    if (!first) return page;
+    if (tool === "convert") page.name = stemOf(baseName(first)) + ".png";
+    else page.name = stemOf(baseName(first)) + "-1600" + extOf(baseName(first));
+    return page;
+  }
+  function openSbTool(id) {
+    T.sbPage = sbDefaultPage(id);
+    render();
+    if (id === "resize") {
+      /* real dimensions for the aspect lock — load the first selected image */
+      var sel = sbSel();
+      var first = sel[0];
+      var node = first && FS[first];
+      if (node && node.img) {
+        var im = new Image();
+        im.onload = function () {
+          if (T.sbPage && T.sbPage.tool === "resize" && !T.sbPage.named) {
+            T.sbPage.ow = im.naturalWidth; T.sbPage.oh = im.naturalHeight;
+            if (T.sbPage.lock) {
+              T.sbPage.h = String(Math.round(im.naturalHeight * (parseInt(T.sbPage.w, 10) / im.naturalWidth)));
+              var hEl = document.getElementById("sb-h");
+              if (hEl) hEl.value = T.sbPage.h;
+            }
+          }
+        };
+        im.src = rel(node.img);
+      }
+    }
+  }
+  function sbBuildOps(page) {
+    var sel = sbSel();
+    if (!sel.length) return [];
+    var dir = parentOf(sel[0]) || "~";
+    var extMap = { png: ".png", jpeg: ".jpg", heic: ".heic" };
+    return sel.map(function (p) {
+      var src = baseName(p);
+      var stem = stemOf(src);
+      var nn;
+      if (page.tool === "convert") {
+        var base = (sel.length === 1 && page.named) ? stemOf(page.name) : stem;
+        nn = base + extMap[page.format];
+      } else {
+        var w = parseInt(page.w, 10) || 1600;
+        var base2 = (sel.length === 1 && page.named) ? stemOf(page.name) : stem;
+        nn = base2 + "-" + w + extOf(src);
+      }
+      /* WriteNaming: yield on collision */
+      var cand = nn, k = 2;
+      while (FS[dir + "/" + cand]) { cand = stemOf(nn) + " " + k + extOf(nn); k++; }
+      return { from: p, to: dir + "/" + cand, name: cand };
+    });
+  }
+  function sbFakeSize(src, page) {
+    var m = /^([\d.]+)\s*(GB|MB|KB)?$/.exec(src.size || "");
+    if (!m) return "—";
+    var v = parseFloat(m[1]) * (m[2] === "GB" ? 1000 : m[2] === "KB" ? 0.001 : 1);
+    var f = page.tool === "convert" ? 0.55 : 0.28;
+    return (v * f).toFixed(1) + " MB";
+  }
+  function sbRun(page) {
+    if (page.running) return;
+    page.running = true;
+    render();
+    setTimeout(function () {
+      var ops = sbBuildOps(page);
+      var created = [];
+      var kindMap = { png: "PNG Image", jpeg: "JPEG Image", heic: "HEIC Image" };
+      ops.forEach(function (op) {
+        var src = FS[op.from];
+        if (!src) return;
+        var par = parentOf(op.to);
+        FS[op.to] = {
+          t: "f",
+          size: sbFakeSize(src, page),
+          kind: page.tool === "convert" ? kindMap[page.format] : src.kind,
+          mtime: "Oct 5, 2026",
+          img: src.img || null
+        };
+        if (FS[par]) FS[par].kids.push(op.name);
+        created.push(op.to);
+      });
+      if (created.length) T.undo.push({ creates: created });
+      T.sbPage = null;
+      var verb = page.tool === "convert" ? "Converted" : "Resized";
+      var spec = page.tool === "convert" ? " → " + page.format.toUpperCase() : "";
+      toast(verb + " " + created.length + (created.length > 1 ? " items" : " item") + spec + " · ⌘Z to undo");
+      render();
+    }, 480);
+  }
+
+  function renderSidebar() {
+    var el = document.getElementById("sfsidebar");
+    if (!el) return;
+    el.classList.toggle("closed", !T.sidebarOpen);
+    var btn = document.getElementById("btn-sidebar");
+    if (btn) {
+      btn.classList.toggle("on", T.sidebarOpen);
+      btn.setAttribute("aria-pressed", T.sidebarOpen ? "true" : "false");
+    }
+    if (!T.sidebarOpen) return;
+    var scroll = document.getElementById("sb-scroll");
+    var pageEl = document.getElementById("sb-page");
+    if (!scroll || !pageEl) return;
+    if (T.sbPage) {
+      scroll.style.display = "none";
+      pageEl.style.display = "flex";
+      pageEl.innerHTML = T.sbPage.preview ? sbPreviewHTML(T.sbPage) : sbParamHTML(T.sbPage);
+    } else {
+      scroll.style.display = "";
+      pageEl.style.display = "none";
+      pageEl.innerHTML = "";
+      scroll.innerHTML = sbMainHTML();
+    }
+  }
+
+  function sbMainHTML() {
+    var leaf = curLeaf();
+    if (!leaf || leaf.kind !== "dir") {
+      return '<div class="sb-note">The sidebar follows the focused pane&rsquo;s selection.</div>';
+    }
+    var sel = sbSel();
+    var info = "";
+    if (!sel.length) {
+      var ks = kidsOf(leaf.place) || [];
+      info = '<div class="sb-card">' +
+        '<div class="sb-prev">' + ic("folder") + "</div>" +
+        '<div class="sb-name">' + esc(baseName(leaf.place) || "~") + "</div>" +
+        '<div class="sb-kv"><span>Items</span><b>' + ks.length + "</b></div>" +
+        "</div>";
+    } else {
+      var first = FS[sel[0]];
+      var multi = sel.length > 1;
+      var total = 0;
+      sel.forEach(function (p) {
+        var n = FS[p];
+        if (!n) return;
+        var m = /^([\d.]+)\s*(GB|MB|KB)?$/.exec(n.size || "");
+        if (m) total += parseFloat(m[1]) * (m[2] === "GB" ? 1000 : m[2] === "KB" ? 0.001 : 1);
+      });
+      var prevInner = first && first.img
+        ? '<img src="' + rel(first.img) + '" alt="">'
+        : fileIcon(first, null, baseName(sel[0]));
+      info = '<div class="sb-card">' +
+        '<div class="sb-prev">' + prevInner + (multi ? '<span class="sb-count">' + sel.length + "</span>" : "") + "</div>" +
+        '<div class="sb-name">' + esc(multi ? sel.length + " items selected" : baseName(sel[0])) + "</div>" +
+        '<div class="sb-kv"><span>Kind</span><b>' + esc(multi ? "Mixed files" : (first ? first.kind : "")) + "</b></div>" +
+        '<div class="sb-kv"><span>Size</span><b>' + (multi ? total.toFixed(1) + " MB total" : esc(first ? first.size : "")) + "</b></div>" +
+        (!multi && first ? '<div class="sb-kv"><span>Modified</span><b>' + esc(first.mtime || "") + "</b></div>" : "") +
+        (first && first.img ? '<div class="sb-tags" title="iceland"><i style="background:#ff5f57"></i><span class="tg-name">iceland</span></div>' : "") +
+        "</div>";
+    }
+    var tools = "";
+    if (sbSelAllImages(sel)) {
+      tools = '<div class="sb-h">Tools · Images</div>' + SB_TOOLS.map(function (t) {
+        return '<button class="sb-tool" data-sbtool="' + t.id + '"><span class="tico">' + ic(t.icon) + '</span><span class="lbl">' + esc(t.label) + "</span></button>";
+      }).join("");
+    } else if (sel.length) {
+      tools = '<div class="sb-h">Tools</div><div class="sb-note">The app ships 11 built-in tools across image · PDF · audio/video · text — the demo wires the image pair.</div>';
+    }
+    return info + tools;
+  }
+
+  function sbNameField(page, sel) {
+    if (sel.length === 1) {
+      return '<input id="sb-name" type="text" value="' + esc(page.name) + '" spellcheck="false">';
+    }
+    return '<div class="sb-note" style="text-align:left;padding:4px 0">Output names derive per file — WriteNaming yields on collisions.</div>';
+  }
+  function sbParamHTML(page) {
+    var sel = sbSel();
+    if (!sel.length) return "";
+    var title = page.tool === "convert" ? "Convert Format" : "Resize";
+    var h = '<button class="sb-back" data-sb-back>' + ic("chevL") + "Tools</button>";
+    h += '<div class="sb-page-body"><div class="sb-title">' + title + "</div>";
+    if (page.tool === "convert") {
+      h += '<div class="sb-field"><label>Format</label><div class="sb-seg">' +
+        ["png", "jpeg", "heic"].map(function (f) {
+          return '<button data-sb-fmt="' + f + '"' + (page.format === f ? ' class="on"' : "") + ">" + f.toUpperCase() + "</button>";
+        }).join("") + "</div></div>";
+      h += '<button class="sb-rowopt" data-sb-exif>Keep EXIF<span class="rsw"><span class="sb-sw' + (page.exif ? " on" : "") + '"></span></span></button><div style="height:12px"></div>';
+      h += '<div class="sb-field"><label>Output name</label>' + sbNameField(page, sel) + "</div>";
+    } else {
+      h += '<div class="sb-field"><label>Width &times; Height</label><div class="sb-dim">' +
+        '<input id="sb-w" type="number" min="16" max="10000" step="10" value="' + esc(page.w) + '">' +
+        '<button class="lock' + (page.lock ? " on" : "") + '" data-sb-lock aria-label="Lock aspect ratio">' + ic("lock") + "</button>" +
+        '<input id="sb-h" type="number" min="16" max="10000" step="10" value="' + esc(page.h) + '" placeholder="auto">' +
+        "</div></div>";
+      h += '<div class="sb-field"><label>Output name</label>' + sbNameField(page, sel) + "</div>";
+    }
+    h += '<div class="sb-field"><label>Target</label><div class="sb-note" style="text-align:left;padding:2px 0;font-family:var(--mono);font-size:10.5px">' + esc(sel[0].replace(/^~/, "~")) + "</div></div>";
+    h += "</div>";
+    h += '<div class="sb-foot"><button class="sb-btn primary" data-sb-preview>Preview</button></div>';
+    return h;
+  }
+  function sbPreviewHTML(page) {
+    var ops = sbBuildOps(page);
+    var verb = page.tool === "convert" ? "Convert" : "Resize";
+    var h = '<button class="sb-back" data-sb-back>' + ic("chevL") + "Tools</button>";
+    h += '<div class="sb-page-body"><div class="sb-title">Preview</div>';
+    h += '<div class="sb-ops">' + ops.map(function (op) {
+      return '<div class="sb-op"><span class="from">' + esc(baseName(op.from)) + '</span><span class="arr">&#8594;</span><span class="to">' + esc(op.name) + "</span></div>";
+    }).join("") + "</div>";
+    h += '<div class="sb-note" style="text-align:left">Writes run through the pending-ops engine &mdash; preview, confirm, &#8984;Z.</div></div>';
+    h += '<div class="sb-foot">' +
+      '<button class="sb-btn" data-sb-back>Cancel</button>' +
+      '<button class="sb-btn primary" data-sb-confirm' + (page.running ? " disabled" : "") + ">" +
+      (page.running ? "Running&hellip;" : verb + " " + ops.length + (ops.length > 1 ? " Items" : " Item")) +
+      "</button></div>";
+    return h;
+  }
+
+  /* sidebar events (delegated — innerHTML is rebuilt by render) */
+  (function sidebarEvents() {
+    var el = document.getElementById("sfsidebar");
+    if (!el) return;
+    el.addEventListener("click", function (e) {
+      var t = e.target;
+      if (!t.closest) return;
+      var tool = t.closest("[data-sbtool]");
+      if (tool) { openSbTool(tool.dataset.sbtool); return; }
+      if (t.closest("[data-sb-back]")) { T.sbPage = null; render(); return; }
+      var fmt = t.closest("[data-sb-fmt]");
+      if (fmt && T.sbPage) {
+        T.sbPage.format = fmt.dataset.sbFmt;
+        var sel = sbSel();
+        if (T.sbPage.tool === "convert" && sel.length === 1 && !T.sbPage.named) {
+          T.sbPage.name = stemOf(baseName(sel[0])) + (fmt.dataset.sbFmt === "jpeg" ? ".jpg" : "." + fmt.dataset.sbFmt);
+        }
+        render(); return;
+      }
+      if (t.closest("[data-sb-exif]") && T.sbPage) { T.sbPage.exif = !T.sbPage.exif; render(); return; }
+      if (t.closest("[data-sb-lock]") && T.sbPage) { T.sbPage.lock = !T.sbPage.lock; render(); return; }
+      if (t.closest("[data-sb-preview]") && T.sbPage) { T.sbPage.preview = true; T.sbPage.running = false; render(); return; }
+      if (t.closest("[data-sb-confirm]") && T.sbPage) { sbRun(T.sbPage); return; }
+    });
+    el.addEventListener("input", function (e) {
+      if (!T.sbPage) return;
+      var id = e.target.id;
+      if (id === "sb-name") {
+        T.sbPage.name = e.target.value;
+        T.sbPage.named = !!e.target.value.trim();
+        return;
+      }
+      if (id === "sb-w") {
+        T.sbPage.w = e.target.value;
+        var w2 = parseInt(e.target.value, 10);
+        if (T.sbPage.lock && T.sbPage.ow && w2) {
+          T.sbPage.h = String(Math.round(T.sbPage.oh * w2 / T.sbPage.ow));
+          var hEl = document.getElementById("sb-h");
+          if (hEl && document.activeElement !== hEl) hEl.value = T.sbPage.h;
+        }
+        var sel = sbSel();
+        if (!T.sbPage.named && w2 && sel.length === 1) {
+          T.sbPage.name = stemOf(baseName(sel[0])) + "-" + w2 + extOf(baseName(sel[0]));
+          var nEl = document.getElementById("sb-name");
+          if (nEl && document.activeElement !== nEl) nEl.value = T.sbPage.name;
+        }
+        return;
+      }
+      if (id === "sb-h") { T.sbPage.h = e.target.value; return; }
+    });
+  })();
 
   /* ================= pointer DnD ================= */
   var drag = null;
@@ -909,6 +1217,7 @@
     if (el.closest && el.closest("#btn-fwd")) { var lf = curLeaf(); if (lf.fwd.length) { var ef = lf.fwd.pop(); lf.back.push(entryOf(lf)); goLeaf(lf, ef, false); } return; }
     var seg = el.closest ? el.closest("#viewseg button") : null;
     if (seg) { curLeaf().view = seg.dataset.view; render(); return; }
+    if (el.closest && el.closest("#btn-sidebar")) { T.sidebarOpen = !T.sidebarOpen; T.sbPage = null; render(); return; }
 
     var crumb = el.closest ? el.closest("[data-crumb]") : null;
     if (crumb) { navTo(crumb.dataset.crumb); return; }
@@ -1146,8 +1455,8 @@
   /* ================= global keys (scoped to window) ================= */
   document.addEventListener("keydown", function (e) {
     var mod = e.metaKey || e.ctrlKey;
-    var inDemoInput = e.target.closest && e.target.closest("#rename-demo input");
-    if (!mod || inDemoInput) return;
+    var inSbInput = e.target.closest && e.target.closest(".sfsidebar input");
+    if (!mod || inSbInput) return;
     var winRect = win.getBoundingClientRect();
     var winVisible = winRect.top < window.innerHeight && winRect.bottom > 0;
     if (!winVisible) return;
@@ -1161,12 +1470,17 @@
     else if (k === "l") { e.preventDefault(); openEditor(); }
     else if (k === "z") { e.preventDefault(); if (T.undo.length) undoMove(); }
     else if (k === "f") { e.preventDefault(); T.findOpen = true; render(); setTimeout(function () { document.getElementById("findinput").focus(); }, 30); }
+    else if (k === "i" && e.altKey) { e.preventDefault(); T.sidebarOpen = !T.sidebarOpen; T.sbPage = null; render(); }
     else if (k === "arrowup" && !e.shiftKey) { e.preventDefault(); var l = curLeaf(); if (l.kind === "dir") { var p = parentOf(l.place); if (p) goLeaf(l, { kind: "dir", place: p }, true); } }
     else if (["1", "2", "3", "4"].indexOf(k) !== -1) {
       e.preventDefault();
       curLeaf().view = ["list", "hier", "icons", "gallery"][+k - 1];
       render();
     }
+  });
+  /* Esc closes the sidebar's secondary page (params / preview) */
+  win.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && T.sbPage) { T.sbPage = null; render(); }
   });
 
   /* context menu actions */
@@ -1192,6 +1506,16 @@
       else if (act === "split") splitFocused("right");
       else if (act === "addr") openEditor();
       else if (act === "shelf") { toast("Drag any photo — the shelf appears top right to catch it"); }
+      else if (act === "sb") {
+        var lf = curLeaf();
+        if (lf.kind === "dir") {
+          var ph = (kidsOf(lf.place) || []).filter(function (k) { return k.node.t === "f" && /\.(jpe?g|png)$/i.test(k.name); });
+          if (ph.length) { lf.sel = ph.slice(0, 2).map(function (x) { return x.path; }); }
+        }
+        if (!T.sidebarOpen) { T.sidebarOpen = true; }
+        if (sbSel().length) openSbTool("convert");
+        else toast("Select a photo in the window first — sidebar tools follow the selection");
+      }
     });
   });
 
@@ -1224,6 +1548,22 @@
     await sleep(600);
     var seg = document.querySelector('#viewseg button[data-view="gallery"]');
     if (seg) seg.click();
+    await sleep(700);
+    /* sidebar: select two photos, open the tool pipeline */
+    var leafA = curLeaf();
+    var ph = (kidsOf(leafA.place) || []).filter(function (k) { return k.node.t === "f" && /\.(jpe?g|png)$/i.test(k.name); });
+    if (ph.length >= 2) {
+      leafA.sel = [ph[0].path, ph[1].path];
+      T.sidebarOpen = true;
+      render();
+      await sleep(650);
+      openSbTool("convert");
+      await sleep(800);
+      if (T.sbPage) { T.sbPage.preview = true; render(); }
+      await sleep(800);
+      T.sbPage = null;
+      render();
+    }
   }
   var ap = document.getElementById("autoplay");
   if (ap) {
@@ -1253,84 +1593,6 @@
       if (d) d.classList.toggle("open");
     });
   });
-
-  /* ================= batch rename demo ================= */
-  (function () {
-    var demo = document.getElementById("rename-demo");
-    if (!demo) return;
-    var FILES = ["DSC_4027.jpg", "DSC_4188.jpg", "DSC_4231.jpg", "DSC_4302.jpg", "DSC_4476.jpg", "DSC_4519.jpg"];
-    var EXISTING = { "iceland-4519.jpg": 1 };
-    var state = { files: FILES.slice(), excluded: {}, renamed: false };
-    var findI = demo.querySelector("#br-find");
-    var repI = demo.querySelector("#br-rep");
-    var tbody = demo.querySelector("#br-rows");
-    var btn = demo.querySelector("#br-rename");
-    var resetBtn = demo.querySelector("#br-reset");
-    var errEl = demo.querySelector("#br-err");
-    var cntEl = demo.querySelector("#br-cnt");
-
-    function compute() {
-      var f = findI.value, r = repI.value;
-      errEl.textContent = "";
-      if (!f) { errEl.textContent = "Find text can't be empty"; btn.disabled = true; return null; }
-      var out = state.files.map(function (name) {
-        var nn = name.split(f).join(r);
-        return { old: name, nn: nn, changed: nn !== name };
-      });
-      var seen = {};
-      out.forEach(function (o) {
-        o.issue = null;
-        if (!o.changed || state.excluded[o.old]) return;
-        if (EXISTING[o.nn]) o.issue = "Name already exists";
-        else if (seen[o.nn]) o.issue = "Duplicate name in batch";
-        if (!state.excluded[o.old]) seen[o.nn] = 1;
-      });
-      return out;
-    }
-    function renderDemo() {
-      var rows = compute();
-      if (!rows) { tbody.innerHTML = ""; return; }
-      tbody.innerHTML = rows.map(function (o) {
-        var ex = !!state.excluded[o.old];
-        var bad = o.issue && !ex;
-        return '<tr class="' + (ex ? "excluded" : "") + '">' +
-          '<td class="ctr"><input type="checkbox" data-ex="' + o.old + '"' + (ex ? "" : " checked") + ' aria-label="Include ' + o.old + '"></td>' +
-          '<td class="old">' + o.old + '</td>' +
-          '<td class="arr">→</td>' +
-          '<td class="new' + (bad ? " bad" : "") + '">' + o.nn + "</td>" +
-          '<td class="warn">' + (bad ? ic("warn") : "") + "</td></tr>";
-      }).join("");
-      var checked = rows.filter(function (o) { return !state.excluded[o.old]; });
-      var active = rows.filter(function (o) { return !state.excluded[o.old] && o.changed && !o.issue; });
-      var issues = rows.filter(function (o) { return !state.excluded[o.old] && o.issue; });
-      cntEl.textContent = rows.length + " items selected";
-      btn.textContent = "Rename " + checked.length + " Items";
-      btn.disabled = state.renamed || !active.length || issues.length > 0;
-    }
-    findI.addEventListener("input", renderDemo);
-    repI.addEventListener("input", renderDemo);
-    tbody.addEventListener("change", function (e) {
-      var c = e.target.closest("[data-ex]");
-      if (c) { state.excluded[c.dataset.ex] = !c.checked; renderDemo(); }
-    });
-    btn.addEventListener("click", function () {
-      var rows = compute() || [];
-      state.files = rows.map(function (o) { return state.excluded[o.old] ? o.old : o.nn; });
-      state.excluded = {};
-      state.renamed = true;
-      demo.classList.add("done");
-      renderDemo();
-      btn.textContent = "Renamed ✓";
-    });
-    resetBtn.addEventListener("click", function () {
-      state = { files: FILES.slice(), excluded: {}, renamed: false };
-      demo.classList.remove("done");
-      findI.value = "DSC_"; repI.value = "iceland-";
-      renderDemo();
-    });
-    findI.value = "DSC_"; repI.value = "iceland-";
-    renderDemo();
-  })();
 
   render();
 })();
