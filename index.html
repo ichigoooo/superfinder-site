@@ -210,8 +210,8 @@
 <!-- ======================= TOOLS & PLUGINS ======================= -->
 <section class="slab-dark" id="plugins">
   <div class="wrap slab-inner">
-    <h2 class="rv">选中文件就处理，<br>不够就加插件。</h2>
-    <p class="lede rv" data-step="1">照片、PDF、音视频或文本，侧边栏给出对应工具：转格式、缩放、抠图…内置十一件。已有脚本也能变成侧边栏工具。</p>
+    <h2 class="rv">选中文件就处理，<br>官方插件拿来就用，自己的插件自己写。</h2>
+    <p class="lede rv" data-step="1">照片、PDF、音视频或文本，侧边栏按类型给出工具：转格式、缩放、抠图…内置十一件。</p>
     <div class="two-col">
       <div>
         <div class="beat">
@@ -223,25 +223,30 @@
       </div>
       <div class="sticky">
         <div class="rv" data-step="2">
-          <div class="ffd" id="ffd" role="group" aria-label="插件示例演示">
-            <div class="ffd-head"><b id="ffd-file">plugins/archive-photos.py</b><span class="cnt" id="ffd-cnt">3 files</span></div>
-            <div class="ffd-tabs" role="tablist">
-              <button class="ffd-tab on" data-scn="0" role="tab" aria-selected="true">按日期归档照片</button>
-              <button class="ffd-tab" data-scn="1" role="tab" aria-selected="false">从 CSV 生成文件</button>
-              <button class="ffd-tab" data-scn="2" role="tab" aria-selected="false">整理交付物</button>
+          <div class="ffd" id="ffd" role="group" aria-label="插件侧边栏演示">
+            <div class="ffd-titlebar">
+              <span class="lights" aria-hidden="true"><i class="light r"></i><i class="light y"></i><i class="light g"></i></span>
+              <b id="ffd-file">2026-iceland</b>
+              <span class="cnt" id="ffd-cnt">4 项</span>
+            </div>
+            <div class="ffd-tabs" role="tablist" aria-label="切换选中的文件">
+              <span class="ffd-tabs-label">选中</span>
+              <button class="ffd-tab on" data-scn="0" role="tab" aria-selected="true">3 张照片</button>
+              <button class="ffd-tab" data-scn="1" role="tab" aria-selected="false">projects.csv</button>
+              <button class="ffd-tab" data-scn="2" role="tab" aria-selected="false">3 张 PNG</button>
             </div>
             <div class="ffd-body">
               <div class="ffd-files" id="ffd-files"></div>
-              <div class="ffd-code" id="ffd-code"></div>
+              <aside class="ffd-side" id="ffd-side" aria-label="插件侧边栏"></aside>
             </div>
             <div class="ffd-foot">
               <span class="ffd-msg" id="ffd-msg"></span>
               <button class="ffd-btn" id="ffd-undo" hidden>⌘Z 撤回</button>
               <button class="ffd-btn primary" id="ffd-run">播放演示</button>
             </div>
-            <noscript><div class="ffd-foot"><span class="ffd-msg">演示需要 JavaScript。三个插件示例：按日期归档照片、从 CSV 生成文件、整理交付物。</span></div></noscript>
+            <noscript><div class="ffd-foot"><span class="ffd-msg">演示需要 JavaScript。选中文件，侧边栏按类型给出插件：按日期归档照片、从 CSV 生成文件、整理交付物。</span></div></noscript>
           </div>
-          <p class="ffd-note">插件示例脚本 · 产物和内置工具一样，⌘Z 可撤回</p>
+          <p class="ffd-note">装好的插件按文件类型出现在侧边栏</p>
         </div>
       </div>
     </div>

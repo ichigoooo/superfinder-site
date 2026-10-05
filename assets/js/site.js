@@ -1587,104 +1587,87 @@
     }, { threshold: 0.1, rootMargin: "0px 0px -5% 0px" });
     rvEls.forEach(function (el) { io.observe(el); });
   }
-  /* ================= plugin demo: the code drives the files ================= */
+  /* ================= plugin demo: the selection drives the sidebar ================= */
   (function () {
     var demo = document.getElementById("ffd");
     if (!demo) return;
 
     var isEN = /^en/i.test(document.documentElement.lang || "");
+    function l(x) { return typeof x === "string" ? x : x[isEN ? "en" : "zh"]; }
     var TX = isEN ? {
       idle: "Press play",
       working: "Working…",
       done: "Done · ⌘Z to undo",
       undone: "Undone; the files are back where they were",
       play: "Play", pause: "Pause", replay: "Replay",
-      count: function (n) { return n + " files"; }
+      plugins: "Plugins", builtin: "Built-in", add: "＋ Add a plugin…"
     } : {
       idle: "点播放看它跑一遍",
       working: "正在处理…",
       done: "已完成 · ⌘Z 可撤回",
       undone: "已撤回，文件回到原处",
       play: "播放演示", pause: "暂停", replay: "重播",
-      count: function (n) { return n + " 个文件"; }
+      plugins: "插件", builtin: "内置", add: "＋ 添加插件…"
     };
 
     var TILE = ["#FDE2E4", "#E2F0FB", "#E4F5E9", "#FFF3D6", "#EFE4F7", "#E0F4F1", "#FBE9D7", "#EAEEFA"];
 
     var SCN = [
       {
-        file: "plugins/archive-photos.py",
-        act: 5,
-        rows: [
-          { img: "assets/img/photos/aurora.jpg", from: "DSC_4188.jpg", to: "2026-07-14/DSC_4188.jpg" },
-          { img: "assets/img/photos/black-beach.jpg", from: "DSC_4231.jpg", to: "2026-07-14/DSC_4231.jpg" },
-          { img: "assets/img/photos/basalt-cave.jpg", from: "DSC_4476.jpg", to: "2026-07-15/DSC_4476.jpg" }
+        title: "2026-iceland",
+        count: { zh: "4 项", en: "4 items" },
+        sel: { zh: "照片 · 已选 3 项", en: "Photos · 3 selected" },
+        plugin: { zh: "按日期归档照片", en: "Archive photos by date" },
+        ico: "clock",
+        tools: [
+          { ico: "copy", zh: "转格式", en: "Convert" },
+          { ico: "resize", zh: "缩放", en: "Resize" },
+          { ico: "image", zh: "抠图", en: "Cutout" }
         ],
-        code: {
-          zh: ["# 插件示例 · 按拍摄日期归档",
-            "import shutil, exif",
-            "",
-            "for f in photos(SRC):",
-            "    day = exif.date(f)      # 2026-07-14",
-            "    shutil.move(f, f'{day}/{f}')"],
-          en: ["# plugin example · archive by date",
-            "import shutil, exif",
-            "",
-            "for f in photos(SRC):",
-            "    day = exif.date(f)      # 2026-07-14",
-            "    shutil.move(f, f'{day}/{f}')"]
-        }
+        ctx: { name: "Notes from the trip.md", ico: "doc" },
+        rows: [
+          { img: "assets/img/photos/aurora.jpg", name: "DSC_4188.jpg", sub: "→ 2026-07-14/DSC_4188.jpg" },
+          { img: "assets/img/photos/black-beach.jpg", name: "DSC_4231.jpg", sub: "→ 2026-07-14/DSC_4231.jpg" },
+          { img: "assets/img/photos/basalt-cave.jpg", name: "DSC_4476.jpg", sub: "→ 2026-07-15/DSC_4476.jpg" }
+        ]
       },
       {
-        file: "plugins/from-csv.py",
-        act: 5,
-        rows: [
-          { mono: "CSV", from: "projects.csv:2", to: "clients/acme.md" },
-          { mono: "CSV", from: "projects.csv:3", to: "clients/borax.md" },
-          { mono: "CSV", from: "projects.csv:4", to: "clients/cyan.md" }
+        title: "Documents",
+        count: { zh: "6 项", en: "6 items" },
+        sel: { zh: "CSV · 已选 1 项", en: "CSV · 1 selected" },
+        plugin: { zh: "从 CSV 生成文件", en: "Generate files from a CSV" },
+        ico: "doc",
+        src: { mono: "CSV", name: "projects.csv" },
+        tools: [
+          { ico: "copy", zh: "转格式", en: "Convert" }
         ],
-        code: {
-          zh: ["# 插件示例 · 一行 CSV 生成一份文件",
-            "import csv, pathlib",
-            "",
-            "for row in csv.DictReader(F):",
-            "    md = DIR / (row['name'] + '.md')",
-            "    md.write_text(row['brief'])"],
-          en: ["# plugin example · one CSV row, one file",
-            "import csv, pathlib",
-            "",
-            "for row in csv.DictReader(F):",
-            "    md = DIR / (row['name'] + '.md')",
-            "    md.write_text(row['brief'])"]
-        }
+        ctx: { name: "Budget 2026.numbers", ico: "doc" },
+        rows: [
+          { mono: "MD", name: "clients/acme.md", sub: { zh: "← projects.csv · 第 2 行", en: "← projects.csv · row 2" } },
+          { mono: "MD", name: "clients/borax.md", sub: { zh: "← projects.csv · 第 3 行", en: "← projects.csv · row 3" } },
+          { mono: "MD", name: "clients/cyan.md", sub: { zh: "← projects.csv · 第 4 行", en: "← projects.csv · row 4" } }
+        ]
       },
       {
-        file: "plugins/tidy-delivery.sh",
-        act: 3,
-        rows: [
-          { mono: "PNG", from: "export_v1.png", to: "delivery/2026-07-14-01.png" },
-          { mono: "PNG", from: "export_v2.png", to: "delivery/2026-07-14-02.png" },
-          { mono: "PNG", from: "export_final.png", to: "delivery/2026-07-14-03.png" }
+        title: "export",
+        count: { zh: "4 项", en: "4 items" },
+        sel: { zh: "PNG · 已选 3 项", en: "PNG · 3 selected" },
+        plugin: { zh: "整理交付物", en: "Tidy the delivery" },
+        ico: "tray",
+        tools: [
+          { ico: "list", zh: "批量重命名", en: "Batch Rename" }
         ],
-        code: {
-          zh: ["# 插件示例 · 交付前统一改名",
-            "i=1",
-            "for f in export_*.png; do",
-            "  mv \"$f\" \"delivery/2026-07-14-$i.png\"",
-            "  i=$((i+1))",
-            "done"],
-          en: ["# plugin example · tidy before delivery",
-            "i=1",
-            "for f in export_*.png; do",
-            "  mv \"$f\" \"delivery/2026-07-14-$i.png\"",
-            "  i=$((i+1))",
-            "done"]
-        }
+        ctx: { name: "preview.gif", ico: "image" },
+        rows: [
+          { mono: "PNG", name: "export_v1.png", sub: "→ delivery/2026-07-14-01.png" },
+          { mono: "PNG", name: "export_v2.png", sub: "→ delivery/2026-07-14-02.png" },
+          { mono: "PNG", name: "export_final.png", sub: "→ delivery/2026-07-14-03.png" }
+        ]
       }
     ];
 
     var filesEl = demo.querySelector("#ffd-files");
-    var codeEl = demo.querySelector("#ffd-code");
+    var sideEl = demo.querySelector("#ffd-side");
     var msgEl = demo.querySelector("#ffd-msg");
     var cntEl = demo.querySelector("#ffd-cnt");
     var fileEl = demo.querySelector("#ffd-file");
@@ -1696,35 +1679,59 @@
     var ROW_IN = reduced ? 0 : 380, ROW_GAP = reduced ? 0 : 170;
 
     function scn() { return SCN[idx]; }
-    function lines() { return scn().code[isEN ? "en" : "zh"]; }
     function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
 
     function rowsHTML() {
-      return scn().rows.map(function (r, i) {
+      var rows = "";
+      var src = scn().src;
+      if (src) {
+        rows += '<div class="ffd-row"><span class="ffd-tile" style="background:' + TILE[3] + '">' + src.mono + "</span>" +
+          '<span class="ffd-lines"><span class="ffd-name">' + esc(src.name) + "</span></span></div>";
+      }
+      rows += scn().rows.map(function (r, i) {
         var finished = state === "done" || (state === "paused" && i < done);
         var tile = r.img
           ? '<span class="ffd-tile"><img src="' + rel(r.img) + '" alt="" loading="lazy"></span>'
           : '<span class="ffd-tile" style="background:' + TILE[i % TILE.length] + '">' + (r.mono || "·") + "</span>";
         return '<div class="ffd-row' + (finished ? " done" : "") + '">' + tile +
-          '<span class="ffd-lines"><span class="ffd-name">' + esc(r.from) + "</span>" +
-          '<span class="ffd-to">→ ' + esc(r.to) + "</span></span>" +
+          '<span class="ffd-lines"><span class="ffd-name">' + esc(r.name) + "</span>" +
+          '<span class="ffd-to">' + esc(l(r.sub)) + "</span></span>" +
           '<span class="ffd-ok">' + ic("check") + '</span><i class="bar"></i></div>';
       }).join("");
+      var c = scn().ctx;
+      if (c) {
+        rows += '<div class="ffd-row ctx"><span class="ffd-tile ctx">' + ic(c.ico) + "</span>" +
+          '<span class="ffd-lines"><span class="ffd-name">' + esc(c.name) + "</span></span></div>";
+      }
+      return rows;
     }
 
-    function codeHTML() {
-      var active = state === "idle" ? -1 : scn().act;
-      return lines().map(function (ln, i) {
-        var cls = "ln" + (/^\s*#/.test(ln) ? " cm" : "") + (i === active ? " on" : "");
-        return '<span class="' + cls + '">' + esc(ln) + "</span>";
+    function sideHTML() {
+      var s = scn();
+      var tools = s.tools.map(function (t) {
+        return '<div class="ffd-tool static"><span class="ffd-tool-ico">' + ic(t.ico) + '</span><span class="ffd-tool-name">' + esc(l(t)) + "</span></div>";
       }).join("");
+      return '<div class="ffd-side-head">' + esc(l(s.sel)) + "</div>" +
+        '<div class="ffd-glabel">' + TX.plugins + "</div>" +
+        '<button class="ffd-tool" id="ffd-tool" type="button">' +
+          '<span class="ffd-tool-ico">' + ic(s.ico) + '</span>' +
+          '<span class="ffd-tool-name">' + esc(l(s.plugin)) + "</span>" +
+          '<span class="ffd-ok">' + ic("check") + '</span><i class="bar"></i></button>' +
+        (tools ? '<div class="ffd-glabel">' + TX.builtin + "</div>" + tools : "") +
+        '<div class="ffd-add">' + TX.add + "</div>";
     }
 
     function paint() {
-      fileEl.textContent = scn().file;
-      cntEl.textContent = TX.count(scn().rows.length);
+      fileEl.textContent = scn().title;
+      cntEl.textContent = l(scn().count);
       filesEl.innerHTML = rowsHTML();
-      codeEl.innerHTML = codeHTML();
+      sideEl.innerHTML = sideHTML();
+      var tool = sideEl.querySelector("#ffd-tool");
+      if (tool) {
+        if (state === "running" || state === "paused") tool.classList.add("busy");
+        if (state === "done") tool.classList.add("done");
+        tool.addEventListener("click", runToggle);
+      }
       runBtn.disabled = false;
       undoBtn.hidden = state !== "done";
       if (state === "running") {
@@ -1794,12 +1801,14 @@
       if (!reduced) start();
     }
 
+    function runToggle() {
+      if (state === "running") pause(); else start();
+    }
+
     tabs.forEach(function (t, k) {
       t.addEventListener("click", function () { selectTab(k); });
     });
-    runBtn.addEventListener("click", function () {
-      if (state === "running") pause(); else start();
-    });
+    runBtn.addEventListener("click", runToggle);
     undoBtn.addEventListener("click", undo);
 
     if (reduced) state = "done";
