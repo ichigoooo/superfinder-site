@@ -1,5 +1,5 @@
 /* ============================================================
-   SuperFinder site v2 — the hero IS the app.
+   SuperFinder site: the hero IS the app.
    Interactive window replica. Truth: ui-truth-report.md.
    Vanilla JS, zero deps. All UI chrome in English (promo baseline).
    ============================================================ */
@@ -1594,14 +1594,14 @@
 
     var isEN = /^en/i.test(document.documentElement.lang || "");
     var TX = isEN ? {
-      idle: "Three examples · press play",
+      idle: "Press play",
       working: "Working…",
       done: "Done · ⌘Z to undo",
       undone: "Undone; the files are back where they were",
       play: "Play", pause: "Pause", replay: "Replay",
       count: function (n) { return n + " files"; }
     } : {
-      idle: "插件三例 · 点播放看它跑一遍",
+      idle: "点播放看它跑一遍",
       working: "正在处理…",
       done: "已完成 · ⌘Z 可撤回",
       undone: "已撤回，文件回到原处",
