@@ -356,7 +356,7 @@
       return '<tr class="filerow" data-path="' + esc(k.path) + '" data-type="' + (k.node ? k.node.t : "d") + '"><td><span class="fname">' + ic("search") + " " + esc(k.name) + '</span></td>' +
         '<td class="mono-cell" colspan="3">' + esc(shortPath(parentOf(k.path) || "~")) + "</td></tr>";
     }).join("");
-    return '<div class="search-scope">Search results for “' + esc(leaf.query) + '” across the workspace — ' + rs.length + " items</div>" +
+    return '<div class="search-scope">Search results for “' + esc(leaf.query) + '” across the workspace: ' + rs.length + " items</div>" +
       '<div class="vlist"><table><tbody>' + (rows || '<tr><td><div class="empty-note">No matching results</div></td></tr>') + "</tbody></table></div>";
   }
 
@@ -504,7 +504,7 @@
       document.getElementById("shelfcnt").textContent = "· " + T.shelf.length + " items";
       document.getElementById("shelfclear").disabled = false;
     } else {
-      document.getElementById("shelfbody").innerHTML = '<div class="shelf-note" style="padding:12px;font-size:11px;color:var(--text-3)">Drag files here — they are only referenced, never moved.</div>';
+      document.getElementById("shelfbody").innerHTML = '<div class="shelf-note" style="padding:12px;font-size:11px;color:var(--text-3)">Drag files here; they are only referenced, never moved.</div>';
       document.getElementById("shelfcnt").textContent = "· 0 items";
       document.getElementById("shelfclear").disabled = true;
     }
@@ -619,7 +619,7 @@
     }
     var h = hintItems();
     if (!h.items.length) {
-      hd.innerHTML = '<div class="hint-empty">No matches — Press Return to search “' + esc(v) + '”</div>';
+      hd.innerHTML = '<div class="hint-empty">No matches; press Return to search “' + esc(v) + '”</div>';
       hd.classList.add("open");
       return;
     }
@@ -722,7 +722,7 @@
     else parent.b = node;
     t.focus = nl.id;
     render();
-    toast("Split " + direction + " — new pane copies this place");
+    toast("Split " + direction + "; new pane copies this place");
   }
   function closePane() {
     var t = curTab();
@@ -752,7 +752,7 @@
     paths.forEach(function (p) {
       if (T.shelf.indexOf(p) === -1) { T.shelf.push(p); added++; }
     });
-    if (added) { toast(added + " item" + (added > 1 ? "s" : "") + " shelved — originals untouched"); }
+    if (added) { toast(added + " item" + (added > 1 ? "s" : "") + " shelved; originals untouched"); }
     T.shelfOpen = false;
     render();
   }
@@ -802,7 +802,7 @@
         delete FS[p];
         T.shelf = T.shelf.filter(function (s) { return s !== p; });
       });
-      toast("Undone — engine kept the audit trail");
+      toast("Undone; engine kept the audit trail");
       render();
       return;
     }
@@ -815,7 +815,7 @@
       FS[m.from] = n;
       if (FS[m.parent]) FS[m.parent].kids.push(baseName(m.from));
     });
-    toast("Undone — engine kept the audit trail");
+    toast("Undone; engine kept the audit trail");
     render();
   }
 
@@ -994,7 +994,7 @@
         return '<button class="sb-tool" data-sbtool="' + t.id + '"><span class="tico">' + ic(t.icon) + '</span><span class="lbl">' + esc(t.label) + "</span></button>";
       }).join("");
     } else if (sel.length) {
-      tools = '<div class="sb-h">Tools</div><div class="sb-note">The app ships 11 built-in tools across image · PDF · audio/video · text — the demo wires the image pair.</div>';
+      tools = '<div class="sb-h">Tools</div><div class="sb-note">The app ships 11 built-in tools across image · PDF · audio/video · text; the demo wires the image pair.</div>';
     }
     return info + tools;
   }
@@ -1003,7 +1003,7 @@
     if (sel.length === 1) {
       return '<input id="sb-name" type="text" value="' + esc(page.name) + '" spellcheck="false">';
     }
-    return '<div class="sb-note" style="text-align:left;padding:4px 0">Output names derive per file — WriteNaming yields on collisions.</div>';
+    return '<div class="sb-note" style="text-align:left;padding:4px 0">Output names derive per file; WriteNaming yields on collisions.</div>';
   }
   function sbParamHTML(page) {
     var sel = sbSel();
@@ -1305,7 +1305,7 @@
       render();
       return;
     }
-    if (el.closest && el.closest("#shelfclear")) { T.shelf = []; T.shelfOpen = false; toast("Shelf cleared — references only, files untouched"); render(); return; }
+    if (el.closest && el.closest("#shelfclear")) { T.shelf = []; T.shelfOpen = false; toast("Shelf cleared; references only, files untouched"); render(); return; }
     if (el.closest && el.closest("#shelfcollapse")) { T.shelfOpen = false; render(); return; }
     if (el.closest && el.closest("#shelfstack")) { T.shelfOpen = !T.shelfOpen; render(); return; }
     var rm = el.closest ? el.closest("[data-rm]") : null;
@@ -1413,7 +1413,7 @@
     eachLeaf(t, function (l) { leaves[l.id] = cloneLeaf(l); });
     T.layouts.push({ name: name, tree: JSON.parse(JSON.stringify(t.root)), leaves: leaves });
     document.getElementById("layoutmodal").classList.remove("open");
-    toast("Layout “" + name + "” saved — find it in the bookmarks bar");
+    toast("Layout “" + name + "” saved; find it in the bookmarks bar");
     render();
   });
   document.getElementById("layoutname").addEventListener("input", function () {
@@ -1505,7 +1505,7 @@
       if (act === "tab") newTab();
       else if (act === "split") splitFocused("right");
       else if (act === "addr") openEditor();
-      else if (act === "shelf") { toast("Drag any photo — the shelf appears top right to catch it"); }
+      else if (act === "shelf") { toast("Drag any photo; the shelf appears top right to catch it"); }
       else if (act === "sb") {
         var lf = curLeaf();
         if (lf.kind === "dir") {
@@ -1514,7 +1514,7 @@
         }
         if (!T.sidebarOpen) { T.sidebarOpen = true; }
         if (sbSel().length) openSbTool("convert");
-        else toast("Select a photo in the window first — sidebar tools follow the selection");
+        else toast("Select a photo in the window first; sidebar tools follow the selection");
       }
     });
   });
