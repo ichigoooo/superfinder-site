@@ -195,27 +195,20 @@
     <div class="two-col">
       <div>
         <h2 class="rv">选中，就地处理。</h2>
-        <p class="lede rv" data-step="1">上半是信息：大预览、名称、种类、标记。往下是工具，按所选类型出现，参数、预览、确认、撤销都在里面。</p>
-        <div class="beat">
-          <div class="beat-row rv" data-step="2"><h3>四域十一件工具</h3><p>图片：转换、缩放、旋转、抠图；PDF：合并、压缩、提页；音视频：转码、提音轨；文本：编码转换、JSON 格式化。</p></div>
-          <div class="beat-row rv" data-step="3"><h3>产物也走未决引擎</h3><p>每个工具的落盘都经预览、确认、⌘Z 撤销，撞名自动让位，原件只有引擎碰。</p></div>
-          <div class="beat-row rv" data-step="4"><h3>首屏可玩</h3><p>上面的窗口里选中两张照片，Convert Format、Preview、Confirm、⌘Z 全程可玩。演示数据，逻辑与应用一致。</p></div>
-        </div>
+        <p class="lede rv" data-step="1">选中文件，侧边栏出现对应的工具：转格式、缩放、抠图、合并 PDF、视频转码。内置十一件，不够用插件随时往上加。处理在原目录完成，每一步先预览再确认，⌘Z 撤回。</p>
       </div>
       <div class="sticky">
-        <div class="beat">
-          <div class="beat-row rv" data-step="2">
-            <h3>Convert Format <span class="chip" style="margin-left:8px">PNG · JPEG · HEIC</span></h3>
-            <p>格式分段、EXIF 开关、目标目录；产物名只认词干，扩展名随格式。</p>
+        <div class="rv" data-step="2">
+          <div class="sbd" id="sb-demo" role="group" aria-label="Sidebar tool demo">
+            <div class="sbd-head"><b>Sidebar · Images</b><span class="cnt" id="sbd-cnt">3 items selected</span></div>
+            <div class="sbd-tool"><span class="tico" id="sbd-tool-ico"></span><span>Convert Format</span><span class="fmt">PNG · JPEG · HEIC</span></div>
+            <div class="sbd-rows" id="sbd-rows"></div>
+            <div class="sbd-foot">
+              <span class="sbd-msg" id="sbd-msg"></span>
+              <button class="sbd-btn primary" id="sbd-btn">Convert 3 Items</button>
+            </div>
           </div>
-          <div class="beat-row rv" data-step="3">
-            <h3>Resize <span class="chip" style="margin-left:8px">16-10000 px</span></h3>
-            <p>宽高联动带比例锁，产物名随宽度派生；多选时逐文件派生，互不覆盖。</p>
-          </div>
-          <div class="beat-row rv" data-step="4">
-            <h3>Preview → Confirm</h3>
-            <p>操作清单 from → to 逐行可读，确认后 ⌘Z 整批撤回，与移动、复制同一条通道。</p>
-          </div>
+          <p class="sbd-note">演示动画 · 判定逻辑与应用一致</p>
         </div>
       </div>
     </div>
@@ -226,12 +219,12 @@
 <section class="slab" id="plugins">
   <div class="wrap slab-inner">
     <h2 class="rv">工作台，<br>给你留了位置。</h2>
-    <p class="lede rv" data-step="1"><span class="mono">.sfplugin</span> 单文件插件：manifest 加任意技术栈的入口脚本，bash、Python、Node 都行，设置窗导入即挂进侧边栏。</p>
+    <p class="lede rv" data-step="1">写个脚本，它就是侧边栏里的工具。bash、Python、Node 都行，打成一个文件导入设置就能用。</p>
     <div class="beat">
-      <div class="beat-row rv" data-step="2"><h3>两种模式，都过引擎</h3><p>plan 吐操作表（rename / move / mkdir 白名单），transform 吐暂存产物；落盘唯一通道都是未决引擎。</p></div>
-      <div class="beat-row rv" data-step="3"><h3>子进程 + 账本</h3><p>独立进程组运行，stdin/stdout JSON 契约；输出上限、超时梯子、孤儿暂存清扫全部内建。</p></div>
-      <div class="beat-row rv" data-step="4"><h3>官方开发 Skill</h3><p>设置窗一键导出 manifest 规范、契约文档、双示例插件和校验器，AI agent 也能替你写插件。</p></div>
-      <div class="beat-row rv" data-step="4"><h3>边界诚实</h3><p>插件是你自装的代码，网络行为归你负责；app 自身代码不含网络功能。</p></div>
+      <div class="beat-row rv" data-step="2"><h3>能做什么</h3><p>按日期归档照片、从 CSV 批量生成文件、调你自己的接口整理文档。脚本能干的活，都能变成文件工具。</p></div>
+      <div class="beat-row rv" data-step="3"><h3>一样要你确认</h3><p>插件的产物和内置工具同一待遇：先预览再落盘，撞名自动让位，⌘Z 照样撤回。</p></div>
+      <div class="beat-row rv" data-step="4"><h3>写插件</h3><p>设置里一键导出开发包：规范和两个现成示例（按日期归档、CSV 提取），照着改就行。丢给 AI agent 写也可以。</p></div>
+      <div class="beat-row rv" data-step="4"><h3>边界</h3><p>插件是你自装的代码，网络行为归你负责；app 自身不联网。</p></div>
     </div>
   </div>
 </section>
@@ -276,7 +269,7 @@
 <section class="slab-dark" id="film">
   <div class="wrap slab-inner">
     <h2 class="rv">宣传片。</h2>
-    <p class="lede rv" data-step="1">63 秒，没有旁白，窗口自己演。</p>
+    <p class="lede rv" data-step="1">63 秒，先看它怎么干活。</p>
     <div class="film rv" data-step="2">
       <video controls preload="none" playsinline poster="./assets/img/promo-cover.png">
         <source src="./assets/video/promo.mp4" type="video/mp4">

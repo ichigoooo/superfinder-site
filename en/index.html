@@ -187,27 +187,20 @@
     <div class="two-col">
       <div>
         <h2 class="rv">Select. Act in place.</h2>
-        <p class="lede rv" data-step="1">The top half is lean info: large preview, name, kind, tags. Scroll down into tools that appear by what you selected, with params, preview, confirm, and undo.</p>
-        <div class="beat">
-          <div class="beat-row rv" data-step="2"><h3>Eleven tools, four domains</h3><p>Images: convert, resize, rotate, remove background. PDF: merge, compress, extract pages. Audio and video: transcode, extract audio. Text: encoding convert, JSON format.</p></div>
-          <div class="beat-row rv" data-step="3"><h3>Products go through the engine too</h3><p>Every tool's write lands via preview, confirm, and ⌘Z; collisions yield automatically, and only the engine touches originals.</p></div>
-          <div class="beat-row rv" data-step="4"><h3>Playable up top</h3><p>In the window above: select two photos, Convert Format, Preview, Confirm, ⌘Z. Demo data; the logic mirrors the app.</p></div>
-        </div>
+        <p class="lede rv" data-step="1">Select files and the sidebar offers the matching tools: convert, resize, remove background, merge PDFs, transcode video. Eleven built in; plugins add more. Everything lands in place, previewed and confirmed, revert with ⌘Z.</p>
       </div>
       <div class="sticky">
-        <div class="beat">
-          <div class="beat-row rv" data-step="2">
-            <h3>Convert Format <span class="chip" style="margin-left:8px">PNG · JPEG · HEIC</span></h3>
-            <p>Format segment, EXIF toggle, target directory; an edited name keeps the stem, the extension follows the format.</p>
+        <div class="rv" data-step="2">
+          <div class="sbd" id="sb-demo" role="group" aria-label="Sidebar tool demo">
+            <div class="sbd-head"><b>Sidebar · Images</b><span class="cnt" id="sbd-cnt">3 items selected</span></div>
+            <div class="sbd-tool"><span class="tico" id="sbd-tool-ico"></span><span>Convert Format</span><span class="fmt">PNG · JPEG · HEIC</span></div>
+            <div class="sbd-rows" id="sbd-rows"></div>
+            <div class="sbd-foot">
+              <span class="sbd-msg" id="sbd-msg"></span>
+              <button class="sbd-btn primary" id="sbd-btn">Convert 3 Items</button>
+            </div>
           </div>
-          <div class="beat-row rv" data-step="3">
-            <h3>Resize <span class="chip" style="margin-left:8px">16-10000 px</span></h3>
-            <p>Width and height linked by an aspect lock, names derive from the width; multi-selection derives per file, nothing overwrites.</p>
-          </div>
-          <div class="beat-row rv" data-step="4">
-            <h3>Preview → Confirm</h3>
-            <p>The op list reads from → to line by line; ⌘Z reverts the whole batch, the same channel as moves and copies.</p>
-          </div>
+          <p class="sbd-note">Demo animation; the logic mirrors the app</p>
         </div>
       </div>
     </div>
@@ -218,12 +211,12 @@
 <section class="slab" id="plugins">
   <div class="wrap slab-inner">
     <h2 class="rv">The workbench saves<br>a place for you.</h2>
-    <p class="lede rv" data-step="1">An <span class="mono">.sfplugin</span> is a single file: a manifest plus an entry script in any stack (bash, Python, Node). Import it in settings and it mounts in the sidebar.</p>
+    <p class="lede rv" data-step="1">Write a script and it becomes a sidebar tool. bash, Python, Node, whatever you use; package it as one file and import it in settings.</p>
     <div class="beat">
-      <div class="beat-row rv" data-step="2"><h3>Two modes, both through the engine</h3><p>plan emits an operation table (rename / move / mkdir whitelist); transform emits staged products. Either way, the only path to disk is the pending-ops engine.</p></div>
-      <div class="beat-row rv" data-step="3"><h3>Subprocess + ledger</h3><p>Plugins run in their own process group over a stdin/stdout JSON contract; output caps, timeout ladder, and orphan-staging sweeps are built in.</p></div>
-      <div class="beat-row rv" data-step="4"><h3>The official dev Skill</h3><p>Export it from settings: manifest spec, contract doc, two example plugins, and a validator. An AI agent can write plugins for you.</p></div>
-      <div class="beat-row rv" data-step="4"><h3>An honest boundary</h3><p>Plugins are code you installed; their networking is your responsibility. The app's own code contains no networking.</p></div>
+      <div class="beat-row rv" data-step="2"><h3>What you can build</h3><p>Archive photos by date, generate files from a CSV, pipe documents through your own API. Anything a script can do becomes a file tool.</p></div>
+      <div class="beat-row rv" data-step="3"><h3>Same safety net</h3><p>Plugin output lands like built-in tools: previewed first, collisions yield, ⌘Z reverts.</p></div>
+      <div class="beat-row rv" data-step="4"><h3>Writing one</h3><p>Export the dev kit from settings: the spec and two working examples (archive by date, CSV extract), then adapt them. Hand it to an AI agent if you like.</p></div>
+      <div class="beat-row rv" data-step="4"><h3>The boundary</h3><p>Plugins are code you installed; their networking is your responsibility. The app itself stays offline.</p></div>
     </div>
   </div>
 </section>
@@ -268,7 +261,7 @@
 <section class="slab-dark" id="film">
   <div class="wrap slab-inner">
     <h2 class="rv">The film.</h2>
-    <p class="lede rv" data-step="1">63 seconds, no narration; the window performs itself.</p>
+    <p class="lede rv" data-step="1">63 seconds: watch it work.</p>
     <div class="film rv" data-step="2">
       <video controls preload="none" playsinline poster="../assets/img/promo-cover.png">
         <source src="../assets/video/promo.mp4" type="video/mp4">

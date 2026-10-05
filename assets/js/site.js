@@ -1594,5 +1594,97 @@
     });
   });
 
+  /* ================= sidebar tool demo (section card, animated) ================= */
+  (function () {
+    var demo = document.getElementById("sb-demo");
+    if (!demo) return;
+    var FILES = [
+      { name: "DSC_4027.jpg", size: 12.4, img: "assets/img/photos/aurora.jpg" },
+      { name: "DSC_4188.jpg", size: 9.1, img: "assets/img/photos/black-beach.jpg" },
+      { name: "DSC_4231.jpg", size: 11.8, img: "assets/img/photos/waterfall.jpg" }
+    ];
+    var rowsEl = demo.querySelector("#sbd-rows");
+    var btn = demo.querySelector("#sbd-btn");
+    var msgEl = demo.querySelector("#sbd-msg");
+    var cntEl = demo.querySelector("#sbd-cnt");
+    var toolIco = demo.querySelector("#sbd-tool-ico");
+    if (toolIco) toolIco.innerHTML = ic("image");
+    var state = "idle"; /* idle | running | done */
+    var timers = [];
+    function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+    function outName(f) { return f.name.slice(0, f.name.lastIndexOf(".")) + ".png"; }
+    function rowsHTML() {
+      return FILES.map(function (f) {
+        var done = state === "done";
+        return '<div class="sbd-row' + (done ? " done" : "") + '">' +
+          '<img src="' + rel(f.img) + '" alt="" loading="lazy">' +
+          '<span class="nm">' + (done ? outName(f) : f.name) + "</span>" +
+          '<span class="sz">' + (done ? (f.size * 0.55).toFixed(1) : f.size.toFixed(1)) + " MB</span>" +
+          '<span class="ok">' + ic("check") + "</span>" +
+          '<i class="bar"></i></div>';
+      }).join("");
+    }
+    function render() {
+      rowsEl.innerHTML = rowsHTML();
+      btn.disabled = false;
+      if (state === "idle") {
+        btn.textContent = "Convert 3 Items";
+        btn.className = "sbd-btn primary";
+        cntEl.textContent = "3 items selected";
+      } else {
+        btn.textContent = "⌘Z Undo";
+        btn.className = "sbd-btn";
+        cntEl.textContent = "3 converted to PNG";
+      }
+    }
+    function run() {
+      if (state !== "idle") return;
+      state = "running";
+      clearTimers();
+      btn.disabled = true;
+      msgEl.textContent = "Converting…";
+      var rows = rowsEl.querySelectorAll(".sbd-row");
+      Array.prototype.forEach.call(rows, function (row, i) {
+        timers.push(setTimeout(function () {
+          row.classList.add("busy");
+          timers.push(setTimeout(function () {
+            row.classList.remove("busy");
+            row.classList.add("done");
+            row.querySelector(".nm").textContent = outName(FILES[i]);
+            row.querySelector(".sz").textContent = (FILES[i].size * 0.55).toFixed(1) + " MB";
+            if (i === rows.length - 1) {
+              state = "done";
+              render();
+              msgEl.textContent = "Converted 3 items · ⌘Z to undo";
+            }
+          }, reduced ? 0 : 520));
+        }, reduced ? 0 : i * 300));
+      });
+    }
+    function undo() {
+      clearTimers();
+      state = "idle";
+      render();
+      msgEl.textContent = "Undone; the originals were never touched";
+    }
+    btn.addEventListener("click", function () {
+      if (state === "idle") run();
+      else if (state === "done") undo();
+    });
+    render();
+    msgEl.textContent = "Preview, confirm, ⌘Z undo";
+    /* play once when the card scrolls into view */
+    if (!reduced && "IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          io.disconnect();
+          run();
+        });
+      }, { threshold: 0.2 });
+      io.observe(demo);
+    }
+  })();
+
   render();
 })();
