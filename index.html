@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperFinder · 浏览你的文件，像浏览网页一样 · macOS 文件工作台</title>
-<meta name="description" content="SuperFinder 是给 macOS 的浏览器式文件工作台：粘贴路径直达目录，用标签与窗格对照文件，把散落的文件先收进暂存架，关掉再打开，工作现场还在。侧边栏工具随选随用，插件系统继续扩展。">
+<title>SuperFinder · 给 macOS 的浏览器式文件工作台</title>
+<meta name="description" content="SuperFinder 给 macOS 文件系统装上地址栏：粘贴路径直达，标签与窗格对照，暂存架只记引用，关掉再打开，工作现场原样回来。删除只进废纸篓，文件不出本机。">
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="stylesheet" href="./assets/css/site.css">
 <noscript><style>.rv{opacity:1 !important}</style></noscript>
@@ -32,8 +32,9 @@
 <header class="hero" id="top">
   <div class="hook">
     <h1 class="hero-name rv">Super<span class="u">Finder</span></h1>
-    <p class="hero-hook rv" data-step="1">浏览你的文件，像浏览网页一样。</p>
-    <p class="sub rv" data-step="2">给 macOS 的浏览器式文件工作台。粘贴路径直达，标签与窗格并排，关掉再回来。<strong>下面这台窗口是真的，上手试。</strong></p>
+    <p class="eyebrow rv" data-step="1">为重度文件操作者而做</p>
+    <p class="hero-hook rv" data-step="1">复制了路径，还要在访达里一层层点开？</p>
+    <p class="sub rv" data-step="2">SuperFinder 给文件系统装了地址栏。粘贴，回车，到位。标签页与窗格对照、暂存架、会话还原，都在同一个窗口里。<strong>下面这台窗口是真的，直接上手试。</strong></p>
   </div>
 
   <div class="window-stage rv" data-step="2">
@@ -129,14 +130,13 @@
     <button class="tryhint" data-act="shelf">拖一张照片，暂存架在右上角接住</button>
     <button class="tryhint" data-act="sb">选中照片，侧边栏工具一路处理到确认</button>
   </div>
-  <p class="rv" data-step="4" style="text-align: center; margin-top: 14px; font-family: var(--mono); font-size: 11px; color: var(--paper-3)">演示窗口为英文 UI，应用内可切换简体中文 / English</p>
 </header>
 
 <main>
 <!-- ======================= HOW IT WORKS: find · compare · process · return ======================= -->
 <section class="slab" id="workflow">
   <div class="wrap slab-inner">
-    <h2 class="rv">找到、对照、处理，<br>一次完成。</h2>
+    <h2 class="rv">直达、对照、整理，<br>随时回来。</h2>
     <p class="lede rv" data-step="1">打开目录不难，难的是在几个地点之间来回找、比、搬、改。SuperFinder 把这些收进同一个能保存的现场。</p>
 
     <ol class="flow">
@@ -232,11 +232,26 @@
   </div>
 </section>
 
+<!-- ======================= AUDIENCE: self-identification ======================= -->
+<section class="slab-dark" id="audience">
+  <div class="wrap slab-inner">
+    <h2 class="rv">SuperFinder 为两种人而做。</h2>
+    <div class="two-col">
+      <div class="beat">
+        <div class="beat-row rv" data-step="1"><h3>从对话和终端里接路径的人</h3><p>AI、编辑器、issue 里拿到一串路径，粘进地址栏回车到位；⌘C 把当前路径贴回对话里。</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-row rv" data-step="2"><h3>在目录深处整理的人</h3><p>窗格并排对照，批量改名实时预览；暂存架先收拢，拖出那一刻才移动。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ======================= TOOLS & PLUGINS ======================= -->
 <section class="slab-dark" id="plugins">
   <div class="wrap slab-inner">
-    <h2 class="rv">选中文件就处理，<br>官方插件拿来就用，自己的插件自己写。</h2>
-    <p class="lede rv" data-step="1">照片、PDF、音视频或文本，侧边栏按类型给出工具：转格式、缩放、抠图…</p>
+    <h2 class="rv">选中文件，侧边栏直接处理。</h2>
+    <p class="lede rv" data-step="1">照片、PDF、音视频、文本，按类型给出工具：转格式、缩放、抠图。官方插件拿来就用，自己的脚本想写就写。</p>
     <div class="two-col">
       <div>
         <div class="beat">
@@ -266,7 +281,6 @@
             </div>
             <noscript><div class="ffd-foot"><span class="ffd-msg">演示需要 JavaScript。目录里混放照片、CSV 与 PNG，点击文件，侧边栏按类型给出对应插件。</span></div></noscript>
           </div>
-          <p class="ffd-note">装好的插件按文件类型出现在侧边栏</p>
         </div>
       </div>
     </div>
@@ -277,7 +291,7 @@
 <section class="slab-dark" id="trust">
   <div class="wrap slab-inner">
     <h2 class="rv">快，但不越界。</h2>
-    <p class="lede rv" data-step="1">浏览器化的是操作，不是边界。</p>
+    <p class="lede rv" data-step="1">三条底线，写死在产品里：</p>
     <div class="facts">
       <div class="fact rv">
         <h3>删除只进废纸篓</h3>
@@ -305,7 +319,6 @@
         <source src="./assets/video/promo-zh.mp4" type="video/mp4">
         <track kind="captions" src="./assets/video/promo-zh.vtt" srclang="zh" label="中文" default>
       </video>
-      <div class="film-cap"><span>SuperFinder Promo · v5 · 1:12 · 中文旁白</span><span>界面演示为英文 UI · 应用内可切换中文</span></div>
     </div>
   </div>
 </section>
@@ -318,7 +331,7 @@
     <p class="lede rv" data-step="2">免费下载 · macOS 14 或更高版本 · 简体中文 / English 界面</p>
     <div class="dl-actions rv" data-step="3">
       <a class="btn btn-ink" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">
-        从 App Store 下载
+        从 App Store 免费下载
       </a>
       <a class="btn btn-ghost on-paper" href="./download/SuperFinder-1.2.0.dmg" download>下载完整版 DMG · 1.2.0</a>
     </div>
@@ -340,7 +353,6 @@
       <a href="./en/index.html">EN</a>
       <a href="#top">回到顶部 ↑</a>
     </span>
-    <span class="mono">TYPE: ARCHIVO · JETBRAINS MONO · PINGFANG SC</span>
   </div>
 </footer>
 

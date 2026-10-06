@@ -136,6 +136,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .hook p.sub { margin-top: 16px; color: var(--paper-2); font-size: clamp(.98rem, 1.4vw, 1.12rem); }
 .hook p.sub strong { color: var(--paper); font-weight: 600; }
+.hook p.eyebrow { margin-top: 18px; font-family: var(--mono); font-size: 12px; letter-spacing: .16em; color: var(--paper-3); }
 
 .window-stage { display: flex; justify-content: center; position: relative; z-index: 5; }
 
@@ -1001,12 +1002,10 @@ button.ffd-tool:hover { background: var(--hover6); }
 .ffd-btn.primary { background: var(--sage-deep); border-color: var(--sage-deep); color: #fff; }
 .ffd-btn.primary:hover:not(:disabled) { background: #547076; }
 .ffd-btn[hidden] { display: none; }
-.ffd-note { margin-top: 10px; font-family: var(--mono); font-size: 11px; line-height: 1.7; color: var(--paper-3); }
 
 /* film */
 .film { max-width: 860px; margin: 0 auto; }
 .film video { width: 100%; border-radius: 14px; border: 1px solid var(--hair-d); background: #000; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
-.film .film-cap { display: flex; justify-content: space-between; margin-top: 12px; font-family: var(--mono); font-size: 11.5px; color: var(--paper-3); }
 
 /* download */
 .dl { text-align: center; }
@@ -1030,7 +1029,6 @@ button.ffd-tool:hover { background: var(--hover6); }
 /* footer */
 footer { background: var(--field-2); color: var(--paper-3); padding: 32px 0 40px; font-size: 13px; }
 .foot-row { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; justify-content: space-between; border-top: 1px solid var(--hair-d); padding-top: 22px; }
-.foot-row .mono { font-size: 11.5px; }
 .foot-links { display: flex; gap: 16px; }
 .foot-links a:hover { color: var(--paper); }
 .foot-dot { color: var(--paper-3); }

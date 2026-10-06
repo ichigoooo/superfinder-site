@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperFinder · Browse your files like you browse the web · macOS file workbench</title>
-<meta name="description" content="SuperFinder is a browser-style file workbench for macOS: paste a path and jump straight to the folder, compare files with tabs and split panes, gather scattered files into the shelf, and pick the work back up where you left it. Sidebar tools on selection, extended by plugins.">
+<title>SuperFinder · The browser-style file workbench for macOS</title>
+<meta name="description" content="SuperFinder gives the macOS file system an address bar: paste a path and jump straight there, compare with tabs and split panes, gather files in a reference-only shelf, and reopen to the same workspace. Deletes go to the Trash; files never leave your Mac.">
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="stylesheet" href="../assets/css/site.css">
 <noscript><style>.rv{opacity:1!important}</style></noscript>
@@ -32,8 +32,9 @@
 <header class="hero" id="top">
   <div class="hook">
     <h1 class="hero-name rv">Super<span class="u">Finder</span></h1>
-    <p class="hero-hook rv" data-step="1" lang="en">Browse your files like you browse the web.</p>
-    <p class="sub rv" data-step="2">A browser-style file workbench for macOS. Paste a path and go, arrange files with tabs and panes, close it and come back. <strong>The window below is real, play with it.</strong></p>
+    <p class="eyebrow rv" data-step="1">Built for heavy file operators</p>
+    <p class="hero-hook rv" data-step="1">Got the path, still digging through Finder?</p>
+    <p class="sub rv" data-step="2">SuperFinder gives your files an address bar. Paste, Return, you're there. Tabs and split panes, a staging shelf, session restore, in one window. <strong>The window below is real, play with it.</strong></p>
   </div>
 
   <div class="window-stage rv" data-step="2">
@@ -121,14 +122,13 @@
     <button class="tryhint" data-act="shelf">Drag a photo; the shelf catches it, top right</button>
     <button class="tryhint" data-act="sb">Select photos; a sidebar tool runs to confirm</button>
   </div>
-  <p class="rv" data-step="4" style="text-align: center; margin-top: 14px; font-family: var(--mono); font-size: 11px; color: var(--paper-3)">Demo window runs the English UI, the app switches between Simplified Chinese and English</p>
 </header>
 
 <main>
 <!-- ======================= HOW IT WORKS: find · compare · gather · return ======================= -->
 <section class="slab" id="workflow">
   <div class="wrap slab-inner">
-    <h2 class="rv">Find, compare, process.<br>All in one place.</h2>
+    <h2 class="rv">Jump, compare, gather,<br>return anytime.</h2>
     <p class="lede rv" data-step="1">Opening a folder is easy. The work is shuttling between places to find, compare, move and change things. SuperFinder keeps that in one workspace you can save.</p>
 
     <ol class="flow">
@@ -224,11 +224,26 @@
   </div>
 </section>
 
+<!-- ======================= AUDIENCE: self-identification ======================= -->
+<section class="slab-dark" id="audience">
+  <div class="wrap slab-inner">
+    <h2 class="rv">SuperFinder is built for two kinds of people.</h2>
+    <div class="two-col">
+      <div class="beat">
+        <div class="beat-row rv" data-step="1"><h3>People who catch paths from chats and terminals</h3><p>A path lands in an AI chat, an editor, or an issue. Paste it into the address bar, hit Return. ⌘C copies the current path back out.</p></div>
+      </div>
+      <div class="beat">
+        <div class="beat-row rv" data-step="2"><h3>People who organize deep in the folder tree</h3><p>Panes side by side to compare, batch rename with a live preview, the shelf to gather first and move once, on drag-out.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ======================= TOOLS & PLUGINS ======================= -->
 <section class="slab-dark" id="plugins">
   <div class="wrap slab-inner">
-    <h2 class="rv">Act on a selection.<br>Official plugins out of the box, your own scripts welcome.</h2>
-    <p class="lede rv" data-step="1">Photos, PDFs, audio, video or text: the sidebar matches tools to the file type. Convert, resize, remove background…</p>
+    <h2 class="rv">Select a file, act on it in the sidebar.</h2>
+    <p class="lede rv" data-step="1">Photos, PDFs, audio, video, text: tools match the file type. Convert, resize, remove background. Official plugins out of the box, your own scripts welcome.</p>
     <div class="two-col">
       <div>
         <div class="beat">
@@ -258,7 +273,6 @@
             </div>
             <noscript><div class="ffd-foot"><span class="ffd-msg">This demo needs JavaScript. Photos, a CSV and PNGs live side by side; click a file and the sidebar offers plugins for its type.</span></div></noscript>
           </div>
-          <p class="ffd-note">Installed plugins appear in the sidebar by file type</p>
         </div>
       </div>
     </div>
@@ -269,7 +283,7 @@
 <section class="slab-dark" id="trust">
   <div class="wrap slab-inner">
     <h2 class="rv">Fast, but never out of bounds.</h2>
-    <p class="lede rv" data-step="1">What got browser-ified is the operating, not the boundaries.</p>
+    <p class="lede rv" data-step="1">Three boundaries, hard-coded into the product:</p>
     <div class="facts">
       <div class="fact rv">
         <h3>Delete goes to the Trash</h3>
@@ -297,7 +311,6 @@
         <source src="../assets/video/promo-en.mp4" type="video/mp4">
         <track kind="captions" src="../assets/video/promo-en.vtt" srclang="en" label="English" default>
       </video>
-      <div class="film-cap"><span>SuperFinder Promo · v5 · 1:12 · English narration</span><span>English UI demo · app switches to Chinese</span></div>
     </div>
   </div>
 </section>
@@ -310,7 +323,7 @@
     <p class="lede rv" data-step="2">Free download · macOS 14 or later · Simplified Chinese / English UI</p>
     <div class="dl-actions rv" data-step="3">
       <a class="btn btn-ink" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">
-        Download on the App Store
+        Download free from the App Store
       </a>
       <a class="btn btn-ghost on-paper" href="../download/SuperFinder-1.2.0.dmg" download>Download the full build · 1.2.0</a>
     </div>
@@ -332,7 +345,6 @@
       <a href="./index.html">EN</a>
       <a href="#top">Back to top ↑</a>
     </span>
-    <span class="mono">TYPE: ARCHIVO · JETBRAINS MONO · PINGFANG SC</span>
   </div>
 </footer>
 
