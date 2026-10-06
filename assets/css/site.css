@@ -136,7 +136,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .hook p.sub { margin-top: 16px; color: var(--paper-2); font-size: clamp(.98rem, 1.4vw, 1.12rem); }
 .hook p.sub strong { color: var(--paper); font-weight: 600; }
-.hook p.eyebrow { margin-top: 18px; font-family: var(--mono); font-size: 12px; letter-spacing: .16em; color: var(--paper-3); }
+.hook p.eyebrow { margin: 0 0 14px; font-family: var(--mono); font-size: 12px; letter-spacing: .16em; color: var(--paper-2); }
 
 .window-stage { display: flex; justify-content: center; position: relative; z-index: 5; }
 
