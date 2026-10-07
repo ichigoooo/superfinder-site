@@ -8,6 +8,21 @@
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="stylesheet" href="../assets/css/site.css">
 <noscript><style>.rv{opacity:1!important}</style></noscript>
+<link rel="canonical" href="https://ichigoooo.github.io/superfinder-site/en/">
+<link rel="alternate" hreflang="zh" href="https://ichigoooo.github.io/superfinder-site/">
+<link rel="alternate" hreflang="en" href="https://ichigoooo.github.io/superfinder-site/en/">
+<link rel="alternate" hreflang="x-default" href="https://ichigoooo.github.io/superfinder-site/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SuperFinder">
+<meta property="og:url" content="https://ichigoooo.github.io/superfinder-site/en/">
+<meta property="og:title" content="SuperFinder · The browser-style file workbench for macOS">
+<meta property="og:description" content="SuperFinder gives the macOS file system an address bar: paste a path and jump straight there, compare with tabs and split panes, gather files in a reference-only shelf, and reopen to the same workspace. Deletes go to the Trash; files never leave your Mac.">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:image" content="https://ichigoooo.github.io/superfinder-site/assets/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body data-assetbase="../">
 
@@ -15,8 +30,8 @@
   <nav class="capsule" aria-label="Primary">
     <a class="wordmark" href="#top"><img src="../assets/img/app-icon.png" alt="SuperFinder home"><span>SuperFinder</span></a>
     <div class="tabs" role="tablist">
-      <a class="tab" role="tab" aria-selected="false" href="../index.html">中文</a>
-      <a class="tab active" role="tab" aria-selected="true" href="./index.html">EN</a>
+      <a class="tab" role="tab" aria-selected="false" href="../">中文</a>
+      <a class="tab active" role="tab" aria-selected="true" href="./">EN</a>
     </div>
     <div class="navlinks">
       <a href="#workflow">Workflow</a>
@@ -24,7 +39,7 @@
       <a href="#trust">Boundaries</a>
       <a href="#download">Download</a>
     </div>
-    <a class="as-pill" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">App Store ↓</a>
+    <a class="as-pill" href="https://apps.apple.com/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">App Store ↓</a>
   </nav>
 </div>
 
@@ -301,6 +316,49 @@
   </div>
 </section>
 
+<!-- ======================= FAQ ======================= -->
+<section class="slab-dark" id="faq">
+  <div class="wrap slab-inner">
+    <h2 class="rv">Frequently asked.</h2>
+    <div class="beat">
+      <div class="beat-row rv"><h3>Is SuperFinder free?</h3><p>Yes. Both the App Store build and the direct download from this site are free. The direct build includes the external plugin port, unlockable with a Pro key (¥38 one-time); the online purchase flow is under construction.</p></div>
+      <div class="beat-row rv" data-step="1"><h3>Do my files get uploaded anywhere?</h3><p>No. SuperFinder itself has zero networking: no account, no cloud sync, no telemetry — files never leave your Mac. External plugins are code you installed yourself; their networking is yours.</p></div>
+      <div class="beat-row rv" data-step="2"><h3>What does it require?</h3><p>SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.3.0.</p></div>
+      <div class="beat-row rv" data-step="1"><h3>How does it relate to Finder?</h3><p>SuperFinder works as your everyday file manager: address-bar jumps, tabs and split panes, a staging shelf and session restore. It interoperates with Finder's tags, QuickLook and permissions — no need to remove or replace Finder.</p></div>
+      <div class="beat-row rv" data-step="2"><h3>What's the difference between the direct and App Store builds?</h3><p>The direct build includes the external plugin port (custom .sfplugin bundles); the sandboxed App Store build cannot. Everything else matches, and the direct DMG is Developer ID signed and notarized by Apple.</p></div>
+      <div class="beat-row rv" data-step="1"><h3>Is the download safe?</h3><p>Yes. The direct DMG is signed with a Developer ID, notarized and stapled by Apple, with an SHA-256 checksum you can verify yourself; the App Store build goes through Apple review.</p></div>
+      <div class="beat-row rv" data-step="2"><h3>Does it uninstall cleanly?</h3><p>Yes. SuperFinder is a single .app you drag into /Applications, with no background daemons; delete the .app to uninstall. The login item is optional.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= COMPARE ======================= -->
+<section class="slab" id="compare">
+  <div class="wrap slab-inner">
+    <h2 class="rv">SuperFinder vs. Finder: a file manager compared.</h2>
+    <p class="lede rv" data-step="1">A Finder alternative built for heavy file operations, compared with the Finder that ships with macOS:</p>
+    <div class="tbl-wrap rv" data-step="2">
+      <table class="cmp">
+        <thead>
+          <tr><th>Capability</th><th>Finder</th><th>SuperFinder</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Address-bar jumps</td><td>⇧⌘G dialog, paste a path</td><td>Permanent address bar: paste and Return, Tab completes each level</td></tr>
+          <tr><td>Tabs</td><td>Yes</td><td>Yes, plus named layouts saved and restored per new tab</td></tr>
+          <tr><td>Side-by-side compare</td><td>No (open multiple windows)</td><td>Four-way splits inside a tab, ratios and layouts savable</td></tr>
+          <tr><td>Gathering files</td><td>No (juggle via Desktop or folders)</td><td>Reference-only shelf: drop-in records a reference, drag-out moves</td></tr>
+          <tr><td>Batch rename</td><td>Yes (simple rules)</td><td>Live preview + find &amp; replace + whole-batch undo</td></tr>
+          <tr><td>Session restore</td><td>Reopen windows after restart</td><td>Tabs, panes, shelf and folders — the whole workspace returns</td></tr>
+          <tr><td>Extensibility</td><td>Automator / Quick Actions</td><td>Type-aware tool area + custom plugins (direct build)</td></tr>
+          <tr><td>Undo</td><td>⌘Z, limited</td><td>Moves, copies, renames and tool output all undoable</td></tr>
+          <tr><td>Delete discipline</td><td>Trash + immediate delete</td><td>Trash only, no permanent-delete entry point</td></tr>
+          <tr><td>Price</td><td>Bundled with macOS</td><td>Free download; Pro (plugin port) ¥38 one-time, purchase flow under construction</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <!-- ======================= FILM ======================= -->
 <section class="slab-dark" id="film">
   <div class="wrap slab-inner">
@@ -322,7 +380,7 @@
     <h2 class="rv" data-step="1">SuperFinder.<br>Browse your files.</h2>
     <p class="lede rv" data-step="2">Free download · macOS 14 or later · Simplified Chinese / English UI</p>
     <div class="dl-actions rv" data-step="3">
-      <a class="btn btn-ink" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">
+      <a class="btn btn-ink" href="https://apps.apple.com/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">
         Download free from the App Store
       </a>
       <a class="btn btn-ghost on-paper" href="../download/SuperFinder-1.3.0.dmg" download>Download the full build · 1.3.0</a>
@@ -341,14 +399,76 @@
   <div class="wrap foot-row">
     <span>© 2026 SuperFinder <span class="foot-dot">·</span> Files never leave your Mac <span class="foot-dot">·</span> No third-party scripts or fonts on this site</span>
     <span class="foot-links">
-      <a href="../index.html">中文</a>
-      <a href="./index.html">EN</a>
+      <a href="../">中文</a>
+      <a href="./">EN</a>
       <a href="#top">Back to top ↑</a>
     </span>
   </div>
 </footer>
 
 <div class="ctxmenu" id="ctxmenu"></div>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://ichigoooo.github.io/superfinder-site/en/#org",
+      "name": "SuperFinder",
+      "url": "https://ichigoooo.github.io/superfinder-site/",
+      "logo": "https://ichigoooo.github.io/superfinder-site/assets/img/app-icon.png",
+      "sameAs": [
+        "https://apps.apple.com/app/superfinder-pro/id6815762788",
+        "https://github.com/ichigoooo/superfinder-site"
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "SuperFinder",
+      "operatingSystem": "macOS 14+",
+      "applicationCategory": "UtilitiesApplication",
+      "inLanguage": ["zh-CN", "en"],
+      "description": "A browser-style file workbench that gives the macOS file system an address bar: paste a path and jump straight there, compare with tabs and split panes, gather files in a reference-only shelf, and reopen to the same workspace. Deletes go to the Trash; files never leave your Mac.",
+      "featureList": [
+        "Permanent address bar: paste a path, Return to jump, Tab completes each level",
+        "Tabs and four-way split panes",
+        "Named layouts, saved and restored",
+        "Reference-only staging shelf",
+        "Batch rename with live preview",
+        "Type-aware plugin tool area",
+        "Full workspace session restore",
+        "Trash-only deletes"
+      ],
+      "screenshot": "https://ichigoooo.github.io/superfinder-site/assets/img/promo-cover.png",
+      "softwareVersion": "1.3.0",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@id": "https://ichigoooo.github.io/superfinder-site/en/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is SuperFinder free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Both the App Store build and the direct download from this site are free. The direct build includes the external plugin port, unlockable with a Pro key (¥38 one-time); the online purchase flow is under construction." } },
+        { "@type": "Question", "name": "Do my files get uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. SuperFinder itself has zero networking: no account, no cloud sync, no telemetry — files never leave your Mac. External plugins are code you installed yourself; their networking is yours." } },
+        { "@type": "Question", "name": "What does it require?", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.3.0." } },
+        { "@type": "Question", "name": "How does it relate to Finder?", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder works as your everyday file manager: address-bar jumps, tabs and split panes, a staging shelf and session restore. It interoperates with Finder's tags, QuickLook and permissions — no need to remove or replace Finder." } },
+        { "@type": "Question", "name": "What's the difference between the direct and App Store builds?", "acceptedAnswer": { "@type": "Answer", "text": "The direct build includes the external plugin port (custom .sfplugin bundles); the sandboxed App Store build cannot. Everything else matches, and the direct DMG is Developer ID signed and notarized by Apple." } },
+        { "@type": "Question", "name": "Is the download safe?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The direct DMG is signed with a Developer ID, notarized and stapled by Apple, with an SHA-256 checksum you can verify yourself; the App Store build goes through Apple review." } },
+        { "@type": "Question", "name": "Does it uninstall cleanly?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. SuperFinder is a single .app you drag into /Applications, with no background daemons; delete the .app to uninstall. The login item is optional." } }
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "name": "SuperFinder official promo (English narration, 1 min 12 s)",
+      "description": "Watch SuperFinder process a batch of files: jump, compare, gather, return.",
+      "thumbnailUrl": "https://ichigoooo.github.io/superfinder-site/assets/img/promo-cover.png",
+      "uploadDate": "2026-10-06",
+      "duration": "PT1M12S",
+      "contentUrl": "https://ichigoooo.github.io/superfinder-site/assets/video/promo-en.mp4",
+      "inLanguage": "en"
+    }
+  ]
+}
+</script>
 <script src="../assets/js/site.js" defer></script>
 </body>
 </html>

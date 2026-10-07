@@ -8,6 +8,21 @@
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="stylesheet" href="./assets/css/site.css">
 <noscript><style>.rv{opacity:1 !important}</style></noscript>
+<link rel="canonical" href="https://ichigoooo.github.io/superfinder-site/">
+<link rel="alternate" hreflang="zh" href="https://ichigoooo.github.io/superfinder-site/">
+<link rel="alternate" hreflang="en" href="https://ichigoooo.github.io/superfinder-site/en/">
+<link rel="alternate" hreflang="x-default" href="https://ichigoooo.github.io/superfinder-site/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SuperFinder">
+<meta property="og:url" content="https://ichigoooo.github.io/superfinder-site/">
+<meta property="og:title" content="SuperFinder · 给 macOS 的浏览器式文件工作台">
+<meta property="og:description" content="SuperFinder 给 macOS 文件系统装上地址栏：粘贴路径直达，标签与窗格对照，暂存架只记引用，关掉再打开，工作现场原样回来。删除只进废纸篓，文件不出本机。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://ichigoooo.github.io/superfinder-site/assets/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body data-assetbase="./">
 
@@ -15,8 +30,8 @@
   <nav class="capsule" aria-label="主导航">
     <a class="wordmark" href="#top"><img src="./assets/img/app-icon.png" alt="SuperFinder 首页"><span>SuperFinder</span></a>
     <div class="tabs" role="tablist">
-      <a class="tab active" role="tab" aria-selected="true" href="./index.html">中文</a>
-      <a class="tab" role="tab" aria-selected="false" href="./en/index.html">EN</a>
+      <a class="tab active" role="tab" aria-selected="true" href="./">中文</a>
+      <a class="tab" role="tab" aria-selected="false" href="./en/">EN</a>
     </div>
     <div class="navlinks">
       <a href="#workflow">怎么工作</a>
@@ -309,6 +324,49 @@
   </div>
 </section>
 
+<!-- ======================= FAQ ======================= -->
+<section class="slab-dark" id="faq">
+  <div class="wrap slab-inner">
+    <h2 class="rv">常见问题。</h2>
+    <div class="beat">
+      <div class="beat-row rv"><h3>SuperFinder 是免费的吗？</h3><p>是。App Store 版与官网直发版均免费下载；官网版另含外部插件端口，可用 Pro 密钥（¥38 一次性买断）解锁，官网购买通道建设中。</p></div>
+      <div class="beat-row rv" data-step="1"><h3>文件会被上传到云端吗？</h3><p>不会。SuperFinder 自身零网络：无账号、无云同步、无遥测，文件不出本机。外部插件是用户自装的代码，其网络行为归用户。</p></div>
+      <div class="beat-row rv" data-step="2"><h3>需要什么系统？</h3><p>SuperFinder 需要 macOS 14 或更高版本，界面提供简体中文与 English。当前版本 1.3.0。</p></div>
+      <div class="beat-row rv" data-step="1"><h3>它和访达（Finder）是什么关系？</h3><p>SuperFinder 可作为日常浏览的主力文件管理器：地址栏直达、标签与窗格对照、暂存架与会话还原；它与访达的标记、QuickLook、权限等系统机制互通，无需删除或替换访达。</p></div>
+      <div class="beat-row rv" data-step="2"><h3>官网版和 App Store 版有什么区别？</h3><p>官网直发版含外部插件端口（可加载自定义 .sfplugin 插件），App Store 沙盒版受沙盒限制不含此能力；其余功能一致，官网 DMG 经 Developer ID 签名与 Apple 公证。</p></div>
+      <div class="beat-row rv" data-step="1"><h3>下载安全吗？</h3><p>安全。官网 DMG 使用 Developer ID 签名、经 Apple 公证并装订票证，页面提供 SHA-256 校验和可自行核验；App Store 版经苹果审核上架。</p></div>
+      <div class="beat-row rv" data-step="2"><h3>卸载干净吗？</h3><p>干净。SuperFinder 是单个 .app，拖入 /Applications 即用，无后台守护进程；删除 .app 即完成卸载，登录项为可选。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= COMPARE ======================= -->
+<section class="slab" id="compare">
+  <div class="wrap slab-inner">
+    <h2 class="rv">SuperFinder 与访达：文件管理器逐项对照。</h2>
+    <p class="lede rv" data-step="1">一台面向重度文件操作的 macOS 文件管理器，与系统自带的访达 Finder 对照如下：</p>
+    <div class="tbl-wrap rv" data-step="2">
+      <table class="cmp">
+        <thead>
+          <tr><th>能力</th><th>访达 Finder</th><th>SuperFinder</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>地址栏直达</td><td>⇧⌘G 对话框粘贴路径</td><td>常驻地址栏：粘贴回车直达，Tab 逐层补全</td></tr>
+          <tr><td>标签页</td><td>有</td><td>有，另含命名布局保存与新标签还原</td></tr>
+          <tr><td>窗格对照</td><td>无（需开多个窗口）</td><td>标签内四向拆分，比例与布局可保存</td></tr>
+          <tr><td>暂存整理</td><td>无（靠桌面或文件夹倒手）</td><td>引用式暂存架：拖入只记引用，拖出才移动</td></tr>
+          <tr><td>批量重命名</td><td>有（简单规则）</td><td>实时预览 + 查找替换 + 整批撤销</td></tr>
+          <tr><td>会话还原</td><td>重启可恢复窗口</td><td>标签、窗格、暂存架与所在目录整现场还原</td></tr>
+          <tr><td>插件扩展</td><td>自动操作 / 快速操作</td><td>类型化工具区 + 自定义插件（官网版）</td></tr>
+          <tr><td>写操作撤销</td><td>⌘Z 有限</td><td>移动 / 复制 / 重命名 / 工具产物全可撤销</td></tr>
+          <tr><td>删除纪律</td><td>废纸篓 + 右键立即删除</td><td>恒废纸篓，无永久删除入口</td></tr>
+          <tr><td>价格</td><td>macOS 自带</td><td>免费下载；Pro（插件端口）¥38 一次性买断，购买通道建设中</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <!-- ======================= FILM ======================= -->
 <section class="slab-dark" id="film">
   <div class="wrap slab-inner">
@@ -349,14 +407,76 @@
   <div class="wrap foot-row">
     <span>© 2026 SuperFinder <span class="foot-dot">·</span> 文件不出本机 <span class="foot-dot">·</span> 本站零第三方脚本与字体</span>
     <span class="foot-links">
-      <a href="./index.html">中文</a>
-      <a href="./en/index.html">EN</a>
+      <a href="./">中文</a>
+      <a href="./en/">EN</a>
       <a href="#top">回到顶部 ↑</a>
     </span>
   </div>
 </footer>
 
 <div class="ctxmenu" id="ctxmenu"></div>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://ichigoooo.github.io/superfinder-site/#org",
+      "name": "SuperFinder",
+      "url": "https://ichigoooo.github.io/superfinder-site/",
+      "logo": "https://ichigoooo.github.io/superfinder-site/assets/img/app-icon.png",
+      "sameAs": [
+        "https://apps.apple.com/cn/app/superfinder-pro/id6815762788",
+        "https://github.com/ichigoooo/superfinder-site"
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "SuperFinder",
+      "operatingSystem": "macOS 14+",
+      "applicationCategory": "UtilitiesApplication",
+      "inLanguage": ["zh-CN", "en"],
+      "description": "给 macOS 文件系统装上地址栏的浏览器式文件工作台：粘贴路径直达，标签与窗格对照，暂存架只记引用，会话现场还原。删除只进废纸篓，文件不出本机。",
+      "featureList": [
+        "地址栏粘贴路径直达，Tab 逐层补全",
+        "标签页与四向窗格拆分",
+        "命名布局保存与还原",
+        "引用式暂存架",
+        "批量重命名实时预览",
+        "类型化插件工具区",
+        "会话现场还原",
+        "删除只进废纸篓"
+      ],
+      "screenshot": "https://ichigoooo.github.io/superfinder-site/assets/img/promo-cover.png",
+      "softwareVersion": "1.3.0",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+      "author": { "@id": "https://ichigoooo.github.io/superfinder-site/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "SuperFinder 是免费的吗？", "acceptedAnswer": { "@type": "Answer", "text": "是。App Store 版与官网直发版均免费下载；官网版另含外部插件端口，可用 Pro 密钥（¥38 一次性买断）解锁，官网购买通道建设中。" } },
+        { "@type": "Question", "name": "文件会被上传到云端吗？", "acceptedAnswer": { "@type": "Answer", "text": "不会。SuperFinder 自身零网络：无账号、无云同步、无遥测，文件不出本机。外部插件是用户自装的代码，其网络行为归用户。" } },
+        { "@type": "Question", "name": "需要什么系统？", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder 需要 macOS 14 或更高版本，界面提供简体中文与 English。当前版本 1.3.0。" } },
+        { "@type": "Question", "name": "它和访达（Finder）是什么关系？", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder 可作为日常浏览的主力文件管理器：地址栏直达、标签与窗格对照、暂存架与会话还原；它与访达的标记、QuickLook、权限等系统机制互通，无需删除或替换访达。" } },
+        { "@type": "Question", "name": "官网版和 App Store 版有什么区别？", "acceptedAnswer": { "@type": "Answer", "text": "官网直发版含外部插件端口（可加载自定义 .sfplugin 插件），App Store 沙盒版受沙盒限制不含此能力；其余功能一致，官网 DMG 经 Developer ID 签名与 Apple 公证。" } },
+        { "@type": "Question", "name": "下载安全吗？", "acceptedAnswer": { "@type": "Answer", "text": "安全。官网 DMG 使用 Developer ID 签名、经 Apple 公证并装订票证，页面提供 SHA-256 校验和可自行核验；App Store 版经苹果审核上架。" } },
+        { "@type": "Question", "name": "卸载干净吗？", "acceptedAnswer": { "@type": "Answer", "text": "干净。SuperFinder 是单个 .app，拖入 /Applications 即用，无后台守护进程；删除 .app 即完成卸载，登录项为可选。" } }
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "name": "SuperFinder 官网宣传片（中文旁白，1 分 12 秒）",
+      "description": "看 SuperFinder 处理完一批文件：直达、对照、整理、回来。",
+      "thumbnailUrl": "https://ichigoooo.github.io/superfinder-site/assets/img/promo-cover.png",
+      "uploadDate": "2026-10-06",
+      "duration": "PT1M12S",
+      "contentUrl": "https://ichigoooo.github.io/superfinder-site/assets/video/promo-zh.mp4",
+      "inLanguage": "zh-CN"
+    }
+  ]
+}
+</script>
 <script src="./assets/js/site.js" defer></script>
 </body>
 </html>

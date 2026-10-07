@@ -1,0 +1,51 @@
+# SuperFinder official site — robots.txt
+# 站点立场：官网是公开内容，欢迎一切搜索引擎与 AI 爬虫（发现 / 检索 / 训练）。
+# App 自身零网络；本站零第三方请求。/ Site is public content; all crawlers welcome.
+
+# --- 搜索发现 / Search discovery ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# --- AI 搜索发现与用户触达检索 / AI search discovery & user-triggered retrieval ---
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# --- 模型训练 / Model training ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# --- 其余一切 / Everyone else ---
+User-agent: *
+Allow: /
+
+Sitemap: https://ichigoooo.github.io/superfinder-site/sitemap.xml

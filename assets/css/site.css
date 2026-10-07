@@ -1065,3 +1065,13 @@ footer { background: var(--field-2); color: var(--paper-3); padding: 32px 0 40px
   .ffd-body { grid-template-columns: 1fr; padding: 12px 12px 0; }
   .ffd-foot { padding: 12px 12px 14px; }
 }
+
+/* ===== 官方对照表（20261008-site-geo-seo；沿用既有 token，无新视觉面） ===== */
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.cmp { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.cmp th, .cmp td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--hair-l); vertical-align: top; }
+.cmp thead th { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+.cmp td { color: var(--ink-2); }
+.cmp td:first-child { font-weight: 600; }
+.cmp td:last-child { color: var(--ink); }
+.cmp tbody tr:last-child td { border-bottom: none; }
