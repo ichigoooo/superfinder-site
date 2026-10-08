@@ -11,8 +11,8 @@
 | `en/index.html` | 同上（canonical→`/en/`；og:url→`/en/`；contentUrl→promo-en；sameAs 用 geo 中性商店链接） |
 | `robots.txt` | `Sitemap:` 行 ×1 |
 | `sitemap.xml` | `<loc>`×2 + `xhtml:link`×6 |
-| `llms.txt` | Links 区 ×6（含 download DMG 与校验和） |
-| `404.html` | 站内绝对路径 ×3（favicon / site.css / 双语首页链接）——注意是路径前缀 `/superfinder-site/`，迁移后须改新站根或改相对 |
+| `llms.txt` | Links 区 ×5（4 × github.io：双语言页 + DMG + 校验和；1 × apps.apple.com） |
+| `404.html` | 站内绝对路径 ×4（favicon / site.css / 中文首页 / English home）——注意是路径前缀 `/superfinder-site/`，迁移后须改新站根或改相对 |
 
 ## 迁移动作（交给 `20261007-website-purchase` 槽执行）
 
