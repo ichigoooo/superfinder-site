@@ -3,7 +3,7 @@
 > SuperFinder is a browser-style file workbench (file manager) for macOS: an address bar where you paste a path and jump straight there, tabs and split panes for comparing, a reference-only staging shelf for gathering files, and full workspace restore when you reopen. Deletes go to the Trash only, and the app itself has zero networking — no account, no cloud, no telemetry.
 
 Quick facts:
-- Free download; macOS 14 or later; Simplified Chinese and English UI; current version 1.4.0 (build 7), 2026-10-10
+- Free download; macOS 14 or later; Simplified Chinese and English UI; current version 1.4.1 (build 8), 2026-10-11
 - Two channels: the notarized direct download (Developer ID signed DMG, includes the external plugin port) and the sandboxed App Store build (no plugin port); everything else matches
 - Pro (unlocks the external plugin port, ¥38 one-time purchase) is built into the app; the online purchase flow is under construction
 - Trust boundaries hard-coded into the product: Trash-only deletes (no permanent-delete entry point, no preference to add one), offline app (plugin networking belongs to the user-installed plugin), every write action is undoable (⌘Z)
@@ -12,6 +12,6 @@ Quick facts:
 Links:
 - [Chinese homepage](https://ichigoooo.github.io/superfinder-site/)
 - [English homepage](https://ichigoooo.github.io/superfinder-site/en/)
-- [Direct DMG download](https://ichigoooo.github.io/superfinder-site/download/SuperFinder-1.4.0.dmg)
-- [SHA-256 checksum](https://ichigoooo.github.io/superfinder-site/download/SuperFinder-1.4.0.dmg.sha256)
+- [Direct DMG download](https://ichigoooo.github.io/superfinder-site/download/SuperFinder-1.4.1.dmg)
+- [SHA-256 checksum](https://ichigoooo.github.io/superfinder-site/download/SuperFinder-1.4.1.dmg.sha256)
 - [App Store](https://apps.apple.com/app/superfinder-pro/id6815762788)

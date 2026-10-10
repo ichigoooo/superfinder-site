@@ -21,4 +21,4 @@
 3. GSC 旧属性走 Change of Address；新域重走站长验证 + sitemap 提交
 4. 大陆备案要求：新站页脚展示 ICP 备案号并链工信部（beian.miit.gov.cn）
 5. 旧 github.io GSC 属性保留 ≥6 个月再考虑移除
-6. `download/SuperFinder-1.4.0.dmg` 直链变更后，对外已散发的旧直链依赖 301 兜底——确认 Pages 301 覆盖子路径
+6. `download/SuperFinder-1.4.1.dmg` 直链变更后，对外已散发的旧直链依赖 301 兜底——确认 Pages 301 覆盖子路径

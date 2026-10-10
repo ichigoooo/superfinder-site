@@ -324,7 +324,7 @@
     <div class="beat">
       <div class="beat-row rv"><h3>Is SuperFinder free?</h3><p>Yes. Both the App Store build and the direct download from this site are free. The direct build includes the external plugin port, unlockable with a Pro key (¥38 one-time); the online purchase flow is under construction.</p></div>
       <div class="beat-row rv" data-step="1"><h3>Do my files get uploaded anywhere?</h3><p>No. SuperFinder itself has zero networking: no account, no cloud sync, no telemetry — files never leave your Mac. External plugins are code you installed yourself; their networking is yours.</p></div>
-      <div class="beat-row rv" data-step="2"><h3>What does it require?</h3><p>SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.4.0 (build 7, released 2026-10-10).</p></div>
+      <div class="beat-row rv" data-step="2"><h3>What does it require?</h3><p>SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.4.1 (build 8, released 2026-10-11).</p></div>
       <div class="beat-row rv" data-step="1"><h3>How does it relate to Finder?</h3><p>SuperFinder works as your everyday file manager: address-bar jumps, tabs and split panes, a staging shelf and session restore. It interoperates with Finder's tags, QuickLook and permissions — no need to remove or replace Finder.</p></div>
       <div class="beat-row rv" data-step="2"><h3>What's the difference between the direct and App Store builds?</h3><p>The direct build includes the external plugin port (custom .sfplugin bundles); the sandboxed App Store build cannot. Everything else matches, and the direct DMG is Developer ID signed and notarized by Apple.</p></div>
       <div class="beat-row rv" data-step="1"><h3>Is the download safe?</h3><p>Yes. The direct DMG is signed with a Developer ID, notarized and stapled by Apple, with an SHA-256 checksum you can verify yourself; the App Store build goes through Apple review.</p></div>
@@ -378,10 +378,17 @@
 <section class="slab" id="changelog">
   <div class="wrap slab-inner">
     <h2 class="rv">Changelog.</h2>
-    <p class="lede rv" data-step="1">What each version shipped, from 1.0 to now. Current direct build: 1.4.0 (build 7).</p>
+    <p class="lede rv" data-step="1">What each version shipped, from 1.0 to now. Current direct build: 1.4.1 (build 8).</p>
     <div class="log">
       <div class="log-ver rv">
-        <div class="log-head"><b>1.4.0</b><span class="log-date">2026-10-10</span><span class="log-latest">Current</span></div>
+        <div class="log-head"><b>1.4.1</b><span class="log-date">2026-10-11</span><span class="log-latest">Current</span></div>
+        <ul>
+          <li><b>New</b> File bookmarks: add files to the bookmarks bar via right-click or drag; a single click opens them in their default app.</li>
+          <li><b>New</b> Connect to Server: mount SMB shares via ⌘K and land in a new tab; the address bar accepts smb://, and recent servers are remembered.</li>
+        </ul>
+      </div>
+      <div class="log-ver rv" data-step="1">
+        <div class="log-head"><b>1.4.0</b><span class="log-date">2026-10-10</span></div>
         <ul>
           <li><b>New</b> Open in new tab: right-click a folder, or middle-click files and bookmarks to open a background tab without losing your place.</li>
           <li><b>Fixed</b> The drag image occasionally flew in from the top of the window.</li>
@@ -442,13 +449,13 @@
       <a class="btn btn-ink" href="https://apps.apple.com/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">
         Download free from the App Store
       </a>
-      <a class="btn btn-ghost on-paper" href="../download/SuperFinder-1.4.0.dmg" download>Download the full build · 1.4.0</a>
+      <a class="btn btn-ghost on-paper" href="../download/SuperFinder-1.4.1.dmg" download>Download the full build · 1.4.1</a>
     </div>
     <div class="dl-meta rv" data-step="4">
-      <span>Direct v1.4.0 (build 7)</span><span>2026-10-10</span><span>Free at launch</span>
+      <span>Direct v1.4.1 (build 8)</span><span>2026-10-11</span><span>Free at launch</span>
     </div>
     <div class="rv" data-step="5">
-      <p class="dl-flag" id="dl-flag">The direct build ships the plugin port; the sandboxed App Store build cannot. Notarized and stapled · <a href="../download/SuperFinder-1.4.0.dmg.sha256">checksum</a></p>
+      <p class="dl-flag" id="dl-flag">The direct build ships the plugin port; the sandboxed App Store build cannot. Notarized and stapled · <a href="../download/SuperFinder-1.4.1.dmg.sha256">checksum</a></p>
     </div>
   </div>
 </section>
@@ -499,7 +506,7 @@
         "Trash-only deletes"
       ],
       "screenshot": "https://ichigoooo.github.io/superfinder-site/assets/img/promo-cover.png",
-      "softwareVersion": "1.4.0",
+      "softwareVersion": "1.4.1",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "author": { "@id": "https://ichigoooo.github.io/superfinder-site/en/#org" }
     },
@@ -508,7 +515,7 @@
       "mainEntity": [
         { "@type": "Question", "name": "Is SuperFinder free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Both the App Store build and the direct download from this site are free. The direct build includes the external plugin port, unlockable with a Pro key (¥38 one-time); the online purchase flow is under construction." } },
         { "@type": "Question", "name": "Do my files get uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. SuperFinder itself has zero networking: no account, no cloud sync, no telemetry — files never leave your Mac. External plugins are code you installed yourself; their networking is yours." } },
-        { "@type": "Question", "name": "What does it require?", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.4.0 (build 7, released 2026-10-10)." } },
+        { "@type": "Question", "name": "What does it require?", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.4.1 (build 8, released 2026-10-11)." } },
         { "@type": "Question", "name": "How does it relate to Finder?", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder works as your everyday file manager: address-bar jumps, tabs and split panes, a staging shelf and session restore. It interoperates with Finder's tags, QuickLook and permissions — no need to remove or replace Finder." } },
         { "@type": "Question", "name": "What's the difference between the direct and App Store builds?", "acceptedAnswer": { "@type": "Answer", "text": "The direct build includes the external plugin port (custom .sfplugin bundles); the sandboxed App Store build cannot. Everything else matches, and the direct DMG is Developer ID signed and notarized by Apple." } },
         { "@type": "Question", "name": "Is the download safe?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The direct DMG is signed with a Developer ID, notarized and stapled by Apple, with an SHA-256 checksum you can verify yourself; the App Store build goes through Apple review." } },
