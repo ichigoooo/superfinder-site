@@ -37,6 +37,7 @@
       <a href="#workflow">怎么工作</a>
       <a href="#plugins">插件</a>
       <a href="#trust">边界</a>
+      <a href="#changelog">更新日志</a>
       <a href="#download">下载</a>
     </div>
     <a class="as-pill" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">App Store ↓</a>
@@ -331,7 +332,7 @@
     <div class="beat">
       <div class="beat-row rv"><h3>SuperFinder 是免费的吗？</h3><p>是。App Store 版与官网直发版均免费下载；官网版另含外部插件端口，可用 Pro 密钥（¥38 一次性买断）解锁，官网购买通道建设中。</p></div>
       <div class="beat-row rv" data-step="1"><h3>文件会被上传到云端吗？</h3><p>不会。SuperFinder 自身零网络：无账号、无云同步、无遥测，文件不出本机。外部插件是用户自装的代码，其网络行为归用户。</p></div>
-      <div class="beat-row rv" data-step="2"><h3>需要什么系统？</h3><p>SuperFinder 需要 macOS 14 或更高版本，界面提供简体中文与 English 两种语言。当前版本 1.3.0（build 6，2026-10-08 发布），安装即用，无需账户或额外配置。</p></div>
+      <div class="beat-row rv" data-step="2"><h3>需要什么系统？</h3><p>SuperFinder 需要 macOS 14 或更高版本，界面提供简体中文与 English 两种语言。当前版本 1.4.0（build 7，2026-10-10 发布），安装即用，无需账户或额外配置。</p></div>
       <div class="beat-row rv" data-step="1"><h3>它和访达（Finder）是什么关系？</h3><p>SuperFinder 可作为日常浏览的主力文件管理器：地址栏直达、标签与窗格对照、暂存架与会话还原；它与访达的标记、QuickLook、权限等系统机制互通，无需删除或替换访达。</p></div>
       <div class="beat-row rv" data-step="2"><h3>官网版和 App Store 版有什么区别？</h3><p>官网直发版含外部插件端口（可加载自定义 .sfplugin 插件），App Store 沙盒版受沙盒限制不含此能力；其余功能一致，官网 DMG 经 Developer ID 签名与 Apple 公证。</p></div>
       <div class="beat-row rv" data-step="1"><h3>下载安全吗？</h3><p>安全。官网 DMG 使用 Developer ID 签名、经 Apple 公证并装订票证，页面提供 SHA-256 校验和可自行核验；App Store 版经苹果审核上架。</p></div>
@@ -381,6 +382,64 @@
   </div>
 </section>
 
+<!-- ======================= CHANGELOG ======================= -->
+<section class="slab" id="changelog">
+  <div class="wrap slab-inner">
+    <h2 class="rv">更新日志。</h2>
+    <p class="lede rv" data-step="1">从 1.0 到现在，每个版本做了什么。官网当前版本 1.4.0（build 7）。</p>
+    <div class="log">
+      <div class="log-ver rv">
+        <div class="log-head"><b>1.4.0</b><span class="log-date">2026-10-10</span><span class="log-latest">当前版本</span></div>
+        <ul>
+          <li><b>新增</b> 在新标签页打开：文件夹右键「在新标签页中打开」，文件与书签条目支持中键在后台打开，不打断当前位置。</li>
+          <li><b>修复</b> 拖拽时拖影偶发从窗口顶部飞入。</li>
+          <li><b>修复</b> 拖拽悬停在文件夹自身上会误触发弹簧展开；悬停确认增加 0.8 秒下限，防误触。</li>
+          <li><b>修复</b> 免费版徽标文字重叠的显示问题。</li>
+        </ul>
+      </div>
+      <div class="log-ver rv" data-step="1">
+        <div class="log-head"><b>1.3.0</b><span class="log-date">2026-10-08</span></div>
+        <ul>
+          <li><b>新增</b> 内置图片工具第三批：裁剪到比例、压缩到目标体积、清除元数据（含 GPS 隐私）、透明背景填充、方向归一化。</li>
+          <li><b>新增</b> 批量重命名支持按拍摄时间重命名，读取照片 EXIF 拍摄时间。</li>
+          <li><b>新增</b> 收藏栏书签拖拽排序。</li>
+          <li><b>新增</b> Pro 解锁：插件端口 ¥38 一次性买断，离线验签，无需账户。</li>
+          <li><b>修复</b> 图片旋转方向（右旋/左旋相反）与部分照片方向烘焙错误的两处方向问题。</li>
+          <li><b>修复</b> 首次访问桌面、文稿、下载等目录时权限弹窗缺少用途说明。</li>
+          <li><b>改进</b> 工具执行失败时，提示与进度卡现在显示具体原因。</li>
+        </ul>
+      </div>
+      <div class="log-ver rv" data-step="1">
+        <div class="log-head"><b>1.2.0</b><span class="log-date">2026-10-06</span></div>
+        <ul>
+          <li><b>新增</b> 侧边栏工具区：按文件类型给出处理工具，四域十一件——图片（转格式/调整尺寸/旋转翻转/抠图）、PDF（合并/压缩/提取页面）、音视频（转码/提取音轨）、文本（编码转换/JSON 格式化）。</li>
+          <li><b>新增</b> 外部插件端口：导入 .sfplugin 插件即接入侧边栏工具区，写动作照常可预览、可撤销（官网版独有）。</li>
+          <li><b>修复</b> 画廊模式预览 PDF 时滚轮无响应、拖拽卡顿——预览改用进程内渲染（PDF、文本、图片原生呈现，QuickLook 兜底）。</li>
+          <li><b>修复</b> 画廊点开大图会把窗口撑大的问题。</li>
+          <li><b>修复</b> 地址栏点入编辑态后内容显示空白；图标视图选中后按空格预览不弹出；画廊预览区只显示窄条。</li>
+        </ul>
+      </div>
+      <div class="log-ver rv" data-step="1">
+        <div class="log-head"><b>1.1.0</b><span class="log-date">2026-10-02</span></div>
+        <ul>
+          <li><b>新增</b> 置顶：常用文件钉在目录顶部，拖动排序。</li>
+          <li><b>新增</b> 批量重命名：查找替换、正则、序号、大小写转换，实时预览，整批撤销。</li>
+          <li><b>新增</b> 显示简介与系统服务集成；一键显示隐藏文件。</li>
+          <li><b>新增</b> 底部地点栏：iCloud、AirDrop、磁盘与废纸篓快速可达，清空废纸篓带确认。</li>
+          <li><b>改进</b> 更多访达快捷键贯通标签、窗格与列表；地址栏支持中文输入法全角字符；最近关闭标签在起始页成列。</li>
+          <li><b>修复</b> 图标与画廊视图的单击选中与高亮；大目录浏览的刷新风暴、闪烁与选中漂移；清空废纸篓菜单无响应；废纸篓未授权时改为引导开启「完全磁盘访问」。</li>
+        </ul>
+      </div>
+      <div class="log-ver rv" data-step="1">
+        <div class="log-head"><b>1.0.0</b><span class="log-date">2026-10-02</span></div>
+        <ul>
+          <li><b>首发</b> 浏览器式文件工作台：地址栏直达（粘贴回车 + Tab 逐层补全）、标签页与四向窗格拆分、命名布局保存、引用式暂存架、搜索即地点、四视图 + Quick Look、会话还原、写动作 ⌘Z 可撤销、删除恒进废纸篓。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ======================= DOWNLOAD ======================= -->
 <section class="slab dl" id="download">
   <div class="wrap slab-inner">
@@ -391,13 +450,13 @@
       <a class="btn btn-ink" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">
         从 App Store 免费下载
       </a>
-      <a class="btn btn-ghost on-paper" href="./download/SuperFinder-1.3.0.dmg" download>下载完整版 DMG · 1.3.0</a>
+      <a class="btn btn-ghost on-paper" href="./download/SuperFinder-1.4.0.dmg" download>下载完整版 DMG · 1.4.0</a>
     </div>
     <div class="dl-meta rv" data-step="4">
-      <span>官网版 v1.3.0 (build 6)</span><span>2026-10-08</span><span>上架期免费</span>
+      <span>官网版 v1.4.0 (build 7)</span><span>2026-10-10</span><span>上架期免费</span>
     </div>
     <div class="rv" data-step="5">
-      <p class="dl-flag" id="dl-flag">官网版含插件端口，App Store 版受沙盒限制不含此能力 · 已公证并装订票证 · <a href="./download/SuperFinder-1.3.0.dmg.sha256">校验和</a></p>
+      <p class="dl-flag" id="dl-flag">官网版含插件端口，App Store 版受沙盒限制不含此能力 · 已公证并装订票证 · <a href="./download/SuperFinder-1.4.0.dmg.sha256">校验和</a></p>
     </div>
   </div>
 </section>
@@ -448,7 +507,7 @@
         "删除只进废纸篓"
       ],
       "screenshot": "https://ichigoooo.github.io/superfinder-site/assets/img/promo-cover.png",
-      "softwareVersion": "1.3.0",
+      "softwareVersion": "1.4.0",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
       "author": { "@id": "https://ichigoooo.github.io/superfinder-site/#org" }
     },
@@ -457,7 +516,7 @@
       "mainEntity": [
         { "@type": "Question", "name": "SuperFinder 是免费的吗？", "acceptedAnswer": { "@type": "Answer", "text": "是。App Store 版与官网直发版均免费下载；官网版另含外部插件端口，可用 Pro 密钥（¥38 一次性买断）解锁，官网购买通道建设中。" } },
         { "@type": "Question", "name": "文件会被上传到云端吗？", "acceptedAnswer": { "@type": "Answer", "text": "不会。SuperFinder 自身零网络：无账号、无云同步、无遥测，文件不出本机。外部插件是用户自装的代码，其网络行为归用户。" } },
-        { "@type": "Question", "name": "需要什么系统？", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder 需要 macOS 14 或更高版本，界面提供简体中文与 English 两种语言。当前版本 1.3.0（build 6，2026-10-08 发布），安装即用，无需账户或额外配置。" } },
+        { "@type": "Question", "name": "需要什么系统？", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder 需要 macOS 14 或更高版本，界面提供简体中文与 English 两种语言。当前版本 1.4.0（build 7，2026-10-10 发布），安装即用，无需账户或额外配置。" } },
         { "@type": "Question", "name": "它和访达（Finder）是什么关系？", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder 可作为日常浏览的主力文件管理器：地址栏直达、标签与窗格对照、暂存架与会话还原；它与访达的标记、QuickLook、权限等系统机制互通，无需删除或替换访达。" } },
         { "@type": "Question", "name": "官网版和 App Store 版有什么区别？", "acceptedAnswer": { "@type": "Answer", "text": "官网直发版含外部插件端口（可加载自定义 .sfplugin 插件），App Store 沙盒版受沙盒限制不含此能力；其余功能一致，官网 DMG 经 Developer ID 签名与 Apple 公证。" } },
         { "@type": "Question", "name": "下载安全吗？", "acceptedAnswer": { "@type": "Answer", "text": "安全。官网 DMG 使用 Developer ID 签名、经 Apple 公证并装订票证，页面提供 SHA-256 校验和可自行核验；App Store 版经苹果审核上架。" } },

@@ -37,6 +37,7 @@
       <a href="#workflow">Workflow</a>
       <a href="#plugins">Plugins</a>
       <a href="#trust">Boundaries</a>
+      <a href="#changelog">Changelog</a>
       <a href="#download">Download</a>
     </div>
     <a class="as-pill" href="https://apps.apple.com/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">App Store ↓</a>
@@ -323,7 +324,7 @@
     <div class="beat">
       <div class="beat-row rv"><h3>Is SuperFinder free?</h3><p>Yes. Both the App Store build and the direct download from this site are free. The direct build includes the external plugin port, unlockable with a Pro key (¥38 one-time); the online purchase flow is under construction.</p></div>
       <div class="beat-row rv" data-step="1"><h3>Do my files get uploaded anywhere?</h3><p>No. SuperFinder itself has zero networking: no account, no cloud sync, no telemetry — files never leave your Mac. External plugins are code you installed yourself; their networking is yours.</p></div>
-      <div class="beat-row rv" data-step="2"><h3>What does it require?</h3><p>SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.3.0.</p></div>
+      <div class="beat-row rv" data-step="2"><h3>What does it require?</h3><p>SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.4.0 (build 7, released 2026-10-10).</p></div>
       <div class="beat-row rv" data-step="1"><h3>How does it relate to Finder?</h3><p>SuperFinder works as your everyday file manager: address-bar jumps, tabs and split panes, a staging shelf and session restore. It interoperates with Finder's tags, QuickLook and permissions — no need to remove or replace Finder.</p></div>
       <div class="beat-row rv" data-step="2"><h3>What's the difference between the direct and App Store builds?</h3><p>The direct build includes the external plugin port (custom .sfplugin bundles); the sandboxed App Store build cannot. Everything else matches, and the direct DMG is Developer ID signed and notarized by Apple.</p></div>
       <div class="beat-row rv" data-step="1"><h3>Is the download safe?</h3><p>Yes. The direct DMG is signed with a Developer ID, notarized and stapled by Apple, with an SHA-256 checksum you can verify yourself; the App Store build goes through Apple review.</p></div>
@@ -373,6 +374,64 @@
   </div>
 </section>
 
+<!-- ======================= CHANGELOG ======================= -->
+<section class="slab" id="changelog">
+  <div class="wrap slab-inner">
+    <h2 class="rv">Changelog.</h2>
+    <p class="lede rv" data-step="1">What each version shipped, from 1.0 to now. Current direct build: 1.4.0 (build 7).</p>
+    <div class="log">
+      <div class="log-ver rv">
+        <div class="log-head"><b>1.4.0</b><span class="log-date">2026-10-10</span><span class="log-latest">Current</span></div>
+        <ul>
+          <li><b>New</b> Open in new tab: right-click a folder, or middle-click files and bookmarks to open a background tab without losing your place.</li>
+          <li><b>Fixed</b> The drag image occasionally flew in from the top of the window.</li>
+          <li><b>Fixed</b> Hovering over a folder while dragging could spring-load the folder itself; hover-to-confirm now has a 0.8 s floor against accidental triggers.</li>
+          <li><b>Fixed</b> Overlapping text in the free-version badge.</li>
+        </ul>
+      </div>
+      <div class="log-ver rv" data-step="1">
+        <div class="log-head"><b>1.3.0</b><span class="log-date">2026-10-08</span></div>
+        <ul>
+          <li><b>New</b> Third batch of built-in image tools: crop to ratio, compress to a target size, strip metadata (GPS privacy), flatten transparency, normalize orientation.</li>
+          <li><b>New</b> Batch rename by capture date, reading each photo's EXIF capture time.</li>
+          <li><b>New</b> Drag to reorder bookmarks on the bookmarks bar.</li>
+          <li><b>New</b> Pro unlock: the plugin port for a ¥38 one-time purchase, verified offline, no account.</li>
+          <li><b>Fixed</b> Two direction bugs: rotate right/left were swapped, and some photos baked in a mirrored orientation.</li>
+          <li><b>Fixed</b> Permission dialogs for Desktop, Documents and Downloads lacked a purpose explanation.</li>
+          <li><b>Improved</b> Failed tool runs now state the reason in the toast and the progress card.</li>
+        </ul>
+      </div>
+      <div class="log-ver rv" data-step="1">
+        <div class="log-head"><b>1.2.0</b><span class="log-date">2026-10-06</span></div>
+        <ul>
+          <li><b>New</b> Sidebar tools: type-aware processing in four domains — images (convert/resize/rotate/background removal), PDF (merge/compress/extract pages), audio &amp; video (convert/extract audio), text (encoding/JSON formatting).</li>
+          <li><b>New</b> External plugin port: import a .sfplugin and it joins the sidebar; writes stay previewable and undoable (direct build only).</li>
+          <li><b>Fixed</b> Gallery previews of PDFs ignored the scroll wheel and dragged poorly — previews now render in-process (native PDF, text and image, with QuickLook as fallback).</li>
+          <li><b>Fixed</b> Opening a large image in the gallery could blow up the window size.</li>
+          <li><b>Fixed</b> The address bar showed blank when entering edit mode; Quick Look didn't open after selecting in icon view; the gallery preview strip rendered as a sliver.</li>
+        </ul>
+      </div>
+      <div class="log-ver rv" data-step="1">
+        <div class="log-head"><b>1.1.0</b><span class="log-date">2026-10-02</span></div>
+        <ul>
+          <li><b>New</b> Pinning: keep frequently used items at the top of a folder, reorder by drag.</li>
+          <li><b>New</b> Batch rename: find &amp; replace, regex, sequence numbers, case conversion, live preview, whole-batch undo.</li>
+          <li><b>New</b> Get Info and Services integration; show hidden files with one toggle.</li>
+          <li><b>New</b> Places bar: iCloud, AirDrop, drives and Trash one click away; Empty Trash behind a confirmation.</li>
+          <li><b>Improved</b> More Finder shortcuts across tabs, panes and lists; full-width characters in the address bar; recently closed tabs listed on the start page.</li>
+          <li><b>Fixed</b> Plain-click selection and highlight in icon and gallery views; refresh storms, flicker and selection drift in large folders; the unresponsive Empty Trash item; denied Trash access now guides you to Full Disk Access.</li>
+        </ul>
+      </div>
+      <div class="log-ver rv" data-step="1">
+        <div class="log-head"><b>1.0.0</b><span class="log-date">2026-10-02</span></div>
+        <ul>
+          <li><b>First release</b> The browser-style file workbench: address bar (paste, Return, Tab completion), tabs with four-way splits, named layouts, the reference-only staging shelf, search as a place, four views + Quick Look, session restore, ⌘Z-undoable writes, Trash-only deletes.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ======================= DOWNLOAD ======================= -->
 <section class="slab dl" id="download">
   <div class="wrap slab-inner">
@@ -383,13 +442,13 @@
       <a class="btn btn-ink" href="https://apps.apple.com/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener">
         Download free from the App Store
       </a>
-      <a class="btn btn-ghost on-paper" href="../download/SuperFinder-1.3.0.dmg" download>Download the full build · 1.3.0</a>
+      <a class="btn btn-ghost on-paper" href="../download/SuperFinder-1.4.0.dmg" download>Download the full build · 1.4.0</a>
     </div>
     <div class="dl-meta rv" data-step="4">
-      <span>Direct v1.3.0 (build 6)</span><span>2026-10-08</span><span>Free at launch</span>
+      <span>Direct v1.4.0 (build 7)</span><span>2026-10-10</span><span>Free at launch</span>
     </div>
     <div class="rv" data-step="5">
-      <p class="dl-flag" id="dl-flag">The direct build ships the plugin port; the sandboxed App Store build cannot. Notarized and stapled · <a href="../download/SuperFinder-1.3.0.dmg.sha256">checksum</a></p>
+      <p class="dl-flag" id="dl-flag">The direct build ships the plugin port; the sandboxed App Store build cannot. Notarized and stapled · <a href="../download/SuperFinder-1.4.0.dmg.sha256">checksum</a></p>
     </div>
   </div>
 </section>
@@ -440,7 +499,7 @@
         "Trash-only deletes"
       ],
       "screenshot": "https://ichigoooo.github.io/superfinder-site/assets/img/promo-cover.png",
-      "softwareVersion": "1.3.0",
+      "softwareVersion": "1.4.0",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "author": { "@id": "https://ichigoooo.github.io/superfinder-site/en/#org" }
     },
@@ -449,7 +508,7 @@
       "mainEntity": [
         { "@type": "Question", "name": "Is SuperFinder free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Both the App Store build and the direct download from this site are free. The direct build includes the external plugin port, unlockable with a Pro key (¥38 one-time); the online purchase flow is under construction." } },
         { "@type": "Question", "name": "Do my files get uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. SuperFinder itself has zero networking: no account, no cloud sync, no telemetry — files never leave your Mac. External plugins are code you installed yourself; their networking is yours." } },
-        { "@type": "Question", "name": "What does it require?", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.3.0." } },
+        { "@type": "Question", "name": "What does it require?", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder needs macOS 14 or later, with a Simplified Chinese and English interface. Current version 1.4.0 (build 7, released 2026-10-10)." } },
         { "@type": "Question", "name": "How does it relate to Finder?", "acceptedAnswer": { "@type": "Answer", "text": "SuperFinder works as your everyday file manager: address-bar jumps, tabs and split panes, a staging shelf and session restore. It interoperates with Finder's tags, QuickLook and permissions — no need to remove or replace Finder." } },
         { "@type": "Question", "name": "What's the difference between the direct and App Store builds?", "acceptedAnswer": { "@type": "Answer", "text": "The direct build includes the external plugin port (custom .sfplugin bundles); the sandboxed App Store build cannot. Everything else matches, and the direct DMG is Developer ID signed and notarized by Apple." } },
         { "@type": "Question", "name": "Is the download safe?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The direct DMG is signed with a Developer ID, notarized and stapled by Apple, with an SHA-256 checksum you can verify yourself; the App Store build goes through Apple review." } },
