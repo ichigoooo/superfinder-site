@@ -1838,5 +1838,106 @@
     }
   })();
 
+  /* ================= showcase: scroll-driven MacBook lid ================= */
+  (function () {
+    var zone = document.getElementById("mbzone");
+    if (!zone) return;
+    var stage = document.getElementById("mbstage");
+    var lid = document.getElementById("mblid");
+    var video = document.getElementById("mbvideo");
+    var idle = document.getElementById("mbidle");
+    var angleEl = document.getElementById("mbangle");
+    var shadowEl = document.getElementById("mbshadow");
+    var muteBtn = document.getElementById("mbmute");
+    var isEN = /^en/i.test(document.documentElement.lang || "");
+
+    /* mute toggle with letter scramble (works in every mode) */
+    if (muteBtn && video) {
+      var lbl = muteBtn.querySelector(".lbl");
+      var setLabel = function (text) {
+        if (!lbl) return;
+        lbl.innerHTML = "";
+        for (var i = 0; i < text.length; i++) {
+          var s = document.createElement("span");
+          s.className = "ch";
+          s.style.setProperty("--i", i);
+          s.textContent = text.charAt(i);
+          lbl.appendChild(s);
+        }
+      };
+      var paintMute = function () {
+        var soundOn = !video.muted;
+        muteBtn.classList.toggle("on", soundOn);
+        muteBtn.setAttribute("aria-pressed", soundOn ? "true" : "false");
+        setLabel(soundOn ? (isEN ? "Mute" : "静音") : (isEN ? "Unmute" : "取消静音"));
+      };
+      muteBtn.addEventListener("click", function () {
+        video.muted = !video.muted;
+        paintMute();
+        /* unmuting can pause a muted-autoplaying video; the click is a gesture, so resume */
+        setTimeout(function () {
+          if (playing && video.paused) {
+            var pr = video.play();
+            if (pr && pr.catch) pr.catch(function () {});
+          }
+        }, 80);
+      });
+      paintMute();
+    }
+
+    var setAngle = function (a) {
+      lid.style.transform = "rotateX(" + a.toFixed(2) + "deg)";
+      if (angleEl) angleEl.textContent = (isEN ? "Lid angle " : "盖子角度 ") + Math.round(a) + "°";
+    };
+
+    if (reduced) {
+      setAngle(15);
+      if (idle) idle.classList.add("off");
+      if (shadowEl) shadowEl.style.opacity = "0.8";
+      if (video) video.setAttribute("controls", "");
+      return;
+    }
+
+    var zoneH = 0, stageH = 0, playing = false, lastA = null;
+    function measure() {
+      zoneH = zone.offsetHeight;
+      stageH = stage.offsetHeight;
+    }
+    function clamp(x, a, b) { return x < a ? a : x > b ? b : x; }
+    function renderSC() {
+      var vh = window.innerHeight;
+      var top = zone.getBoundingClientRect().top;
+      var pinRange = Math.max(zoneH - stageH - 88, 1);
+      var startTop = vh * 0.72;
+      var endTop = 88 - pinRange * 0.75;
+      var p = clamp((startTop - top) / Math.max(startTop - endTop, 1), 0, 1);
+      var a = -95 + p * 110;
+      if (a !== lastA) { lastA = a; setAngle(a); }
+      if (shadowEl) shadowEl.style.opacity = (0.3 + p * 0.5).toFixed(3);
+      if (idle) idle.classList.toggle("off", p >= 0.1);
+      if (video) {
+        if (p > 0.18 && !playing) {
+          playing = true;
+          var pr = video.play();
+          if (pr && pr.catch) pr.catch(function () { playing = false; });
+        } else if (p <= 0.18 && playing) {
+          playing = false;
+          video.pause();
+          try { video.currentTime = 0; } catch (e) {}
+        }
+      }
+    }
+    var scTick = false;
+    function onScroll() {
+      if (scTick) return;
+      scTick = true;
+      requestAnimationFrame(function () { scTick = false; renderSC(); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", function () { measure(); onScroll(); });
+    measure();
+    renderSC();
+  })();
+
   render();
 })();
