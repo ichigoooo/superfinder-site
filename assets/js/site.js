@@ -1898,20 +1898,23 @@
       return;
     }
 
-    var zoneH = 0, stageH = 0, playing = false, lastA = null;
-    function measure() {
-      zoneH = zone.offsetHeight;
-      stageH = stage.offsetHeight;
-    }
+    var playing = false, lastA = null;
     function clamp(x, a, b) { return x < a ? a : x > b ? b : x; }
     function renderSC() {
       var vh = window.innerHeight;
-      var top = zone.getBoundingClientRect().top;
-      var pinRange = Math.max(zoneH - stageH - 88, 1);
-      var startTop = vh * 0.72;
-      var endTop = 88 - pinRange * 0.75;
-      var p = clamp((startTop - top) / Math.max(startTop - endTop, 1), 0, 1);
-      var a = -95 + p * 110;
+      var r = stage.getBoundingClientRect();
+      /* stage centre as a fraction of viewport height; 0.5 = viewport middle */
+      var c = (r.top + r.height / 2) / vh;
+      var a;
+      if (c >= 0.5) {
+        /* opening: centre rises from 88% vh (shut) to viewport middle (upright, 0 deg) */
+        a = -95 + (0.88 - c) / 0.38 * 95;
+      } else {
+        /* past the middle: lean back to +15 deg by the time the centre reaches 32% vh */
+        a = (0.5 - c) / 0.18 * 15;
+      }
+      a = clamp(a, -95, 15);
+      var p = (a + 95) / 110;
       if (a !== lastA) { lastA = a; setAngle(a); }
       if (shadowEl) shadowEl.style.opacity = (0.3 + p * 0.5).toFixed(3);
       if (idle) idle.classList.toggle("off", p >= 0.1);
@@ -1934,8 +1937,7 @@
       requestAnimationFrame(function () { scTick = false; renderSC(); });
     }
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", function () { measure(); onScroll(); });
-    measure();
+    window.addEventListener("resize", onScroll);
     renderSC();
   })();
 
