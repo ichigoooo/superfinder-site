@@ -1846,7 +1846,6 @@
     var lid = document.getElementById("mblid");
     var video = document.getElementById("mbvideo");
     var idle = document.getElementById("mbidle");
-    var angleEl = document.getElementById("mbangle");
     var shadowEl = document.getElementById("mbshadow");
     var muteBtn = document.getElementById("mbmute");
     var isEN = /^en/i.test(document.documentElement.lang || "");
@@ -1887,7 +1886,6 @@
 
     var setAngle = function (a) {
       lid.style.transform = "rotateX(" + a.toFixed(2) + "deg)";
-      if (angleEl) angleEl.textContent = (isEN ? "Lid angle " : "盖子角度 ") + Math.round(a) + "°";
     };
 
     if (reduced) {
@@ -1928,6 +1926,7 @@
           video.pause();
           try { video.currentTime = 0; } catch (e) {}
         }
+        if (muteBtn) muteBtn.classList.toggle("show", playing);
       }
     }
     var scTick = false;
