@@ -1092,6 +1092,7 @@ html[lang="en"] .sc-accent { font-family: Georgia, "Times New Roman", serif; fon
 .hero-cta { margin-top: 26px; margin-bottom: 0; }
 .btn { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; padding: 13px 26px; border-radius: 999px; transition: transform .16s var(--step), background .12s, box-shadow .16s; }
 .btn:active { transform: scale(.96); }
+.btn svg { width: 15px; height: 15px; flex: none; }
 .btn-ink { background: var(--ink); color: var(--paper); }
 .btn-ink:hover { background: #101315; box-shadow: 0 10px 26px rgba(35,39,42,.28); }
 .btn-ghost { border: 1px solid var(--hair-d); color: var(--paper); }
