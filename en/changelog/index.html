@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Changelog · SuperFinder</title>
-<meta name="description" content="SuperFinder changelog: what every version from 1.0 to 1.7.0 shipped — new features, improvements and fixes. Current direct build: 1.7.0 (build 13).">
+<meta name="description" content="SuperFinder changelog: what every version from 1.0 to 1.7.1 shipped — new features, improvements and fixes. Current direct build: 1.7.1 (build 14).">
 <link rel="icon" type="image/png" href="../../favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
 <link rel="canonical" href="https://ichigoooo.github.io/superfinder-site/en/changelog/">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="SuperFinder">
 <meta property="og:url" content="https://ichigoooo.github.io/superfinder-site/en/changelog/">
 <meta property="og:title" content="Changelog · SuperFinder">
-<meta property="og:description" content="SuperFinder changelog: what every version from 1.0 to 1.7.0 shipped — new features, improvements and fixes. Current direct build: 1.7.0 (build 13).">
+<meta property="og:description" content="SuperFinder changelog: what every version from 1.0 to 1.7.1 shipped — new features, improvements and fixes. Current direct build: 1.7.1 (build 14).">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="zh_CN">
 <meta property="og:image" content="https://ichigoooo.github.io/superfinder-site/assets/img/og-card.png">
@@ -40,7 +40,7 @@
       <a href="./">Changelog</a>
       <a href="../#download">Download</a>
     </div>
-    <a class="as-pill" href="../../download/SuperFinder-1.7.0.dmg" download>Download DMG ↓</a>
+    <a class="as-pill" href="../../download/SuperFinder-1.7.1.dmg" download>Download DMG ↓</a>
   </nav>
 </div>
 
@@ -49,10 +49,19 @@
 <section class="slab" id="changelog">
   <div class="wrap slab-inner">
     <h2>Changelog.</h2>
-    <p class="lede">What each version shipped, from 1.0 to now. Current direct build: 1.7.0 (build 13).</p>
+    <p class="lede">What each version shipped, from 1.0 to now. Current direct build: 1.7.1 (build 14).</p>
     <div class="log">
       <div class="log-ver">
-        <div class="log-head"><b>1.7.0</b><span class="log-date">2026-10-20</span><span class="log-latest">Current</span></div>
+        <div class="log-head"><b>1.7.1</b><span class="log-date">2026-10-21</span><span class="log-latest">Current</span></div>
+        <ul>
+          <li><b>New</b> Shake to summon the shelf: while dragging files from Finder, give the pointer a quick left-right shake. When SuperFinder is not in front, its staging shelf slides out under the menu bar icon — an empty shelf says "Drop files here to stash", an occupied one lists what is already there, and a highlighted edge means it is ready to receive.</li>
+          <li><b>New</b> No need to drag back to SuperFinder first: the shake brings the shelf to you, and it waits until you drop. Release elsewhere or press Esc and it closes itself.</li>
+          <li><b>Improved</b> File drags only: moving a window, selecting text, or shaking up and down will not trigger it, and the same drag will not re-trigger it over and over.</li>
+          <li><b>Improved</b> No focus stealing: the shelf appearing or closing never interrupts Finder or the file you are dragging.</li>
+        </ul>
+      </div>
+      <div class="log-ver">
+        <div class="log-head"><b>1.7.0</b><span class="log-date">2026-10-20</span></div>
         <ul>
           <li><b>New</b> Display names for bookmark items: right-click any item in the bookmarks bar and choose "Set Display Name". The new name shows in the bookmarks bar only, in bold, while hovering still shows the full path. Clear the field to restore the original name.</li>
           <li><b>Fixed</b> Dropping onto the staging shelf: files now land anywhere inside the shelf container. Previously only the area near the shelf icon worked, and the highlight kept flickering (same in the main window and the menu bar shelf).</li>
