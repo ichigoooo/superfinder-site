@@ -114,14 +114,11 @@
     closed: [],
     shelf: [], shelfOpen: false,
     editing: null, hintSel: 0, histOpen: false, findOpen: false,
-    sidebarOpen: true, sbPage: null,
     undo: []
   };
   var HOME = makeLeaf("dir", "~/Pictures/Photos/2026-iceland");
   var homeTab = tabFromLeaf(HOME);
   T.tabs.push(homeTab); T.active = homeTab.id;
-  /* product truth: sidebar ships open — except where the window gets too small */
-  if (window.matchMedia("(max-width: 560px)").matches) T.sidebarOpen = false;
 
   function curTab() { return T.tabs.filter(function (t) { return t.id === T.active; })[0]; }
   function curLeaf() { var t = curTab(); return t.leaves[t.focus]; }
@@ -204,8 +201,7 @@
   (function fill() {
     var map = {
       "btn-back": "chevL", "btn-fwd": "chevR", "btn-up": "up",
-      "abtn-clock": "clock", "abtn-layout": "layout", "abtn-star": "star", "abtn-copy": "copy",
-      "btn-sidebar": "sidebar"
+      "abtn-clock": "clock", "abtn-layout": "layout", "abtn-star": "star", "abtn-copy": "copy"
     };
     Object.keys(map).forEach(function (id) {
       var el = document.getElementById(id);
@@ -446,9 +442,7 @@
     var wrapEl = panesEl.parentElement;
     if (wrapEl) {
       wrapEl.classList.toggle("split-active", leafCount(t) >= 2);
-      wrapEl.classList.toggle("sb-open", !!T.sidebarOpen);
     }
-    renderSidebar();
 
     /* find panel scope */
     var fps = document.getElementById("fp-scope");
@@ -819,287 +813,6 @@
     render();
   }
 
-  /* ================= sidebar (window-level right dock) ================= */
-  var SB_TOOLS = [
-    { id: "convert", icon: "image", label: "Convert Format" },
-    { id: "resize", icon: "resize", label: "Resize" }
-  ];
-  function stemOf(name) { var d = name.lastIndexOf("."); return d > 0 ? name.slice(0, d) : name; }
-  function extOf(name) { var d = name.lastIndexOf("."); return d > 0 ? name.slice(d) : ""; }
-  function sbSel() {
-    var leaf = curLeaf();
-    if (!leaf || leaf.kind !== "dir") return [];
-    return leaf.sel.filter(function (p) { return FS[p] && FS[p].t === "f"; });
-  }
-  function sbIsImage(p) { return /\.(jpe?g|png)$/i.test(p); }
-  function sbSelAllImages(sel) { return sel.length && sel.every(sbIsImage); }
-  function sbDefaultPage(tool) {
-    var sel = sbSel();
-    var first = sel[0];
-    var page = { tool: tool, format: "png", exif: true, w: "1600", h: "", lock: true, name: "", named: false, preview: false, running: false, ow: 0, oh: 0 };
-    if (!first) return page;
-    if (tool === "convert") page.name = stemOf(baseName(first)) + ".png";
-    else page.name = stemOf(baseName(first)) + "-1600" + extOf(baseName(first));
-    return page;
-  }
-  function openSbTool(id) {
-    T.sbPage = sbDefaultPage(id);
-    render();
-    if (id === "resize") {
-      /* real dimensions for the aspect lock — load the first selected image */
-      var sel = sbSel();
-      var first = sel[0];
-      var node = first && FS[first];
-      if (node && node.img) {
-        var im = new Image();
-        im.onload = function () {
-          if (T.sbPage && T.sbPage.tool === "resize" && !T.sbPage.named) {
-            T.sbPage.ow = im.naturalWidth; T.sbPage.oh = im.naturalHeight;
-            if (T.sbPage.lock) {
-              T.sbPage.h = String(Math.round(im.naturalHeight * (parseInt(T.sbPage.w, 10) / im.naturalWidth)));
-              var hEl = document.getElementById("sb-h");
-              if (hEl) hEl.value = T.sbPage.h;
-            }
-          }
-        };
-        im.src = rel(node.img);
-      }
-    }
-  }
-  function sbBuildOps(page) {
-    var sel = sbSel();
-    if (!sel.length) return [];
-    var dir = parentOf(sel[0]) || "~";
-    var extMap = { png: ".png", jpeg: ".jpg", heic: ".heic" };
-    return sel.map(function (p) {
-      var src = baseName(p);
-      var stem = stemOf(src);
-      var nn;
-      if (page.tool === "convert") {
-        var base = (sel.length === 1 && page.named) ? stemOf(page.name) : stem;
-        nn = base + extMap[page.format];
-      } else {
-        var w = parseInt(page.w, 10) || 1600;
-        var base2 = (sel.length === 1 && page.named) ? stemOf(page.name) : stem;
-        nn = base2 + "-" + w + extOf(src);
-      }
-      /* WriteNaming: yield on collision */
-      var cand = nn, k = 2;
-      while (FS[dir + "/" + cand]) { cand = stemOf(nn) + " " + k + extOf(nn); k++; }
-      return { from: p, to: dir + "/" + cand, name: cand };
-    });
-  }
-  function sbFakeSize(src, page) {
-    var m = /^([\d.]+)\s*(GB|MB|KB)?$/.exec(src.size || "");
-    if (!m) return "—";
-    var v = parseFloat(m[1]) * (m[2] === "GB" ? 1000 : m[2] === "KB" ? 0.001 : 1);
-    var f = page.tool === "convert" ? 0.55 : 0.28;
-    return (v * f).toFixed(1) + " MB";
-  }
-  function sbRun(page) {
-    if (page.running) return;
-    page.running = true;
-    render();
-    setTimeout(function () {
-      var ops = sbBuildOps(page);
-      var created = [];
-      var kindMap = { png: "PNG Image", jpeg: "JPEG Image", heic: "HEIC Image" };
-      ops.forEach(function (op) {
-        var src = FS[op.from];
-        if (!src) return;
-        var par = parentOf(op.to);
-        FS[op.to] = {
-          t: "f",
-          size: sbFakeSize(src, page),
-          kind: page.tool === "convert" ? kindMap[page.format] : src.kind,
-          mtime: "Oct 5, 2026",
-          img: src.img || null
-        };
-        if (FS[par]) FS[par].kids.push(op.name);
-        created.push(op.to);
-      });
-      if (created.length) T.undo.push({ creates: created });
-      T.sbPage = null;
-      var verb = page.tool === "convert" ? "Converted" : "Resized";
-      var spec = page.tool === "convert" ? " → " + page.format.toUpperCase() : "";
-      toast(verb + " " + created.length + (created.length > 1 ? " items" : " item") + spec + " · ⌘Z to undo");
-      render();
-    }, 480);
-  }
-
-  function renderSidebar() {
-    var el = document.getElementById("sfsidebar");
-    if (!el) return;
-    el.classList.toggle("closed", !T.sidebarOpen);
-    var btn = document.getElementById("btn-sidebar");
-    if (btn) {
-      btn.classList.toggle("on", T.sidebarOpen);
-      btn.setAttribute("aria-pressed", T.sidebarOpen ? "true" : "false");
-    }
-    if (!T.sidebarOpen) return;
-    var scroll = document.getElementById("sb-scroll");
-    var pageEl = document.getElementById("sb-page");
-    if (!scroll || !pageEl) return;
-    if (T.sbPage) {
-      scroll.style.display = "none";
-      pageEl.style.display = "flex";
-      pageEl.innerHTML = T.sbPage.preview ? sbPreviewHTML(T.sbPage) : sbParamHTML(T.sbPage);
-    } else {
-      scroll.style.display = "";
-      pageEl.style.display = "none";
-      pageEl.innerHTML = "";
-      scroll.innerHTML = sbMainHTML();
-    }
-  }
-
-  function sbMainHTML() {
-    var leaf = curLeaf();
-    if (!leaf || leaf.kind !== "dir") {
-      return '<div class="sb-note">The sidebar follows the focused pane&rsquo;s selection.</div>';
-    }
-    var sel = sbSel();
-    var info = "";
-    if (!sel.length) {
-      var ks = kidsOf(leaf.place) || [];
-      info = '<div class="sb-card">' +
-        '<div class="sb-prev">' + ic("folder") + "</div>" +
-        '<div class="sb-name">' + esc(baseName(leaf.place) || "~") + "</div>" +
-        '<div class="sb-kv"><span>Items</span><b>' + ks.length + "</b></div>" +
-        "</div>";
-    } else {
-      var first = FS[sel[0]];
-      var multi = sel.length > 1;
-      var total = 0;
-      sel.forEach(function (p) {
-        var n = FS[p];
-        if (!n) return;
-        var m = /^([\d.]+)\s*(GB|MB|KB)?$/.exec(n.size || "");
-        if (m) total += parseFloat(m[1]) * (m[2] === "GB" ? 1000 : m[2] === "KB" ? 0.001 : 1);
-      });
-      var prevInner = first && first.img
-        ? '<img src="' + rel(first.img) + '" alt="">'
-        : fileIcon(first, null, baseName(sel[0]));
-      info = '<div class="sb-card">' +
-        '<div class="sb-prev">' + prevInner + (multi ? '<span class="sb-count">' + sel.length + "</span>" : "") + "</div>" +
-        '<div class="sb-name">' + esc(multi ? sel.length + " items selected" : baseName(sel[0])) + "</div>" +
-        '<div class="sb-kv"><span>Kind</span><b>' + esc(multi ? "Mixed files" : (first ? first.kind : "")) + "</b></div>" +
-        '<div class="sb-kv"><span>Size</span><b>' + (multi ? total.toFixed(1) + " MB total" : esc(first ? first.size : "")) + "</b></div>" +
-        (!multi && first ? '<div class="sb-kv"><span>Modified</span><b>' + esc(first.mtime || "") + "</b></div>" : "") +
-        (first && first.img ? '<div class="sb-tags" title="iceland"><i style="background:#ff5f57"></i><span class="tg-name">iceland</span></div>' : "") +
-        "</div>";
-    }
-    var tools = "";
-    if (sbSelAllImages(sel)) {
-      tools = '<div class="sb-h">Tools · Images</div>' + SB_TOOLS.map(function (t) {
-        return '<button class="sb-tool" data-sbtool="' + t.id + '"><span class="tico">' + ic(t.icon) + '</span><span class="lbl">' + esc(t.label) + "</span></button>";
-      }).join("");
-    } else if (sel.length) {
-      tools = '<div class="sb-h">Tools</div><div class="sb-note">The app ships 11 built-in tools across image · PDF · audio/video · text; the demo wires the image pair.</div>';
-    }
-    return info + tools;
-  }
-
-  function sbNameField(page, sel) {
-    if (sel.length === 1) {
-      return '<input id="sb-name" type="text" value="' + esc(page.name) + '" spellcheck="false">';
-    }
-    return '<div class="sb-note" style="text-align:left;padding:4px 0">Output names derive per file; WriteNaming yields on collisions.</div>';
-  }
-  function sbParamHTML(page) {
-    var sel = sbSel();
-    if (!sel.length) return "";
-    var title = page.tool === "convert" ? "Convert Format" : "Resize";
-    var h = '<button class="sb-back" data-sb-back>' + ic("chevL") + "Tools</button>";
-    h += '<div class="sb-page-body"><div class="sb-title">' + title + "</div>";
-    if (page.tool === "convert") {
-      h += '<div class="sb-field"><label>Format</label><div class="sb-seg">' +
-        ["png", "jpeg", "heic"].map(function (f) {
-          return '<button data-sb-fmt="' + f + '"' + (page.format === f ? ' class="on"' : "") + ">" + f.toUpperCase() + "</button>";
-        }).join("") + "</div></div>";
-      h += '<button class="sb-rowopt" data-sb-exif>Keep EXIF<span class="rsw"><span class="sb-sw' + (page.exif ? " on" : "") + '"></span></span></button><div style="height:12px"></div>';
-      h += '<div class="sb-field"><label>Output name</label>' + sbNameField(page, sel) + "</div>";
-    } else {
-      h += '<div class="sb-field"><label>Width &times; Height</label><div class="sb-dim">' +
-        '<input id="sb-w" type="number" min="16" max="10000" step="10" value="' + esc(page.w) + '">' +
-        '<button class="lock' + (page.lock ? " on" : "") + '" data-sb-lock aria-label="Lock aspect ratio">' + ic("lock") + "</button>" +
-        '<input id="sb-h" type="number" min="16" max="10000" step="10" value="' + esc(page.h) + '" placeholder="auto">' +
-        "</div></div>";
-      h += '<div class="sb-field"><label>Output name</label>' + sbNameField(page, sel) + "</div>";
-    }
-    h += '<div class="sb-field"><label>Target</label><div class="sb-note" style="text-align:left;padding:2px 0;font-family:var(--mono);font-size:10.5px">' + esc(sel[0].replace(/^~/, "~")) + "</div></div>";
-    h += "</div>";
-    h += '<div class="sb-foot"><button class="sb-btn primary" data-sb-preview>Preview</button></div>';
-    return h;
-  }
-  function sbPreviewHTML(page) {
-    var ops = sbBuildOps(page);
-    var verb = page.tool === "convert" ? "Convert" : "Resize";
-    var h = '<button class="sb-back" data-sb-back>' + ic("chevL") + "Tools</button>";
-    h += '<div class="sb-page-body"><div class="sb-title">Preview</div>';
-    h += '<div class="sb-ops">' + ops.map(function (op) {
-      return '<div class="sb-op"><span class="from">' + esc(baseName(op.from)) + '</span><span class="arr">&#8594;</span><span class="to">' + esc(op.name) + "</span></div>";
-    }).join("") + "</div>";
-    h += '<div class="sb-note" style="text-align:left">Writes run through the pending-ops engine &mdash; preview, confirm, &#8984;Z.</div></div>';
-    h += '<div class="sb-foot">' +
-      '<button class="sb-btn" data-sb-back>Cancel</button>' +
-      '<button class="sb-btn primary" data-sb-confirm' + (page.running ? " disabled" : "") + ">" +
-      (page.running ? "Running&hellip;" : verb + " " + ops.length + (ops.length > 1 ? " Items" : " Item")) +
-      "</button></div>";
-    return h;
-  }
-
-  /* sidebar events (delegated — innerHTML is rebuilt by render) */
-  (function sidebarEvents() {
-    var el = document.getElementById("sfsidebar");
-    if (!el) return;
-    el.addEventListener("click", function (e) {
-      var t = e.target;
-      if (!t.closest) return;
-      var tool = t.closest("[data-sbtool]");
-      if (tool) { openSbTool(tool.dataset.sbtool); return; }
-      if (t.closest("[data-sb-back]")) { T.sbPage = null; render(); return; }
-      var fmt = t.closest("[data-sb-fmt]");
-      if (fmt && T.sbPage) {
-        T.sbPage.format = fmt.dataset.sbFmt;
-        var sel = sbSel();
-        if (T.sbPage.tool === "convert" && sel.length === 1 && !T.sbPage.named) {
-          T.sbPage.name = stemOf(baseName(sel[0])) + (fmt.dataset.sbFmt === "jpeg" ? ".jpg" : "." + fmt.dataset.sbFmt);
-        }
-        render(); return;
-      }
-      if (t.closest("[data-sb-exif]") && T.sbPage) { T.sbPage.exif = !T.sbPage.exif; render(); return; }
-      if (t.closest("[data-sb-lock]") && T.sbPage) { T.sbPage.lock = !T.sbPage.lock; render(); return; }
-      if (t.closest("[data-sb-preview]") && T.sbPage) { T.sbPage.preview = true; T.sbPage.running = false; render(); return; }
-      if (t.closest("[data-sb-confirm]") && T.sbPage) { sbRun(T.sbPage); return; }
-    });
-    el.addEventListener("input", function (e) {
-      if (!T.sbPage) return;
-      var id = e.target.id;
-      if (id === "sb-name") {
-        T.sbPage.name = e.target.value;
-        T.sbPage.named = !!e.target.value.trim();
-        return;
-      }
-      if (id === "sb-w") {
-        T.sbPage.w = e.target.value;
-        var w2 = parseInt(e.target.value, 10);
-        if (T.sbPage.lock && T.sbPage.ow && w2) {
-          T.sbPage.h = String(Math.round(T.sbPage.oh * w2 / T.sbPage.ow));
-          var hEl = document.getElementById("sb-h");
-          if (hEl && document.activeElement !== hEl) hEl.value = T.sbPage.h;
-        }
-        var sel = sbSel();
-        if (!T.sbPage.named && w2 && sel.length === 1) {
-          T.sbPage.name = stemOf(baseName(sel[0])) + "-" + w2 + extOf(baseName(sel[0]));
-          var nEl = document.getElementById("sb-name");
-          if (nEl && document.activeElement !== nEl) nEl.value = T.sbPage.name;
-        }
-        return;
-      }
-      if (id === "sb-h") { T.sbPage.h = e.target.value; return; }
-    });
-  })();
-
   /* ================= pointer DnD ================= */
   var drag = null;
   var suppressClick = false;
@@ -1217,7 +930,6 @@
     if (el.closest && el.closest("#btn-fwd")) { var lf = curLeaf(); if (lf.fwd.length) { var ef = lf.fwd.pop(); lf.back.push(entryOf(lf)); goLeaf(lf, ef, false); } return; }
     var seg = el.closest ? el.closest("#viewseg button") : null;
     if (seg) { curLeaf().view = seg.dataset.view; render(); return; }
-    if (el.closest && el.closest("#btn-sidebar")) { T.sidebarOpen = !T.sidebarOpen; T.sbPage = null; render(); return; }
 
     var crumb = el.closest ? el.closest("[data-crumb]") : null;
     if (crumb) { navTo(crumb.dataset.crumb); return; }
@@ -1455,8 +1167,7 @@
   /* ================= global keys (scoped to window) ================= */
   document.addEventListener("keydown", function (e) {
     var mod = e.metaKey || e.ctrlKey;
-    var inSbInput = e.target.closest && e.target.closest(".sfsidebar input");
-    if (!mod || inSbInput) return;
+    if (!mod) return;
     var winRect = win.getBoundingClientRect();
     var winVisible = winRect.top < window.innerHeight && winRect.bottom > 0;
     if (!winVisible) return;
@@ -1470,17 +1181,12 @@
     else if (k === "l") { e.preventDefault(); openEditor(); }
     else if (k === "z") { e.preventDefault(); if (T.undo.length) undoMove(); }
     else if (k === "f") { e.preventDefault(); T.findOpen = true; render(); setTimeout(function () { document.getElementById("findinput").focus(); }, 30); }
-    else if (k === "i" && e.altKey) { e.preventDefault(); T.sidebarOpen = !T.sidebarOpen; T.sbPage = null; render(); }
     else if (k === "arrowup" && !e.shiftKey) { e.preventDefault(); var l = curLeaf(); if (l.kind === "dir") { var p = parentOf(l.place); if (p) goLeaf(l, { kind: "dir", place: p }, true); } }
     else if (["1", "2", "3", "4"].indexOf(k) !== -1) {
       e.preventDefault();
       curLeaf().view = ["list", "hier", "icons", "gallery"][+k - 1];
       render();
     }
-  });
-  /* Esc closes the sidebar's secondary page (params / preview) */
-  win.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && T.sbPage) { T.sbPage = null; render(); }
   });
 
   /* context menu actions */
@@ -1506,16 +1212,6 @@
       else if (act === "split") splitFocused("right");
       else if (act === "addr") openEditor();
       else if (act === "shelf") { toast("Drag any photo; the shelf appears top right to catch it"); }
-      else if (act === "sb") {
-        var lf = curLeaf();
-        if (lf.kind === "dir") {
-          var ph = (kidsOf(lf.place) || []).filter(function (k) { return k.node.t === "f" && /\.(jpe?g|png)$/i.test(k.name); });
-          if (ph.length) { lf.sel = ph.slice(0, 2).map(function (x) { return x.path; }); }
-        }
-        if (!T.sidebarOpen) { T.sidebarOpen = true; }
-        if (sbSel().length) openSbTool("convert");
-        else toast("Select a photo in the window first; sidebar tools follow the selection");
-      }
     });
   });
 
@@ -1549,21 +1245,6 @@
     var seg = document.querySelector('#viewseg button[data-view="gallery"]');
     if (seg) seg.click();
     await sleep(700);
-    /* sidebar: select two photos, open the tool pipeline */
-    var leafA = curLeaf();
-    var ph = (kidsOf(leafA.place) || []).filter(function (k) { return k.node.t === "f" && /\.(jpe?g|png)$/i.test(k.name); });
-    if (ph.length >= 2) {
-      leafA.sel = [ph[0].path, ph[1].path];
-      T.sidebarOpen = true;
-      render();
-      await sleep(650);
-      openSbTool("convert");
-      await sleep(800);
-      if (T.sbPage) { T.sbPage.preview = true; render(); }
-      await sleep(800);
-      T.sbPage = null;
-      render();
-    }
   }
   var ap = document.getElementById("autoplay");
   if (ap) {
@@ -1587,257 +1268,6 @@
     }, { threshold: 0.1, rootMargin: "0px 0px -5% 0px" });
     rvEls.forEach(function (el) { io.observe(el); });
   }
-  /* ================= plugin demo: the selection drives the sidebar ================= */
-  (function () {
-    var demo = document.getElementById("ffd");
-    if (!demo) return;
-
-    var isEN = /^en/i.test(document.documentElement.lang || "");
-    function l(x) { return typeof x === "string" ? x : x[isEN ? "en" : "zh"]; }
-    var TX = isEN ? {
-      idle: "Press play",
-      working: "Working…",
-      done: "Done · ⌘Z to undo",
-      undone: "Undone; the files are back where they were",
-      play: "Play", pause: "Pause", replay: "Replay",
-      plugins: "Plugins", builtin: "Built-in", add: "＋ Add a plugin…"
-    } : {
-      idle: "点播放看它跑一遍",
-      working: "正在处理…",
-      done: "已完成 · ⌘Z 可撤回",
-      undone: "已撤回，文件回到原处",
-      play: "播放演示", pause: "暂停", replay: "重播",
-      plugins: "插件", builtin: "内置", add: "＋ 添加插件…"
-    };
-
-    /* one mixed folder: clicking a file selects its type group */
-    var MIX = [
-      { scn: 0, img: "assets/img/photos/aurora.jpg", name: "DSC_4188.jpg" },
-      { scn: 0, img: "assets/img/photos/black-beach.jpg", name: "DSC_4231.jpg" },
-      { scn: 0, img: "assets/img/photos/basalt-cave.jpg", name: "DSC_4476.jpg" },
-      { scn: 1, tile: "CSV", bg: "#FFF3D6", name: "projects.csv" },
-      { scn: 2, tile: "PNG", bg: "#E2F0FB", name: "export_v1.png" },
-      { scn: 2, tile: "PNG", bg: "#E2F0FB", name: "export_v2.png" },
-      { scn: 2, tile: "PNG", bg: "#E2F0FB", name: "export_final.png" },
-      { ctx: true, ico: "doc", name: "Notes from the trip.md" }
-    ];
-
-    var SCN = [
-      {
-        head: { zh: "JPEG 照片 · 已选 3 项", en: "JPEG photos · 3 selected" },
-        plugin: { zh: "按日期归档照片", en: "Archive photos by date" },
-        ico: "clock",
-        tools: [
-          { ico: "copy", zh: "转格式", en: "Convert" },
-          { ico: "resize", zh: "缩放", en: "Resize" },
-          { ico: "image", zh: "抠图", en: "Cutout" }
-        ],
-        rows: [
-          { name: "DSC_4188.jpg", sub: "→ 2026-07-14/DSC_4188.jpg" },
-          { name: "DSC_4231.jpg", sub: "→ 2026-07-14/DSC_4231.jpg" },
-          { name: "DSC_4476.jpg", sub: "→ 2026-07-15/DSC_4476.jpg" }
-        ]
-      },
-      {
-        head: { zh: "CSV · 已选 1 项", en: "CSV · 1 selected" },
-        plugin: { zh: "从 CSV 生成文件", en: "Generate files from a CSV" },
-        ico: "doc",
-        tools: [
-          { ico: "copy", zh: "转格式", en: "Convert" }
-        ],
-        out: [
-          { name: "clients/acme.md", sub: { zh: "← projects.csv · 第 2 行", en: "← projects.csv · row 2" } },
-          { name: "clients/borax.md", sub: { zh: "← projects.csv · 第 3 行", en: "← projects.csv · row 3" } },
-          { name: "clients/cyan.md", sub: { zh: "← projects.csv · 第 4 行", en: "← projects.csv · row 4" } }
-        ]
-      },
-      {
-        head: { zh: "PNG · 已选 3 项", en: "PNG · 3 selected" },
-        plugin: { zh: "整理交付物", en: "Tidy the delivery" },
-        ico: "tray",
-        tools: [
-          { ico: "list", zh: "批量重命名", en: "Batch Rename" }
-        ],
-        rows: [
-          { name: "export_v1.png", sub: "→ delivery/2026-07-14-01.png" },
-          { name: "export_v2.png", sub: "→ delivery/2026-07-14-02.png" },
-          { name: "export_final.png", sub: "→ delivery/2026-07-14-03.png" }
-        ]
-      }
-    ];
-
-    var filesEl = demo.querySelector("#ffd-files");
-    var sideEl = demo.querySelector("#ffd-side");
-    var msgEl = demo.querySelector("#ffd-msg");
-    var cntEl = demo.querySelector("#ffd-cnt");
-    var fileEl = demo.querySelector("#ffd-file");
-    var runBtn = demo.querySelector("#ffd-run");
-    var undoBtn = demo.querySelector("#ffd-undo");
-
-    var idx = 0, state = "idle", done = 0, timer = null;
-    var ROW_IN = reduced ? 0 : 380, ROW_GAP = reduced ? 0 : 170;
-
-    function scn() { return SCN[idx]; }
-    function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
-
-    function rowsHTML() {
-      var s = scn();
-      var acts = s.rows || s.out || [];
-      var isOut = !!s.out;
-      var showOut = isOut && state !== "idle" && state !== "undone";
-      var actIdx = {};
-      acts.forEach(function (r, i) { actIdx[r.name] = i; });
-      function fin(i) { return state === "done" || (state === "paused" && i < done); }
-
-      var html = MIX.map(function (m) {
-        if (m.ctx) {
-          return '<div class="ffd-row ctx"><span class="ffd-tile ctx">' + ic(m.ico) + "</span>" +
-            '<span class="ffd-lines"><span class="ffd-name">' + esc(m.name) + "</span></span></div>";
-        }
-        var cur = m.scn === idx && actIdx[m.name] !== undefined;
-        var i = cur ? actIdx[m.name] : -1;
-        var tile = m.img
-          ? '<span class="ffd-tile"><img src="' + rel(m.img) + '" alt="" loading="lazy"></span>'
-          : '<span class="ffd-tile" style="background:' + m.bg + '">' + m.tile + "</span>";
-        var sub = cur ? '<span class="ffd-to">' + esc(l(acts[i].sub)) + "</span>" : "";
-        var check = cur ? '<span class="ffd-ok">' + ic("check") + "</span>" : "";
-        var bar = cur ? '<i class="bar"></i>' : "";
-        return '<button class="ffd-row' + (m.scn === idx ? " sel" : "") + (cur && fin(i) ? " done" : "") + '" type="button" aria-pressed="' + (m.scn === idx ? "true" : "false") + '" data-scn="' + m.scn + '"' + (cur ? ' data-act="' + i + '"' : "") + ">" + tile +
-          '<span class="ffd-lines"><span class="ffd-name">' + esc(m.name) + "</span>" + sub + "</span>" + check + bar + "</button>";
-      }).join("");
-
-      if (isOut) {
-        html += s.out.map(function (r, i) {
-          var cls = showOut ? (fin(i) ? " done" : " pending") : " out-hidden";
-          return '<div class="ffd-row out' + cls + '"' + (showOut ? ' data-act="' + i + '"' : "") + ">" +
-            '<span class="ffd-tile" style="background:#E4F5E9">MD</span>' +
-            '<span class="ffd-lines"><span class="ffd-name">' + esc(r.name) + '</span><span class="ffd-to">' + esc(l(r.sub)) + "</span></span>" +
-            '<span class="ffd-ok">' + ic("check") + '</span><i class="bar"></i></div>';
-        }).join("");
-      }
-      return html;
-    }
-
-    function sideHTML() {
-      var s = scn();
-      var tools = s.tools.map(function (t) {
-        return '<div class="ffd-tool static"><span class="ffd-tool-ico">' + ic(t.ico) + '</span><span class="ffd-tool-name">' + esc(l(t)) + "</span></div>";
-      }).join("");
-      return '<div class="ffd-side-head">' + esc(l(s.head)) + "</div>" +
-        '<div class="ffd-glabel">' + TX.plugins + "</div>" +
-        '<button class="ffd-tool" id="ffd-tool" type="button">' +
-          '<span class="ffd-tool-ico">' + ic(s.ico) + '</span>' +
-          '<span class="ffd-tool-name">' + esc(l(s.plugin)) + "</span>" +
-          '<span class="ffd-ok">' + ic("check") + '</span><i class="bar"></i></button>' +
-        (tools ? '<div class="ffd-glabel">' + TX.builtin + "</div>" + tools : "") +
-        '<div class="ffd-add">' + TX.add + "</div>";
-    }
-
-    function paint() {
-      fileEl.textContent = "Inbox";
-      var n = 8 + (idx === 1 && state !== "idle" && state !== "undone" ? scn().out.length : 0);
-      cntEl.textContent = l({ zh: n + " 项", en: n + " items" });
-      filesEl.innerHTML = rowsHTML();
-      sideEl.innerHTML = sideHTML();
-      var tool = sideEl.querySelector("#ffd-tool");
-      if (tool) {
-        if (state === "running" || state === "paused") tool.classList.add("busy");
-        if (state === "done") tool.classList.add("done");
-        tool.addEventListener("click", runToggle);
-      }
-      runBtn.disabled = false;
-      undoBtn.hidden = state !== "done";
-      if (state === "running") {
-        runBtn.textContent = TX.pause;
-        runBtn.className = "ffd-btn";
-        msgEl.textContent = TX.working;
-      } else if (state === "paused") {
-        runBtn.textContent = TX.play;
-        runBtn.className = "ffd-btn primary";
-        msgEl.textContent = TX.working;
-      } else if (state === "done") {
-        runBtn.textContent = TX.replay;
-        runBtn.className = "ffd-btn";
-        msgEl.textContent = TX.done;
-      } else {
-        runBtn.textContent = TX.play;
-        runBtn.className = "ffd-btn primary";
-        msgEl.textContent = state === "undone" ? TX.undone : TX.idle;
-      }
-    }
-
-    function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
-    function finish() { state = "done"; paint(); }
-
-    function step() {
-      var acts = filesEl.querySelectorAll("[data-act]");
-      if (done >= acts.length) { finish(); return; }
-      var row = acts[done];
-      if (row) row.classList.add("busy");
-      timer = setTimeout(function () {
-        timer = null;
-        if (row) { row.classList.remove("busy"); row.classList.remove("pending"); row.classList.add("done"); }
-        done++;
-        if (done >= acts.length) { finish(); return; }
-        timer = setTimeout(step, ROW_GAP);
-      }, ROW_IN);
-    }
-
-    function start() {
-      clearTimer();
-      if (state === "paused") { state = "running"; paint(); step(); return; }
-      state = "running";
-      done = 0;
-      paint();
-      step();
-    }
-
-    function pause() { clearTimer(); state = "paused"; paint(); }
-
-    function undo() {
-      clearTimer();
-      state = "undone";
-      done = 0;
-      paint();
-    }
-
-    function selectGroup(i) {
-      clearTimer();
-      idx = i;
-      done = 0;
-      state = "idle";
-      paint();
-    }
-
-    function runToggle() {
-      if (state === "running") pause(); else start();
-    }
-
-    filesEl.addEventListener("click", function (e) {
-      var row = e.target.closest("[data-scn]");
-      if (!row) return;
-      var i = parseInt(row.getAttribute("data-scn"), 10);
-      if (i !== idx) selectGroup(i);
-    });
-    runBtn.addEventListener("click", runToggle);
-    undoBtn.addEventListener("click", undo);
-
-    if (reduced) state = "done";
-    paint();
-
-    /* play once when the card scrolls into view */
-    if (!reduced && "IntersectionObserver" in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (!en.isIntersecting) return;
-          io.disconnect();
-          if (state === "idle") start();
-        });
-      }, { threshold: 0.25 });
-      io.observe(demo);
-    }
-  })();
-
   /* ================= showcase: scroll-driven MacBook lid ================= */
   (function () {
     var zone = document.getElementById("mbzone");

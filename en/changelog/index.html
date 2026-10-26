@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Changelog · SuperFinder</title>
-<meta name="description" content="SuperFinder changelog: what every version from 1.0 to 1.7.1 shipped — new features, improvements and fixes. Current direct build: 1.7.1 (build 14).">
+<meta name="description" content="SuperFinder changelog: what every version from 1.0 to 1.8.0 shipped — new features, improvements and fixes. Current direct build: 1.8.0 (build 15).">
 <link rel="icon" type="image/png" href="../../favicon.png">
 <link rel="stylesheet" href="../../assets/css/site.css">
 <link rel="canonical" href="https://ichigoooo.github.io/superfinder-site/en/changelog/">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="SuperFinder">
 <meta property="og:url" content="https://ichigoooo.github.io/superfinder-site/en/changelog/">
 <meta property="og:title" content="Changelog · SuperFinder">
-<meta property="og:description" content="SuperFinder changelog: what every version from 1.0 to 1.7.1 shipped — new features, improvements and fixes. Current direct build: 1.7.1 (build 14).">
+<meta property="og:description" content="SuperFinder changelog: what every version from 1.0 to 1.8.0 shipped — new features, improvements and fixes. Current direct build: 1.8.0 (build 15).">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="zh_CN">
 <meta property="og:image" content="https://ichigoooo.github.io/superfinder-site/assets/img/og-card.png">
@@ -40,7 +40,7 @@
       <a href="./">Changelog</a>
       <a href="../#download">Download</a>
     </div>
-    <a class="as-pill" href="../../download/SuperFinder-1.7.1.dmg" download>Download DMG ↓</a>
+    <a class="as-pill" href="../../download/SuperFinder-1.8.0.dmg" download>Download DMG ↓</a>
   </nav>
 </div>
 
@@ -49,10 +49,19 @@
 <section class="slab" id="changelog">
   <div class="wrap slab-inner">
     <h2>Changelog.</h2>
-    <p class="lede">What each version shipped, from 1.0 to now. Current direct build: 1.7.1 (build 14).</p>
+    <p class="lede">What each version shipped, from 1.0 to now. Current direct build: 1.8.0 (build 15).</p>
     <div class="log">
       <div class="log-ver">
-        <div class="log-head"><b>1.7.1</b><span class="log-date">2026-10-21</span><span class="log-latest">Current</span></div>
+        <div class="log-head"><b>1.8.0</b><span class="log-date">2026-10-27</span><span class="log-latest">Current</span></div>
+        <ul>
+          <li><b>Removed</b> The external plugin system: custom .sfplugin bundles are no longer loaded and the plugin port goes with it (the Pro one-time purchase never opened for sale). The app itself still has zero networking.</li>
+          <li><b>Removed</b> The sidebar tool area: all 16 built-in tools for images, PDFs, media and text are retired. The sidebar is now two sections &mdash; info and quick open.</li>
+          <li><b>Improved</b> Quick open is easier to hit: app icons at 20pt, app names at 15pt, 34pt rows, hover feedback, a stronger section title and a &#8853; mark on the add row.</li>
+          <li><b>Improved</b> The direct download and the App Store build are now the same release (1.8.0), feature for feature &mdash; only the delivery channel differs.</li>
+        </ul>
+      </div>
+      <div class="log-ver">
+        <div class="log-head"><b>1.7.1</b><span class="log-date">2026-10-21</span></div>
         <ul>
           <li><b>New</b> Shake to summon the shelf: while dragging files from Finder, give the pointer a quick left-right shake. When SuperFinder is not in front, its staging shelf slides out under the menu bar icon — an empty shelf says "Drop files here to stash", an occupied one lists what is already there, and a highlighted edge means it is ready to receive.</li>
           <li><b>New</b> No need to drag back to SuperFinder first: the shake brings the shelf to you, and it waits until you drop. Release elsewhere or press Esc and it closes itself.</li>

@@ -35,13 +35,12 @@
     </div>
     <div class="navlinks">
       <a href="#workflow">怎么工作</a>
-      <a href="#plugins">插件</a>
       <a href="./faq/">常见问题</a>
       <a href="./compare/">对比</a>
       <a href="./changelog/">更新日志</a>
       <a href="#download">下载</a>
     </div>
-    <a class="as-pill" href="./download/SuperFinder-1.7.1.dmg" download>下载 DMG ↓</a>
+    <a class="as-pill" href="./download/SuperFinder-1.8.0.dmg" download>下载 DMG ↓</a>
   </nav>
 </div>
 
@@ -50,7 +49,7 @@
   <div class="hook">
     <h1 class="hero-name rv">Super<span class="u">Finder</span></h1>
     <p class="hero-hook rv" data-step="1">复制了路径，还要在访达里一层层点开？</p>
-    <div class="dl-actions hero-cta rv" data-step="2"><a class="btn btn-paper" href="./download/SuperFinder-1.7.1.dmg" download><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v7.5"/><path d="M4.75 6.75 8 10l3.25-3.25"/><path d="M2.75 12.5h10.5"/></svg>免费下载官网版 · 1.7.1</a><a class="btn btn-ghost" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"/></svg>App Store 版</a></div>
+    <div class="dl-actions hero-cta rv" data-step="2"><a class="btn btn-paper" href="./download/SuperFinder-1.8.0.dmg" download><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v7.5"/><path d="M4.75 6.75 8 10l3.25-3.25"/><path d="M2.75 12.5h10.5"/></svg>免费下载官网版 · 1.8.0</a><a class="btn btn-ghost" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"/></svg>App Store 版</a></div>
   </div>
 
   <div class="window-stage rv" data-step="2">
@@ -71,7 +70,6 @@
           <button data-view="icons" aria-label="Icons"></button>
           <button data-view="gallery" aria-label="Gallery"></button>
         </span>
-        <button class="tbtn" id="btn-sidebar" aria-label="Toggle sidebar" aria-pressed="true"></button>
       </div>
       <div class="hr"></div>
       <!-- tab strip -->
@@ -95,10 +93,6 @@
       <!-- content: panes + sidebar dock -->
       <div class="paneswrap">
         <div class="panes" id="panes"></div>
-        <aside class="sfsidebar" id="sfsidebar" aria-label="Sidebar">
-          <div class="sb-scroll" id="sb-scroll"></div>
-          <div class="sb-page" id="sb-page" style="display:none"></div>
-        </aside>
         <button class="shelf-anchor" id="shelfanchor" aria-label="Staging shelf"><span id="shelfbadge" class="shelf-badge">0</span></button>
         <div class="shelf-card" id="shelfcard">
           <div class="shelf-head"><b>Staging Shelf</b><span class="cnt" id="shelfcnt">· 0 items</span><button class="clear" id="shelfcollapse" hidden>Collapse</button><button class="clear" id="shelfclear" disabled>Clear</button></div>
@@ -144,7 +138,6 @@
   <div class="tryhints rv" data-step="3">
     <button class="tryhint" data-act="addr">在地址栏输入 <span class="kbd">~</span>，按 Tab 逐层补全</button>
     <button class="tryhint" data-act="shelf">拖一张照片，暂存架在右上角接住</button>
-    <button class="tryhint" data-act="sb">选中照片，侧边栏工具一路处理到确认</button>
   </div>
 </header>
 
@@ -202,43 +195,6 @@
         </div>
       </li>
     </ol>
-  </div>
-</section>
-
-<!-- ======================= TOOLS & PLUGINS ======================= -->
-<section class="slab-dark" id="plugins">
-  <div class="wrap slab-inner">
-    <h2 class="rv">选中文件，侧边栏直接处理。</h2>
-    <div class="two-col">
-      <div>
-        <div class="beat">
-          <div class="beat-row rv" data-step="1"><h3>按日期归档照片</h3><p>相机原片进去，按日期分好目录出来。</p></div>
-          <div class="beat-row rv" data-step="2"><h3>从 CSV 生成文件</h3><p>表格一行，生成一份文件。</p></div>
-          <div class="beat-row rv" data-step="3"><h3>整理交付物</h3><p>交付前统一改名归位，⌘Z 可回退。</p></div>
-        </div>
-      </div>
-      <div class="sticky">
-        <div class="rv" data-step="2">
-          <div class="ffd" id="ffd" role="group" aria-label="插件侧边栏演示">
-            <div class="ffd-titlebar">
-              <span class="lights" aria-hidden="true"><i class="light r"></i><i class="light y"></i><i class="light g"></i></span>
-              <b id="ffd-file">Inbox</b>
-              <span class="cnt" id="ffd-cnt">8 项</span>
-            </div>
-            <div class="ffd-body">
-              <div class="ffd-files" id="ffd-files" aria-label="文件列表，点击切换选中"></div>
-              <aside class="ffd-side" id="ffd-side" aria-label="插件侧边栏"></aside>
-            </div>
-            <div class="ffd-foot">
-              <span class="ffd-msg" id="ffd-msg"></span>
-              <button class="ffd-btn" id="ffd-undo" hidden>⌘Z 撤回</button>
-              <button class="ffd-btn primary" id="ffd-run">播放演示</button>
-            </div>
-            <noscript><div class="ffd-foot"><span class="ffd-msg">演示需要 JavaScript。目录里混放照片、CSV 与 PNG，点击文件，侧边栏按类型给出对应插件。</span></div></noscript>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -343,14 +299,14 @@
     <h2 class="rv" data-step="1" lang="en">SuperFinder.<br>Browse your files.</h2>
     <p class="lede rv" data-step="2">免费下载 · macOS 14 或更高版本 · 简体中文 / English 界面</p>
     <div class="dl-actions rv" data-step="3">
-      <a class="btn btn-ink" href="./download/SuperFinder-1.7.1.dmg" download><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v7.5"/><path d="M4.75 6.75 8 10l3.25-3.25"/><path d="M2.75 12.5h10.5"/></svg>下载完整版 DMG · 1.7.1</a>
+      <a class="btn btn-ink" href="./download/SuperFinder-1.8.0.dmg" download><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v7.5"/><path d="M4.75 6.75 8 10l3.25-3.25"/><path d="M2.75 12.5h10.5"/></svg>下载完整版 DMG · 1.8.0</a>
       <a class="btn btn-ghost on-paper" href="https://apps.apple.com/cn/app/superfinder-pro/id6815762788?mt=12" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"/></svg>App Store 版</a>
     </div>
     <div class="dl-meta rv" data-step="4">
-      <span>官网版 v1.7.1 (build 14)</span><span>2026-10-21</span><span>上架期免费</span>
+      <span>官网版 v1.8.0 (build 16)</span><span>2026-10-27</span><span>上架期免费</span>
     </div>
     <div class="rv" data-step="5">
-      <p class="dl-flag" id="dl-flag">官网版含插件端口，App Store 版受沙盒限制不含此能力 · 已公证并装订票证 · <a href="./download/SuperFinder-1.7.1.dmg.sha256">校验和</a></p>
+      <p class="dl-flag" id="dl-flag">官网直下与 App Store 同为 1.8.0，功能完全一致 · 已公证并装订票证 · <a href="./download/SuperFinder-1.8.0.dmg.sha256">校验和</a></p>
     </div>
   </div>
 </section>
@@ -397,12 +353,12 @@
         "引用式暂存架",
         "摇晃唤出托盘暂存架",
         "批量重命名实时预览",
-        "类型化插件工具区",
+        "侧边栏快捷打开：按文件类型用指定应用打开",
         "会话现场还原",
         "删除只进废纸篓"
       ],
       "screenshot": "https://ichigoooo.github.io/superfinder-site/assets/img/promo-cover.png",
-      "softwareVersion": "1.7.1",
+      "softwareVersion": "1.8.0",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
       "author": { "@id": "https://ichigoooo.github.io/superfinder-site/#org" }
     },
